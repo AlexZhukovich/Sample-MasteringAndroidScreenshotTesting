@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class MoodRecordEntry(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val moodId: Int,
+    val happiness: Float,
     val date: LocalDateTime,
     val note: String = ""
 )
