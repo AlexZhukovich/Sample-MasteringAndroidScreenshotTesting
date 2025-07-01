@@ -1,7 +1,7 @@
 package com.alexzh.moodtracker.data.database.moodactionrelation
 
 import androidx.room.*
-import com.alexzh.moodtracker.data.database.mood.MoodRecordEntry
+import com.alexzh.moodtracker.data.database.mood.MoodRecordEntity
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 
@@ -9,22 +9,22 @@ import java.time.LocalDateTime
 interface MoodRecordWithActionsDao {
     @Transaction
     @Query("SELECT * FROM mood_records ORDER BY date DESC")
-    fun getMoodRecordsWithActions(): Flow<List<MoodRecordWithActionsEntry>>
+    fun getMoodRecordsWithActions(): Flow<List<MoodRecordWithActionsEntity>>
 
     @Transaction
     @Query("SELECT * FROM mood_records WHERE id = :moodRecordId")
-    suspend fun getMoodRecordWithActionsById(moodRecordId: Long): MoodRecordWithActionsEntry?
+    suspend fun getMoodRecordWithActionsById(moodRecordId: Long): MoodRecordWithActionsEntity?
 
     @Transaction
     @Query("SELECT * FROM mood_records WHERE date >= :startDate AND date <= :endDate ORDER BY date DESC")
-    fun getMoodRecordsWithActionsForDates(startDate: LocalDateTime, endDate: LocalDateTime): Flow<List<MoodRecordWithActionsEntry>>
+    fun getMoodRecordsWithActionsForDates(startDate: LocalDateTime, endDate: LocalDateTime): Flow<List<MoodRecordWithActionsEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMoodActionCrossRef(crossRef: MoodActionCrossRef)
+    suspend fun insertMoodActionCrossRef(crossRef: MoodActionCrossRefEntity)
 
     @Delete
-    suspend fun deleteMoodActionCrossRef(crossRef: MoodActionCrossRef)
+    suspend fun deleteMoodActionCrossRef(crossRef: MoodActionCrossRefEntity)
 
-    @Query("DELETE FROM mood_action_cross_ref WHERE moodRecordEntryId = :moodRecordId")
+    @Query("DELETE FROM mood_action_cross_ref WHERE moodRecordId = :moodRecordId")
     suspend fun deleteActionsForMoodRecordById(moodRecordId: Long)
 }

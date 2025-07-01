@@ -11,18 +11,18 @@ import com.alexzh.moodtracker.data.database.action.ActionCategoryEntity
 import com.alexzh.moodtracker.data.database.action.ActionDao
 import com.alexzh.moodtracker.data.database.action.ActionEntity
 import com.alexzh.moodtracker.data.database.core.Converters
-import com.alexzh.moodtracker.data.database.mood.MoodRecordEntry
+import com.alexzh.moodtracker.data.database.mood.MoodRecordEntity
 import com.alexzh.moodtracker.data.database.mood.MoodRecordDao
-import com.alexzh.moodtracker.data.database.moodactionrelation.MoodActionCrossRef
+import com.alexzh.moodtracker.data.database.moodactionrelation.MoodActionCrossRefEntity
 import com.alexzh.moodtracker.data.database.moodactionrelation.MoodRecordWithActionsDao
 import androidx.room.Transaction
 
 @Database(
     entities = [
-        MoodRecordEntry::class,
+        MoodRecordEntity::class,
         ActionEntity::class,
         ActionCategoryEntity::class,
-        MoodActionCrossRef::class
+        MoodActionCrossRefEntity::class
     ],
     version = 1,
     exportSchema = false

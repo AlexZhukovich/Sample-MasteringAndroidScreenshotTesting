@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 
 @Entity(tableName = "mood_records")
-data class MoodRecordEntry(
+data class MoodRecordEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val happiness: Float,

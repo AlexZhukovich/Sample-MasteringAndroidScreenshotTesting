@@ -5,11 +5,11 @@ import androidx.room.*
 @Dao
 interface MoodRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMoodRecord(moodRecord: MoodRecordEntry): Long
+    suspend fun insertMoodRecord(moodRecord: MoodRecordEntity): Long
 
     @Update
-    suspend fun updateMoodRecord(moodRecord: MoodRecordEntry)
+    suspend fun updateMoodRecord(moodRecord: MoodRecordEntity)
 
     @Delete
-    suspend fun deleteMoodRecord(moodRecord: MoodRecordEntry)
+    suspend fun deleteMoodRecord(moodRecord: MoodRecordEntity)
 }
