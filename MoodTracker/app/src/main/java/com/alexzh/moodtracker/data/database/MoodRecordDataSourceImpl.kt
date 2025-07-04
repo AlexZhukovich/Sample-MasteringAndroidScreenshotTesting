@@ -37,10 +37,10 @@ class MoodRecordDataSourceImpl(
             .toDomainList()
 
         return moodRecordEntities
-            .groupBy { it.moodRecord.date.toLocalDate() }
+            .groupBy { it.date.toLocalDate() }
             .map { (date, entitiesForDate) ->
                 val averageHappiness = entitiesForDate
-                    .map { it.moodRecord.happiness }
+                    .map { it.happiness }
                     .average()
                     .toFloat()
                 DateToHappiness(date, averageHappiness)

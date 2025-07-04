@@ -4,11 +4,13 @@ import com.alexzh.moodtracker.data.database.moodactionrelation.MoodRecordWithAct
 import com.alexzh.moodtracker.domain.model.MoodRecordWithActions
 
 fun MoodRecordWithActionsEntity.toDomain(): MoodRecordWithActions? {
-    val moodRecord = this.moodRecordEntity.toDomain() ?: return null
     val actions = this.actions.toDomainList()
 
     return MoodRecordWithActions(
-        moodRecord = moodRecord,
+        id = moodRecordEntity.id,
+        happiness = moodRecordEntity.happiness,
+        date = moodRecordEntity.date,
+        note = moodRecordEntity.note,
         actions = actions
     )
 }
