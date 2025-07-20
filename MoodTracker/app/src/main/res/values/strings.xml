@@ -2,4 +2,14 @@
     <string name="app_name">MoodTracker</string>
     <string name="common_ok_label">OK</string>
     <string name="common_cancel_label">Cancel</string>
+
+    <!-- Design System -->
+    <string name="designSystem_dateRangeSelector_lastDays_label">Last %d Days</string>
+    <string name="designSystem_dateRangeSelector_todayButton_label">Today</string>
+    <string name="designSystem_dateRangeSelector_previousPeriod_contentDescription">Navigate to previous period</string>
+    <string name="designSystem_dateRangeSelector_nextPeriodEnabled_contentDescription">Navigate to next period</string>
+    <string name="designSystem_dateRangeSelector_nextPeriodDisabled_contentDescription">Next period not available</string>
+    <string name="designSystem_dateRangeSelector_openDatePicker_contentDescription">Open date picker</string>
+    <string name="designSystem_dateRangeSelector_selectedDate_contentDescription">Select date %s</string>
+    <string name="designSystem_dateRangeSelector_futureDateNotSelectable_contentDescription">Future date %s, not selectable</string>
 </resources>
