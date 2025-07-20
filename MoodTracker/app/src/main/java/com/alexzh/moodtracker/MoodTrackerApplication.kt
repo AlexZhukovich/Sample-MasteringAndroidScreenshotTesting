@@ -4,6 +4,7 @@ import android.app.Application
 import com.alexzh.moodtracker.data.initialization.DataInitializer
 import com.alexzh.moodtracker.di.appModule
 import com.alexzh.moodtracker.di.dataModule
+import com.alexzh.moodtracker.ui.feature.home.homeModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class MoodTrackerApplication : Application() {
             modules(
                 appModule,
                 dataModule,
+                homeModule
             )
         }
         

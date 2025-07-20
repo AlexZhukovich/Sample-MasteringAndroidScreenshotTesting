@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">MoodTracker</string>
+
+    <string name="homeScreen_title">Mood Tracker</string>
+    <string name="homeScreen_addMoodButton_label">Add mood</string>
+    <string name="homeScreen_emptyState_title">No mood entries found</string>
+    <string name="homeScreen_emptyState_label">No entries found for %s</string>
+
+    <string name="mood_angry">Angry</string>
+    <string name="mood_sad">Sad</string>
+    <string name="mood_ok">OK</string>
+    <string name="mood_good">Good</string>
+    <string name="mood_happy">Happy</string>
+
     <string name="common_ok_label">OK</string>
     <string name="common_cancel_label">Cancel</string>
 
