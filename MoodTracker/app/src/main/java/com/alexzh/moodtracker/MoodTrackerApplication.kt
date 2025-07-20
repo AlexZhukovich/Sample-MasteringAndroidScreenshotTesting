@@ -2,6 +2,7 @@ package com.alexzh.moodtracker
 
 import android.app.Application
 import com.alexzh.moodtracker.data.initialization.DataInitializer
+import com.alexzh.moodtracker.di.appModule
 import com.alexzh.moodtracker.di.dataModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ class MoodTrackerApplication : Application() {
         startKoin {
             androidContext(this@MoodTrackerApplication)
             modules(
+                appModule,
                 dataModule,
             )
         }
