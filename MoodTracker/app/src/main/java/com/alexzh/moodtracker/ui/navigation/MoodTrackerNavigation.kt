@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.alexzh.moodtracker.ui.feature.editmood.EditMoodScreenDestination
+import com.alexzh.moodtracker.ui.feature.editmood.editMoodScreen
 import com.alexzh.moodtracker.ui.feature.home.HomeScreenDestination
 import com.alexzh.moodtracker.ui.feature.home.homeScreen
 
@@ -17,8 +19,11 @@ fun MoodTrackerNavigation(
         startDestination = startDestination
     ) {
         homeScreen(
-            onNavigateToMoodPreview = { },
-            onNavigateToAddMood = { }
+            onNavigateToMoodPreview = { moodId -> navController.navigate(EditMoodScreenDestination(moodId)) },
+            onNavigateToAddMood = { navController.navigate(EditMoodScreenDestination()) }
+        )
+        editMoodScreen(
+            onNavigateUp = { navController.navigateUp() }
         )
     }
 }

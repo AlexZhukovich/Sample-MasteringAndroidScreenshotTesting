@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.designsystem.dialog
 
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
@@ -22,7 +23,7 @@ fun DatePickerDialog(
     selectedDate: LocalDate,
     onDateSelected: (LocalDate) -> Unit,
     onDismiss: () -> Unit,
-    currentDate: LocalDate = LocalDate.now()
+    currentDate: LocalDate? = LocalDate.now()
 ) {
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = selectedDate.toEpochDay() * MILLISECONDS_PER_DAY,
@@ -35,12 +36,44 @@ fun DatePickerDialog(
         }
     )
 
+    DatePickerDialogContent(
+        state = datePickerState,
+        onDateSelected = onDateSelected,
+        onDismiss = onDismiss
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerDialog(
+    selectedDate: LocalDate,
+    onDateSelected: (LocalDate) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = selectedDate.toEpochDay() * MILLISECONDS_PER_DAY,
+        initialDisplayedMonthMillis = selectedDate.toEpochDay() * MILLISECONDS_PER_DAY,
+    )
+    DatePickerDialogContent(
+        state = datePickerState,
+        onDateSelected = onDateSelected,
+        onDismiss = onDismiss
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DatePickerDialogContent(
+    state: DatePickerState,
+    onDateSelected: (LocalDate) -> Unit,
+    onDismiss: () -> Unit,
+) {
     Material3DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
             TextButton(
                 onClick = {
-                    datePickerState.selectedDateMillis?.let { millis ->
+                    state.selectedDateMillis?.let { millis ->
                         val date = LocalDate.ofEpochDay(millis / MILLISECONDS_PER_DAY)
                         onDateSelected(date)
                     }
@@ -56,7 +89,7 @@ fun DatePickerDialog(
         },
     ) {
         DatePicker(
-            state = datePickerState,
+            state = state,
         )
     }
 }

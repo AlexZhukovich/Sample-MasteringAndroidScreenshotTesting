@@ -212,7 +212,7 @@ private fun ActionChips(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         actions.forEach { action ->
-            Chip(text = action.title)
+            Chip(text = action.name)
         }
     }
 }

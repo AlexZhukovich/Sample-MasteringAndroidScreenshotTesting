@@ -6,6 +6,13 @@
     <string name="homeScreen_emptyState_title">No mood entries found</string>
     <string name="homeScreen_emptyState_label">No entries found for %s</string>
 
+    <string name="editMoodScreen_addMood_label">Add Mood</string>
+    <string name="editMoodScreen_editMood_label">Edit Mood</string>
+    <string name="editMoodScreen_moodSection_label">How do you feel?</string>
+    <string name="editMoodScreen_actionCategoriesSection_label">Did you do any activity?</string>
+    <string name="editMoodScreen_noteSection_label">Add a note</string>
+    <string name="editMoodScreen_saveButton_label">Save</string>
+
     <string name="mood_angry">Angry</string>
     <string name="mood_sad">Sad</string>
     <string name="mood_ok">OK</string>
@@ -14,6 +21,9 @@
 
     <string name="common_ok_label">OK</string>
     <string name="common_cancel_label">Cancel</string>
+    <string name="common_date_label">Date</string>
+    <string name="common_time_label">Time</string>
+    <string name="common_navigateUp_contentDescription">Back</string>
 
     <!-- Design System -->
     <string name="designSystem_dateRangeSelector_lastDays_label">Last %d Days</string>

@@ -69,7 +69,7 @@ class HomeScreenViewModel(
         val actions = moodRecord.actions.map { action ->
             ActionItem(
                 id = action.id,
-                title = action.title
+                name = action.title
             )
         }
         return MoodItem(
