@@ -13,6 +13,10 @@
     <string name="editMoodScreen_noteSection_label">Add a note</string>
     <string name="editMoodScreen_saveButton_label">Save</string>
 
+    <string name="previewMoodScreen_dateTime_label">%s, %s</string>
+    <string name="previewMoodScreen_editMood_contentDescription">Edit mood</string>
+    <string name="previewMoodScreen_deleteMood_contentDescription">Delete mood</string>
+
     <string name="mood_angry">Angry</string>
     <string name="mood_sad">Sad</string>
     <string name="mood_ok">OK</string>
@@ -21,8 +25,11 @@
 
     <string name="common_ok_label">OK</string>
     <string name="common_cancel_label">Cancel</string>
+    <string name="common_delete_label">Delete</string>
     <string name="common_date_label">Date</string>
     <string name="common_time_label">Time</string>
+    <string name="common_deleteDialogTitle_label">Confirm Deletion</string>
+    <string name="common_deleteDialogText_label">Once you confirm, it will be deleted and cannot be recovered</string>
     <string name="common_navigateUp_contentDescription">Back</string>
 
     <!-- Design System -->
