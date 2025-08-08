@@ -72,8 +72,7 @@ fun DateRangeSelector(
         navigationDirection = state.navigationDirection,
         formattedDateRange = state.formattedDateRange,
         isCurrentPeriod = state.isCurrentPeriod,
-        animationConfig = animationConfig,
-
+        animationConfig = animationConfig
     )
 
     LaunchedEffect(state.selectedDate) {

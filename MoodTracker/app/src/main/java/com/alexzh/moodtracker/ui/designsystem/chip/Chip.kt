@@ -36,5 +36,4 @@ fun Preview_Chip() {
     Column {
         Chip(text = "Meditation")
     }
-
 }
