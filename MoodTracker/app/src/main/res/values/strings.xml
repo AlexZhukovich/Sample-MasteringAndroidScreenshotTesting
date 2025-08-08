@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">MoodTracker</string>
+
+    <string name="homeScreen_title">Mood Tracker</string>
+    <string name="homeScreen_addMoodButton_label">Add mood</string>
+    <string name="homeScreen_emptyState_title">No mood entries found</string>
+    <string name="homeScreen_emptyState_label">No entries found for %s</string>
+
+    <string name="editMoodScreen_addMood_label">Add Mood</string>
+    <string name="editMoodScreen_editMood_label">Edit Mood</string>
+    <string name="editMoodScreen_moodSection_label">How do you feel?</string>
+    <string name="editMoodScreen_actionCategoriesSection_label">Did you do any activity?</string>
+    <string name="editMoodScreen_noteSection_label">Add a note</string>
+    <string name="editMoodScreen_saveButton_label">Save</string>
+
+    <string name="previewMoodScreen_dateTime_label">%s, %s</string>
+    <string name="previewMoodScreen_editMood_contentDescription">Edit mood</string>
+    <string name="previewMoodScreen_deleteMood_contentDescription">Delete mood</string>
+
+    <string name="mood_angry">Angry</string>
+    <string name="mood_sad">Sad</string>
+    <string name="mood_ok">OK</string>
+    <string name="mood_good">Good</string>
+    <string name="mood_happy">Happy</string>
+
+    <string name="common_ok_label">OK</string>
+    <string name="common_cancel_label">Cancel</string>
+    <string name="common_delete_label">Delete</string>
+    <string name="common_date_label">Date</string>
+    <string name="common_time_label">Time</string>
+    <string name="common_deleteDialogTitle_label">Confirm Deletion</string>
+    <string name="common_deleteDialogText_label">Once you confirm, it will be deleted and cannot be recovered</string>
+    <string name="common_navigateUp_contentDescription">Back</string>
+
+    <!-- Design System -->
+    <string name="designSystem_dateRangeSelector_lastDays_label">Last %d Days</string>
+    <string name="designSystem_dateRangeSelector_todayButton_label">Today</string>
+    <string name="designSystem_dateRangeSelector_previousPeriod_contentDescription">Navigate to previous period</string>
+    <string name="designSystem_dateRangeSelector_nextPeriodEnabled_contentDescription">Navigate to next period</string>
+    <string name="designSystem_dateRangeSelector_nextPeriodDisabled_contentDescription">Next period not available</string>
+    <string name="designSystem_dateRangeSelector_openDatePicker_contentDescription">Open date picker</string>
+    <string name="designSystem_dateRangeSelector_selectedDate_contentDescription">Select date %s</string>
+    <string name="designSystem_dateRangeSelector_futureDateNotSelectable_contentDescription">Future date %s, not selectable</string>
 </resources>
