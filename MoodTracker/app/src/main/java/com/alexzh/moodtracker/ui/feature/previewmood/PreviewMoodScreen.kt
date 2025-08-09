@@ -12,10 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -237,7 +233,7 @@ private fun PreviewMoodScreenToolbar(
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
                 Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
+                    painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
                 )
             }
@@ -246,13 +242,13 @@ private fun PreviewMoodScreenToolbar(
             if (dateTime != null) {
                 IconButton(onClick = onNavigateToEditMood) {
                     Icon(
-                        Icons.Filled.Edit,
+                        painter = painterResource(R.drawable.ic_edit),
                         contentDescription = stringResource(R.string.previewMoodScreen_editMood_contentDescription)
                     )
                 }
                 IconButton(onClick = onDeleteMood) {
                     Icon(
-                        Icons.Filled.Delete,
+                        painter = painterResource(R.drawable.ic_delete),
                         contentDescription = stringResource(R.string.previewMoodScreen_deleteMood_contentDescription)
                     )
                 }

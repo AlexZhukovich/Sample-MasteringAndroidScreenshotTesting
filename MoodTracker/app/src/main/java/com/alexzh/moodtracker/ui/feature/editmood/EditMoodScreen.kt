@@ -25,10 +25,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -50,7 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -370,8 +366,8 @@ private fun DateTimeSection(
     timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()),
     dateLabel: String = stringResource(R.string.common_date_label),
     timeLabel: String = stringResource(R.string.common_time_label),
-    dateIcon: ImageVector = Icons.Default.DateRange,
-    timeIcon: ImageVector = Icons.Filled.CheckCircle,
+    dateIcon: Painter = painterResource(R.drawable.ic_date_range),
+    timeIcon: Painter = painterResource(R.drawable.ic_schedule),
     date: LocalDate,
     time: LocalTime,
     onDateChange: () -> Unit,
@@ -400,7 +396,7 @@ private fun DateTimeSection(
 fun DateTimeItem(
     modifier: Modifier = Modifier,
     label: String,
-    icon: ImageVector,
+    icon: Painter,
     value: String,
     onClick: () -> Unit
 ) {
@@ -413,7 +409,7 @@ fun DateTimeItem(
         Icon(
             modifier = Modifier.size(24.dp)
                 .alpha(alpha = 0.8f),
-            imageVector = icon,
+            painter = icon,
             contentDescription = label
         )
         Text(
@@ -451,7 +447,7 @@ private fun EditMoodScreenToolbar(
         navigationIcon = {
             IconButton(onClick = onNavigateUp) {
                 Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
+                    painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
                 )
             }
