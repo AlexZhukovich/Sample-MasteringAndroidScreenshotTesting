@@ -64,15 +64,15 @@ class StatisticsScreenViewModel(
                     )
                     currentDate = currentDate.plusDays(1)
                 }
-                
+
                 emit(AverageDailyMoodChartData(
                     data = chartData,
-                    scrollPosition = maxOf(0, dateProvider.getCurrentDate().dayOfMonth - 2)
+                    scrollPosition = calculateScrollPosition()
                 ))
             }
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, AverageDailyMoodChartData())
-    
+
     private val actionToHappinessDataFlow = selectedDateRangeFlow
         .flatMapLatest { dateRange ->
             flow {
@@ -135,5 +135,19 @@ class StatisticsScreenViewModel(
             startDate = startOfMonth,
             endDate = endOfMonth
         )
+    }
+
+    private fun calculateScrollPosition(): Int {
+        val currentDate = dateProvider.getCurrentDate()
+        val selectedMonthDate = selectedMonth.value
+        val isCurrentMonth = currentDate.year == selectedMonthDate.year &&
+                currentDate.month == selectedMonthDate.month
+
+        val scrollPosition = if (isCurrentMonth) {
+            maxOf(0, currentDate.dayOfMonth - 2)
+        } else {
+            0
+        }
+        return scrollPosition
     }
 }
