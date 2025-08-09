@@ -52,6 +52,7 @@ fun CardSection(
     modifier: Modifier = Modifier,
     title: String,
     titleColor: Color = MaterialTheme.colorScheme.onBackground,
+    capitalizeTitle: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
@@ -66,7 +67,7 @@ fun CardSection(
             ) {
                 Text(
                     modifier = Modifier.weight(1.0f),
-                    text = title,
+                    text = if (capitalizeTitle) title.uppercase() else title,
                     style = MaterialTheme.typography.bodyLarge
                         .copy(
                             color = titleColor,

@@ -8,8 +8,11 @@ import com.alexzh.moodtracker.ui.feature.editmood.EditMoodScreenDestination
 import com.alexzh.moodtracker.ui.feature.editmood.editMoodScreen
 import com.alexzh.moodtracker.ui.feature.home.HomeScreenDestination
 import com.alexzh.moodtracker.ui.feature.home.homeScreen
+import com.alexzh.moodtracker.ui.feature.home.navigateToHome
 import com.alexzh.moodtracker.ui.feature.previewmood.PreviewMoodScreenDestination
 import com.alexzh.moodtracker.ui.feature.previewmood.previewMoodScreen
+import com.alexzh.moodtracker.ui.feature.statistics.navigateToStatistics
+import com.alexzh.moodtracker.ui.feature.statistics.statisticsScreen
 
 @Composable
 fun MoodTrackerNavigation(
@@ -22,7 +25,8 @@ fun MoodTrackerNavigation(
     ) {
         homeScreen(
             onNavigateToMoodPreview = { moodId -> navController.navigate(PreviewMoodScreenDestination(moodId)) },
-            onNavigateToAddMood = { navController.navigate(EditMoodScreenDestination()) }
+            onNavigateToAddMood = { navController.navigate(EditMoodScreenDestination()) },
+            onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
         )
         editMoodScreen(
             onNavigateUp = { navController.navigateUp() }
@@ -30,6 +34,9 @@ fun MoodTrackerNavigation(
         previewMoodScreen(
             onNavigateToEditMood = { moodId -> navController.navigate(EditMoodScreenDestination(moodId)) },
             onNavigateUp = { navController.navigateUp() }
+        )
+        statisticsScreen(
+            onNavigateToHome = { navController.navigateToHome() }
         )
     }
 }
