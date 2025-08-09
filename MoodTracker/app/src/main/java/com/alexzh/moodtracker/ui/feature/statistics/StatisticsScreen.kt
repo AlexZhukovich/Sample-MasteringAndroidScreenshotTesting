@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -137,7 +135,7 @@ private fun StatisticsScreenToolbar(
             ) {
                 IconButton(onClick = onPreviousMonth) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        painter = painterResource(R.drawable.ic_keyboard_arrow_left),
                         contentDescription = stringResource(R.string.common_previousMonth_contentDescription)
                     )
                 }
@@ -147,7 +145,7 @@ private fun StatisticsScreenToolbar(
                 )
                 IconButton(onClick = onNextMonth) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        painter = painterResource(R.drawable.ic_keyboard_arrow_right),
                         contentDescription = stringResource(R.string.common_nextMonth_contentDescription)
                     )
                 }

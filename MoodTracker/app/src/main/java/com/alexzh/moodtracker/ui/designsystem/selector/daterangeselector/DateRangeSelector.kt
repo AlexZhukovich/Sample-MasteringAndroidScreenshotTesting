@@ -12,10 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -117,7 +114,7 @@ private fun DateRangeSelectorHeader(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    painter = painterResource(R.drawable.ic_keyboard_arrow_left),
                     contentDescription = null
                 )
             }
@@ -140,7 +137,7 @@ private fun DateRangeSelectorHeader(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    painter = painterResource(R.drawable.ic_keyboard_arrow_right),
                     contentDescription = null
                 )
             }
@@ -163,7 +160,7 @@ private fun DateRangeSelectorHeader(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.DateRange,
+                    painter = painterResource(R.drawable.ic_date_range),
                     contentDescription = null
                 )
             }
