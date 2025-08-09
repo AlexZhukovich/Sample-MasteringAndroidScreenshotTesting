@@ -9,6 +9,7 @@ import com.alexzh.moodtracker.domain.model.DateToHappiness
 import com.alexzh.moodtracker.domain.model.MoodRecordWithActions
 import com.alexzh.moodtracker.data.mapper.toDomain
 import com.alexzh.moodtracker.data.mapper.toDomainList
+import com.alexzh.moodtracker.domain.model.ActionToHappiness
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
@@ -46,6 +47,35 @@ class MoodRecordDataSourceImpl(
                 DateToHappiness(date, averageHappiness)
             }
             .sortedBy { it.date }
+    }
+
+    override suspend fun getAverageActionToMoodHappiness(
+        startDate: LocalDate,
+        endDate: LocalDate
+    ): List<ActionToHappiness> {
+        val startDateTime = startDate.atStartOfDay()
+        val endDateTime = endDate.atTime(23, 59, 59)
+        
+        val moodRecordEntities = moodRecordWithActionsDao
+            .getMoodRecordsWithActionsForDates(startDateTime, endDateTime)
+            .first()
+            .toDomainList()
+
+        return moodRecordEntities
+            .flatMap { moodRecord ->
+                moodRecord.actions.map { action ->
+                    action.title to moodRecord.happiness
+                }
+            }
+            .groupBy { it.first }
+            .map { (actionTitle, actionHappinessPairs) ->
+                val averageHappiness = actionHappinessPairs
+                    .map { it.second }
+                    .average()
+                    .toFloat()
+                ActionToHappiness(actionTitle, averageHappiness)
+            }
+            .sortedByDescending { it.happiness }
     }
 
     override fun getMoodRecordsForDate(date: LocalDate): Flow<List<MoodRecordWithActions>> {

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
+    <string name="navigation_home_label">Home</string>
+    <string name="navigation_statistics_label">Statistics</string>
+
     <string name="homeScreen_title">Mood Tracker</string>
     <string name="homeScreen_addMoodButton_label">Add mood</string>
     <string name="homeScreen_emptyState_title">No mood entries found</string>
@@ -17,6 +20,10 @@
     <string name="previewMoodScreen_editMood_contentDescription">Edit mood</string>
     <string name="previewMoodScreen_deleteMood_contentDescription">Delete mood</string>
 
+    <string name="statisticsScreen_title">Statistics</string>
+    <string name="statisticsScreen_averageDailyMoodSection_label">Average Daily Mood</string>
+    <string name="statisticsScreen_actionToHappinessSection_label">Action to Happiness</string>
+
     <string name="mood_angry">Angry</string>
     <string name="mood_sad">Sad</string>
     <string name="mood_ok">OK</string>
@@ -28,6 +35,8 @@
     <string name="common_delete_label">Delete</string>
     <string name="common_date_label">Date</string>
     <string name="common_time_label">Time</string>
+    <string name="common_nextMonth_contentDescription">Next month</string>
+    <string name="common_previousMonth_contentDescription">Previous month</string>
     <string name="common_deleteDialogTitle_label">Confirm Deletion</string>
     <string name="common_deleteDialogText_label">Once you confirm, it will be deleted and cannot be recovered</string>
     <string name="common_navigateUp_contentDescription">Back</string>

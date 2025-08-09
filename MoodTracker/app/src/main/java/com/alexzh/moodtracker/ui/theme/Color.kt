@@ -117,3 +117,15 @@ val additionalPastelAquaLight = Color(0x40B4F8C8)
 val additionalPastelAquaDark = Color(0x405DB5A4)
 val additionalPastelCoralLight = Color(0x40F88379)
 val additionalPastelCoralDark = Color(0x40C25B56)
+
+/**
+ * Chart colors (70% opacity)
+ */
+val chartColorZeroLight = backgroundLight.copy(alpha = 0.2f)
+val chartColorZeroDark = backgroundDark.copy(alpha = 0.2f)
+val chartColorLowValuesLight = Color(0xB3F2554A)
+val chartColorLowValuesDark = Color(0xB3FF5D5D)
+val chartColorMediumValuesLight = Color(0xB3FFB31A)
+val chartColorMediumValuesDark = Color(0xB3FFD25E)
+val chartColorHighValuesLight = Color(0xB38FBF41)
+val chartColorHighValuesDark = Color(0xB3B8F15C)

@@ -47,6 +47,8 @@ import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.remembe
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
+import com.alexzh.moodtracker.ui.navigation.AppBottomNavigationBar
+import com.alexzh.moodtracker.ui.navigation.BottomNavigationItems
 import com.alexzh.moodtracker.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -58,6 +60,7 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
     onNavigateToMoodPreview: (Long) -> Unit,
     onNavigateToAddMood: () -> Unit,
+    onNavigateToStatistics: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -66,6 +69,7 @@ fun HomeScreen(
         onNavigateToMoodPreview = onNavigateToMoodPreview,
         onNavigateToAddMood = onNavigateToAddMood,
         onChangeSelectedDate = { viewModel.onEvent(HomeScreenEvent.OnChangeData(it)) },
+        onNavigateToStatistics = onNavigateToStatistics
     )
 }
 
@@ -75,10 +79,18 @@ fun HomeScreenContent(
     onNavigateToMoodPreview: (Long) -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
+    onNavigateToStatistics: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             HomeScreenToolbar()
+        },
+        bottomBar = {
+            AppBottomNavigationBar(
+                selectedItem = BottomNavigationItems.HOME,
+                onNavigateToHome = {},
+                onNavigateToStatistics = onNavigateToStatistics
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -271,6 +283,7 @@ private fun Preview_HomeScreen_Loading() {
             onNavigateToMoodPreview = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
+            onNavigateToStatistics = { }
         )
     }
 }
@@ -291,6 +304,7 @@ private fun Preview_HomeScreen_Empty() {
             onNavigateToMoodPreview = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
+            onNavigateToStatistics = { }
         )
     }
 }
@@ -342,6 +356,7 @@ private fun Preview_HomeScreen_Success() {
             onNavigateToMoodPreview = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
+            onNavigateToStatistics = { }
         )
     }
 }
