@@ -12,7 +12,7 @@ interface ActionCategoryDataSource {
     
     suspend fun getActionCategoryById(id: Long): ActionCategory?
 
-    suspend fun getActionCategoryDetailsById(categoryId: Long): ActionCategoryDetails?
+    fun getActionCategoryDetailsById(categoryId: Long): Flow<ActionCategoryDetails?>
     
     suspend fun insertActionCategory(category: ActionCategory): Long
     

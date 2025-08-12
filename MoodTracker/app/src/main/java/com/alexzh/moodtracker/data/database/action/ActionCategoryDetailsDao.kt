@@ -11,5 +11,5 @@ interface ActionCategoryDetailsDao {
 
     @Transaction
     @Query("SELECT * FROM action_categories WHERE id = :actionCategoryId")
-    suspend fun getActionCategoryDetailsById(actionCategoryId: Long): ActionCategoryDetailsEntity?
+    fun getActionCategoryDetailsByIdFlow(actionCategoryId: Long): Flow<ActionCategoryDetailsEntity?>
 }
