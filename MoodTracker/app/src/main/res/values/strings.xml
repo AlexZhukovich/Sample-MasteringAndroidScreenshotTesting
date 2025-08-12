@@ -7,22 +7,50 @@
     <string name="homeScreen_title">Mood Tracker</string>
     <string name="homeScreen_addMoodButton_label">Add mood</string>
     <string name="homeScreen_emptyState_title">No mood entries found</string>
-    <string name="homeScreen_emptyState_label">No entries found for %s</string>
+    <string name="homeScreen_emptyState_label">No entries found for %1$s</string>
 
     <string name="editMoodScreen_addMood_label">Add Mood</string>
     <string name="editMoodScreen_editMood_label">Edit Mood</string>
+    <string name="editMoodScreen_manageActions_label">Manage Actions</string>
     <string name="editMoodScreen_moodSection_label">How do you feel?</string>
     <string name="editMoodScreen_actionCategoriesSection_label">Did you do any activity?</string>
     <string name="editMoodScreen_noteSection_label">Add a note</string>
     <string name="editMoodScreen_saveButton_label">Save</string>
 
-    <string name="previewMoodScreen_dateTime_label">%s, %s</string>
+    <string name="previewMoodScreen_dateTime_label">%1$s, %2$s</string>
     <string name="previewMoodScreen_editMood_contentDescription">Edit mood</string>
     <string name="previewMoodScreen_deleteMood_contentDescription">Delete mood</string>
 
     <string name="statisticsScreen_title">Statistics</string>
     <string name="statisticsScreen_averageDailyMoodSection_label">Average Daily Mood</string>
     <string name="statisticsScreen_actionToHappinessSection_label">Action to Happiness</string>
+
+    <string name="actionCategoriesScreen_title">Manage Actions</string>
+    <string name="actionCategoriesScreen_addCategoryButton_label">Add Category</string>
+    <string name="actionCategoriesScreen_emptyState_title">Nothing to show!</string>
+    <string name="actionCategoriesScreen_emptyState_label">You haven\'t added any categories.</string>
+    <string name="actionCategoriesScreen_editCategory_contentDescription">Edit</string>
+    <string name="actionCategoriesScreen_deleteCategory_contentDescription">Delete</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_title">Delete Category</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_label">Are you sure you want to delete the \"%1$s\" category? This action cannot be undone.</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_title">Add Category</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_categoryName_label">Category name</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_selectColor_label">Select a color</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_title">Edit Category</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">Category name</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_selectColor_label">Select a color</string>
+
+    <string name="actionCategoryDetailsScreen_emptyState_title">Nothing to show!</string>
+    <string name="actionCategoryDetailsScreen_addActionButton_label">Add Action</string>
+    <string name="actionCategoryDetailsScreen_emptyState_label">You haven’t added any activities.</string>
+    <string name="actionCategoryDetailsScreen_editAction_contentDescription">Edit</string>
+    <string name="actionCategoryDetailsScreen_deleteAction_contentDescription">Delete</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_title">Edit Action</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_actionName_label">Action name</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_title">Add Action</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_actionName_label">Action name</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_title">Delete Action</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_label">Are you sure you want to delete \"%1$s\"? This action cannot be undone.</string>
 
     <string name="mood_angry">Angry</string>
     <string name="mood_sad">Sad</string>
@@ -33,6 +61,7 @@
     <string name="common_ok_label">OK</string>
     <string name="common_cancel_label">Cancel</string>
     <string name="common_delete_label">Delete</string>
+    <string name="common_save_label">Save</string>
     <string name="common_date_label">Date</string>
     <string name="common_time_label">Time</string>
     <string name="common_nextMonth_contentDescription">Next month</string>
@@ -48,6 +77,6 @@
     <string name="designSystem_dateRangeSelector_nextPeriodEnabled_contentDescription">Navigate to next period</string>
     <string name="designSystem_dateRangeSelector_nextPeriodDisabled_contentDescription">Next period not available</string>
     <string name="designSystem_dateRangeSelector_openDatePicker_contentDescription">Open date picker</string>
-    <string name="designSystem_dateRangeSelector_selectedDate_contentDescription">Select date %s</string>
-    <string name="designSystem_dateRangeSelector_futureDateNotSelectable_contentDescription">Future date %s, not selectable</string>
+    <string name="designSystem_dateRangeSelector_selectedDate_contentDescription">Select date %1$s</string>
+    <string name="designSystem_dateRangeSelector_futureDateNotSelectable_contentDescription">Future date %1$s, not selectable</string>
 </resources>

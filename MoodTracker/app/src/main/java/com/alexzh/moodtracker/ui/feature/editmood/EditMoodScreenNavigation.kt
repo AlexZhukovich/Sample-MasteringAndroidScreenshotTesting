@@ -11,11 +11,13 @@ data class EditMoodScreenDestination(
 )
 
 fun NavGraphBuilder.editMoodScreen(
+    onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
     composable<EditMoodScreenDestination> {
         EditMoodScreen(
             viewModel = koinViewModel<EditMoodScreenViewModel>(),
+            onNavigateToActionCategories= onNavigateToActionCategories,
             onNavigateUp = onNavigateUp
         )
     }

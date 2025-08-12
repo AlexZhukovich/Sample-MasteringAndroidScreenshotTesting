@@ -179,19 +179,21 @@ class EditMoodScreenViewModel(
     private fun mapActionCategoriesToUi(
         categoryDetails: List<ActionCategoryDetails>
     ): Map<ActionCategoryItem, List<ActionItem>> {
-        return categoryDetails.associate { categoryDetail ->
-            val categoryItem = ActionCategoryItem(
-                id = categoryDetail.id,
-                name = categoryDetail.name,
-                color = categoryDetail.color
-            )
-            val actionItems = categoryDetail.actions.map { action ->
-                ActionItem(
-                    id = action.id,
-                    name = action.title
+        return categoryDetails
+            .filter { it.actions.isNotEmpty() }
+            .associate { categoryDetail ->
+                val categoryItem = ActionCategoryItem(
+                    id = categoryDetail.id,
+                    name = categoryDetail.name,
+                    color = categoryDetail.color
                 )
+                val actionItems = categoryDetail.actions.map { action ->
+                    ActionItem(
+                        id = action.id,
+                        name = action.title
+                    )
+                }
+                categoryItem to actionItems
             }
-            categoryItem to actionItems
-        }
     }
 }

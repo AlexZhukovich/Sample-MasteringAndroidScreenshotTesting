@@ -4,6 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.alexzh.moodtracker.ui.feature.actioncategories.actionCategoriesScreen
+import com.alexzh.moodtracker.ui.feature.actioncategories.ActionCategoriesScreenDestination
+import com.alexzh.moodtracker.ui.feature.actioncategorydetails.ActionCategoryDetailsDestination
+import com.alexzh.moodtracker.ui.feature.actioncategorydetails.actionCategoryDetailsScreen
 import com.alexzh.moodtracker.ui.feature.editmood.EditMoodScreenDestination
 import com.alexzh.moodtracker.ui.feature.editmood.editMoodScreen
 import com.alexzh.moodtracker.ui.feature.home.HomeScreenDestination
@@ -29,6 +33,7 @@ fun MoodTrackerNavigation(
             onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
         )
         editMoodScreen(
+            onNavigateToActionCategories = { navController.navigate(ActionCategoriesScreenDestination) },
             onNavigateUp = { navController.navigateUp() }
         )
         previewMoodScreen(
@@ -37,6 +42,13 @@ fun MoodTrackerNavigation(
         )
         statisticsScreen(
             onNavigateToHome = { navController.navigateToHome() }
+        )
+        actionCategoriesScreen(
+            onNavigateToEditActionCategory = { categoryId -> navController.navigate(ActionCategoryDetailsDestination(categoryId)) },
+            onNavigateUp = { navController.navigateUp() }
+        )
+        actionCategoryDetailsScreen(
+            onNavigateUp = { navController.navigateUp() }
         )
     }
 }

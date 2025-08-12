@@ -74,6 +74,7 @@ import java.util.Locale
 @Composable
 fun EditMoodScreen(
     viewModel: EditMoodScreenViewModel,
+    onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -86,6 +87,7 @@ fun EditMoodScreen(
         onDateChange = { date -> viewModel.onEvent(EditMoodScreenEvent.OnDateChange(date)) },
         onTimeChange = { time -> viewModel.onEvent(EditMoodScreenEvent.OnTimeChange(time)) },
         onSave = { viewModel.onEvent(EditMoodScreenEvent.OnSave) },
+        onNavigateToActionCategories = onNavigateToActionCategories,
         onNavigateUp = onNavigateUp
     )
 
@@ -107,6 +109,7 @@ fun EditMoodScreenContent(
     onDateChange: (LocalDate) -> Unit,
     onTimeChange: (LocalTime) -> Unit,
     onSave: () -> Unit,
+    onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
@@ -160,6 +163,7 @@ fun EditMoodScreenContent(
             )
             ActionCategoriesSection(
                 items = uiState.actionCategoryItems,
+                onNavigateToActionCategories = onNavigateToActionCategories,
                 onActionChange = onActionChange
             )
             NoteSection(
@@ -270,11 +274,20 @@ fun SelectableMoodItem(
 fun ActionCategoriesSection(
     modifier: Modifier = Modifier,
     items: SelectableActionCategories,
+    onNavigateToActionCategories: () -> Unit,
     onActionChange: (ActionItem) -> Unit
 ) {
     Section(
         modifier = modifier,
-        title = stringResource(R.string.editMoodScreen_actionCategoriesSection_label)
+        title = stringResource(R.string.editMoodScreen_actionCategoriesSection_label),
+        actions = {
+            IconButton(onClick = onNavigateToActionCategories) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = stringResource(R.string.editMoodScreen_manageActions_label)
+                )
+            }
+        }
     ) {
         items.userActivityCategory.forEach { (category, actions) ->
             ActionCategoryCard(
