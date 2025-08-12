@@ -142,7 +142,7 @@ fun EditMoodScreenContent(
 
     Scaffold(
         topBar = {
-            EditMoodScreenToolbar(
+            EditMoodScreenTopAppBar(
                 newMood = uiState.isNewMood,
                 onNavigateUp = onNavigateUp
             )
@@ -441,7 +441,7 @@ fun DateTimeItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EditMoodScreenToolbar(
+private fun EditMoodScreenTopAppBar(
     modifier: Modifier = Modifier,
     newMood: Boolean,
     onNavigateUp: () -> Unit

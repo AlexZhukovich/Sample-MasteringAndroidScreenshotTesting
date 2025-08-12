@@ -81,7 +81,7 @@ fun HomeScreenContent(
 ) {
     Scaffold(
         topBar = {
-            HomeScreenToolbar()
+            HomeScreenTopAppBar()
         },
         bottomBar = {
             AppBottomNavigationBar(
@@ -255,7 +255,7 @@ private fun BoxScope.EmptyStateWithSelectedDate(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeScreenToolbar(
+private fun HomeScreenTopAppBar(
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(

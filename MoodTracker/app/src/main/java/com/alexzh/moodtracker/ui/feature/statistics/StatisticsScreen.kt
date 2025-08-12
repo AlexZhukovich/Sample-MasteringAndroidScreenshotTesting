@@ -53,7 +53,7 @@ fun StatisticsScreenContent(
 ) {
     Scaffold(
         topBar = {
-            StatisticsScreenToolbar(
+            StatisticsScreenTopAppBar(
                 selectedDateTitle = uiState.selectedDateRange.title,
                 onPreviousMonth = onPreviousMonth,
                 onNextMonth = onNextMonth
@@ -119,7 +119,7 @@ private fun ActionToHappinessSection(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StatisticsScreenToolbar(
+private fun StatisticsScreenTopAppBar(
     modifier: Modifier = Modifier,
     selectedDateTitle: String,
     onPreviousMonth: () -> Unit,
