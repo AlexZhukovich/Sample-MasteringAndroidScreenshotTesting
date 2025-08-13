@@ -32,9 +32,9 @@ class ActionCategoryDataSourceImpl(
             ?.toDomain()
     }
 
-    override suspend fun getActionCategoryDetailsById(categoryId: Long): ActionCategoryDetails? {
-        return actionCategoryDetailsDao.getActionCategoryDetailsById(categoryId)
-            ?.toDomain()
+    override fun getActionCategoryDetailsById(categoryId: Long): Flow<ActionCategoryDetails?> {
+        return actionCategoryDetailsDao.getActionCategoryDetailsByIdFlow(categoryId)
+            .map { it?.toDomain() }
     }
 
     override suspend fun insertActionCategory(category: ActionCategory): Long {

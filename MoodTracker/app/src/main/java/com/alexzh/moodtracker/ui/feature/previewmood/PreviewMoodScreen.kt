@@ -89,7 +89,7 @@ fun PreviewMoodScreenContent(
 
     Scaffold(
         topBar = {
-            PreviewMoodScreenToolbar(
+            PreviewMoodScreenTopAppBar(
                 dateTime = uiState.dateTime,
                 onNavigateToEditMood = { onNavigateToEditMood(uiState.moodId) },
                 onDeleteMood = { showDeleteMoodDialog = true },
@@ -207,7 +207,7 @@ fun DeleteMoodDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PreviewMoodScreenToolbar(
+private fun PreviewMoodScreenTopAppBar(
     modifier: Modifier = Modifier,
     dateFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM),
     timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT),
