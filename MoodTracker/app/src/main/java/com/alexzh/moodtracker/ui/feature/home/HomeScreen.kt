@@ -3,7 +3,6 @@ package com.alexzh.moodtracker.ui.feature.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
+import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
 import com.alexzh.moodtracker.ui.model.ActionItem
@@ -121,8 +121,16 @@ fun HomeScreenContent(
                 modifier = Modifier.fillMaxSize()
             ) {
                 when {
-                    uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                    uiState.moodItems.isEmpty() -> EmptyStateWithSelectedDate(uiState.selectedDate)
+                    uiState.isLoading -> CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                    uiState.moodItems.isEmpty() -> EmptyState(
+                        title = stringResource(R.string.homeScreen_emptyState_title),
+                        text = stringResource(
+                            R.string.homeScreen_emptyState_label,
+                            uiState.selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                        )
+                    )
                     else -> MoodItemsList(uiState.moodItems, onNavigateToMoodPreview)
                 }
             }
@@ -224,32 +232,6 @@ private fun ActionChips(
         actions.forEach { action ->
             Chip(text = action.name)
         }
-    }
-}
-
-@Composable
-private fun BoxScope.EmptyStateWithSelectedDate(
-    selectedDate: LocalDate,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.align(Alignment.Center),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.homeScreen_emptyState_title),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = stringResource(
-                R.string.homeScreen_emptyState_label,
-                selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
-            ),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }
 

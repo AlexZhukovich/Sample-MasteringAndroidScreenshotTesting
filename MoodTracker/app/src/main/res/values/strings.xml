@@ -27,7 +27,6 @@
 
     <string name="actionCategoriesScreen_title">Manage Actions</string>
     <string name="actionCategoriesScreen_addCategoryButton_label">Add Category</string>
-    <string name="actionCategoriesScreen_emptyState_title">Nothing to show!</string>
     <string name="actionCategoriesScreen_emptyState_label">You haven\'t added any categories.</string>
     <string name="actionCategoriesScreen_editCategory_contentDescription">Edit</string>
     <string name="actionCategoriesScreen_deleteCategory_contentDescription">Delete</string>
@@ -40,7 +39,6 @@
     <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">Category name</string>
     <string name="actionCategoriesScreen_editCategoryDialog_selectColor_label">Select a color</string>
 
-    <string name="actionCategoryDetailsScreen_emptyState_title">Nothing to show!</string>
     <string name="actionCategoryDetailsScreen_addActionButton_label">Add Action</string>
     <string name="actionCategoryDetailsScreen_emptyState_label">You haven’t added any activities.</string>
     <string name="actionCategoryDetailsScreen_editAction_contentDescription">Edit</string>
@@ -64,6 +62,7 @@
     <string name="common_save_label">Save</string>
     <string name="common_date_label">Date</string>
     <string name="common_time_label">Time</string>
+    <string name="common_emptyState_title">Nothing to show!</string>
     <string name="common_nextMonth_contentDescription">Next month</string>
     <string name="common_previousMonth_contentDescription">Previous month</string>
     <string name="common_deleteDialogTitle_label">Confirm Deletion</string>

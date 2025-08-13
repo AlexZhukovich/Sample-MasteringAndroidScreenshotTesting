@@ -2,8 +2,6 @@ package com.alexzh.moodtracker.ui.feature.actioncategorydetails
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
+import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.UiEvent
 
@@ -157,8 +156,12 @@ fun ActionCategoryDetailsScreenContent(
                 .padding(innerPadding)
         ) {
             when {
-                uiState.isLoading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                uiState.actions.isEmpty() -> EmptyState()
+                uiState.isLoading -> CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+                uiState.actions.isEmpty() -> EmptyState(
+                    text = stringResource(R.string.actionCategoryDetailsScreen_emptyState_label)
+                )
                 else -> ActionList(
                     actions = uiState.actions,
                     onEditAction = { action ->
@@ -231,28 +234,6 @@ private fun ActionCard(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun BoxScope.EmptyState(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier.align(Alignment.Center),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.actionCategoryDetailsScreen_emptyState_title),
-            style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = stringResource(R.string.actionCategoryDetailsScreen_emptyState_label),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }
 
