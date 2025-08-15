@@ -9,6 +9,7 @@ import com.alexzh.moodtracker.ui.feature.actioncategorydetails.actionCategoryDet
 import com.alexzh.moodtracker.ui.feature.editmood.editMoodModule
 import com.alexzh.moodtracker.ui.feature.home.homeModule
 import com.alexzh.moodtracker.ui.feature.previewmood.previewMoodModule
+import com.alexzh.moodtracker.ui.feature.settings.settingsModule
 import com.alexzh.moodtracker.ui.feature.statistics.statisticsModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +35,8 @@ class MoodTrackerApplication : Application() {
                 previewMoodModule,
                 statisticsModule,
                 actionCategoriesModule,
-                actionCategoryDetailsModule
+                actionCategoryDetailsModule,
+                settingsModule
             )
         }
         
