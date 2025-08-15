@@ -26,6 +26,7 @@ import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSwitchItem
 fun SettingsScreen(
     viewModel: SettingsScreenViewModel,
     onNavigateUp: () -> Unit,
+    onNavigateToManageActions: () -> Unit,
     onNavigateToThirdPartyLicenses: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -36,6 +37,7 @@ fun SettingsScreen(
             viewModel.onEvent(SettingsScreenEvent.OnDynamicColorsChanged(enabled))
         },
         onNavigateUp = onNavigateUp,
+        onNavigateToManageActions = onNavigateToManageActions,
         onNavigateToThirdPartyLicenses = onNavigateToThirdPartyLicenses
     )
 }
@@ -45,6 +47,7 @@ fun SettingsScreenContent(
     uiState: SettingsScreenUiState,
     onDynamicColorsChange: (Boolean) -> Unit,
     onNavigateUp: () -> Unit,
+    onNavigateToManageActions: () -> Unit,
     onNavigateToThirdPartyLicenses: () -> Unit
 ) {
     Scaffold(
@@ -68,6 +71,10 @@ fun SettingsScreenContent(
                 checked = uiState.isDynamicColorsEnabled,
                 onCheckedChange = onDynamicColorsChange,
                 enabled = !uiState.isLoading
+            )
+            SettingsNavigationItem(
+                title = stringResource(R.string.settingsScreen_manageActions_title),
+                onClick = onNavigateToManageActions
             )
             SettingsSectionTitle(
                 title = stringResource(R.string.settingsScreen_aboutSection_title),

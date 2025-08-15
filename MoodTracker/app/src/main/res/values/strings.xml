@@ -56,6 +56,7 @@
     <string name="settingsScreen_dynamicColors_title">Dynamic colors</string>
     <string name="settingsScreen_dynamicColors_description">Use colors from your wallpaper when available</string>
     <string name="settingsScreen_aboutSection_title">About</string>
+    <string name="settingsScreen_manageActions_title">Manage Actions</string>
     <string name="settingsScreen_thirdPartyLicenses_title">Third Party Licenses</string>
     <string name="settingsScreen_version_title">Version</string>
 

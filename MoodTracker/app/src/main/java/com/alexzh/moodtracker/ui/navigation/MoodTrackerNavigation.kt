@@ -57,6 +57,7 @@ fun MoodTrackerNavigation(
         )
         settingsScreen(
             onNavigateUp = { navController.navigateUp() },
+            onNavigateToManageActions = { navController.navigate(ActionCategoriesScreenDestination) },
             onNavigateToThirdPartyLicenses = { navController.navigate(SettingsLicensesScreenDestination) }
         )
         settingsLicensesScreen(

@@ -10,12 +10,14 @@ object SettingsScreenDestination
 
 fun NavGraphBuilder.settingsScreen(
     onNavigateUp: () -> Unit,
+    onNavigateToManageActions: () -> Unit,
     onNavigateToThirdPartyLicenses: () -> Unit
 ) {
     composable<SettingsScreenDestination> {
         SettingsScreen(
             viewModel = koinInject(),
             onNavigateUp = onNavigateUp,
+            onNavigateToManageActions = onNavigateToManageActions,
             onNavigateToThirdPartyLicenses = onNavigateToThirdPartyLicenses
         )
     }
