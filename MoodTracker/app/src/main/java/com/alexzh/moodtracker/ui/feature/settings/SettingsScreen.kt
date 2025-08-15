@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.settings.SettingsInfoItem
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSectionTitle
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSwitchItem
 
@@ -64,13 +65,20 @@ fun SettingsScreenContent(
                 onCheckedChange = onDynamicColorsChange,
                 enabled = !uiState.isLoading
             )
+            SettingsSectionTitle(
+                title = stringResource(R.string.settingsScreen_aboutSection_title),
+            )
+            SettingsInfoItem(
+                title = stringResource(R.string.settingsScreen_version_title),
+                value = uiState.appVersion
+            )
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreenTopAppBar(
+private fun SettingsScreenTopAppBar(
     modifier: Modifier = Modifier,
     onNavigateUp: () -> Unit
 ) {

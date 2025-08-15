@@ -6,7 +6,8 @@ import org.koin.dsl.module
 val settingsModule = module {
     viewModel {
         SettingsScreenViewModel(
-            settingsDataSource = get()
+            settingsDataSource = get(),
+            appInfoProvider = get()
         )
     }
 }
