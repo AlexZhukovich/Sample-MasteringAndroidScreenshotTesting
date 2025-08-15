@@ -20,6 +20,7 @@ class SettingsDataSourceImpl(
     
     private object Keys {
         val DEFAULT_DATA_ADDED = booleanPreferencesKey("default_data_added")
+        val DYNAMIC_COLORS_ENABLED = booleanPreferencesKey("dynamic_colors_enabled")
     }
     
     override suspend fun isDefaultDataAdded(): Boolean {
@@ -31,6 +32,17 @@ class SettingsDataSourceImpl(
     override suspend fun setDefaultDataAdded(added: Boolean) {
         dataStore.edit { preferences ->
             preferences[Keys.DEFAULT_DATA_ADDED] = added
+        }
+    }
+
+    override fun isDynamicColorsEnabled(): kotlinx.coroutines.flow.Flow<Boolean> {
+        return dataStore.data
+            .map { preferences -> preferences[Keys.DYNAMIC_COLORS_ENABLED] ?: true }
+    }
+
+    override suspend fun setDynamicColorsEnabled(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[Keys.DYNAMIC_COLORS_ENABLED] = enabled
         }
     }
 }

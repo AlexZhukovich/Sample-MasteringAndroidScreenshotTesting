@@ -15,6 +15,8 @@ import com.alexzh.moodtracker.ui.feature.home.homeScreen
 import com.alexzh.moodtracker.ui.feature.home.navigateToHome
 import com.alexzh.moodtracker.ui.feature.previewmood.PreviewMoodScreenDestination
 import com.alexzh.moodtracker.ui.feature.previewmood.previewMoodScreen
+import com.alexzh.moodtracker.ui.feature.settings.SettingsScreenDestination
+import com.alexzh.moodtracker.ui.feature.settings.settingsScreen
 import com.alexzh.moodtracker.ui.feature.statistics.navigateToStatistics
 import com.alexzh.moodtracker.ui.feature.statistics.statisticsScreen
 
@@ -29,6 +31,7 @@ fun MoodTrackerNavigation(
     ) {
         homeScreen(
             onNavigateToMoodPreview = { moodId -> navController.navigate(PreviewMoodScreenDestination(moodId)) },
+            onNavigateToSettings = { navController.navigate(SettingsScreenDestination) },
             onNavigateToAddMood = { navController.navigate(EditMoodScreenDestination()) },
             onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
         )
@@ -48,6 +51,9 @@ fun MoodTrackerNavigation(
             onNavigateUp = { navController.navigateUp() }
         )
         actionCategoryDetailsScreen(
+            onNavigateUp = { navController.navigateUp() }
+        )
+        settingsScreen(
             onNavigateUp = { navController.navigateUp() }
         )
     }

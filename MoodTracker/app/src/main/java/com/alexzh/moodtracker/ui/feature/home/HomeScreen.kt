@@ -22,6 +22,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -57,6 +58,7 @@ import java.time.format.DateTimeFormatter
 fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
     onNavigateToMoodPreview: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onNavigateToStatistics: () -> Unit,
 ) {
@@ -65,6 +67,7 @@ fun HomeScreen(
     HomeScreenContent(
         uiState = uiState,
         onNavigateToMoodPreview = onNavigateToMoodPreview,
+        onNavigateToSettings = onNavigateToSettings,
         onNavigateToAddMood = onNavigateToAddMood,
         onChangeSelectedDate = { viewModel.onEvent(HomeScreenEvent.OnChangeData(it)) },
         onNavigateToStatistics = onNavigateToStatistics
@@ -75,13 +78,16 @@ fun HomeScreen(
 fun HomeScreenContent(
     uiState: HomeScreenUiState,
     onNavigateToMoodPreview: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
     onNavigateToStatistics: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar()
+            HomeScreenTopAppBar(
+                onNavigateToSettings = onNavigateToSettings
+            )
         },
         bottomBar = {
             AppBottomNavigationBar(
@@ -239,10 +245,20 @@ private fun ActionChips(
 @Composable
 private fun HomeScreenTopAppBar(
     modifier: Modifier = Modifier,
+    onNavigateToSettings: () -> Unit,
 ) {
     TopAppBar(
         modifier = modifier,
-        title = { Text(stringResource(R.string.homeScreen_title)) }
+        title = { Text(stringResource(R.string.homeScreen_title)) },
+        actions = {
+            IconButton(onClick = onNavigateToSettings) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_settings),
+                    contentDescription = stringResource(R.string.navigation_settings_label)
+                )
+            }
+
+        }
     )
 }
 
@@ -261,6 +277,7 @@ private fun Preview_HomeScreen_Loading() {
         HomeScreenContent(
             uiState = uiState,
             onNavigateToMoodPreview = { },
+            onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
             onNavigateToStatistics = { }
@@ -282,6 +299,7 @@ private fun Preview_HomeScreen_Empty() {
         HomeScreenContent(
             uiState = uiState,
             onNavigateToMoodPreview = { },
+            onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
             onNavigateToStatistics = { }
@@ -334,6 +352,7 @@ private fun Preview_HomeScreen_Success() {
         HomeScreenContent(
             uiState = uiState,
             onNavigateToMoodPreview = { },
+            onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
             onNavigateToStatistics = { }

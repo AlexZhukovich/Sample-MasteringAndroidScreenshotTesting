@@ -11,12 +11,14 @@ object HomeScreenDestination
 
 fun NavGraphBuilder.homeScreen(
     onNavigateToMoodPreview: (moodId: Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onNavigateToStatistics: () -> Unit
 ) {
     composable<HomeScreenDestination> {
         HomeScreen(
             viewModel = koinViewModel<HomeScreenViewModel>(),
+            onNavigateToSettings = onNavigateToSettings,
             onNavigateToStatistics = onNavigateToStatistics,
             onNavigateToMoodPreview = onNavigateToMoodPreview,
             onNavigateToAddMood = onNavigateToAddMood
