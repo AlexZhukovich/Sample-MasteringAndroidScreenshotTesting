@@ -16,6 +16,8 @@ import com.alexzh.moodtracker.ui.feature.home.navigateToHome
 import com.alexzh.moodtracker.ui.feature.previewmood.PreviewMoodScreenDestination
 import com.alexzh.moodtracker.ui.feature.previewmood.previewMoodScreen
 import com.alexzh.moodtracker.ui.feature.settings.SettingsScreenDestination
+import com.alexzh.moodtracker.ui.feature.settings.licence.SettingsLicensesScreenDestination
+import com.alexzh.moodtracker.ui.feature.settings.licence.settingsLicensesScreen
 import com.alexzh.moodtracker.ui.feature.settings.settingsScreen
 import com.alexzh.moodtracker.ui.feature.statistics.navigateToStatistics
 import com.alexzh.moodtracker.ui.feature.statistics.statisticsScreen
@@ -54,6 +56,10 @@ fun MoodTrackerNavigation(
             onNavigateUp = { navController.navigateUp() }
         )
         settingsScreen(
+            onNavigateUp = { navController.navigateUp() },
+            onNavigateToThirdPartyLicenses = { navController.navigate(SettingsLicensesScreenDestination) }
+        )
+        settingsLicensesScreen(
             onNavigateUp = { navController.navigateUp() }
         )
     }

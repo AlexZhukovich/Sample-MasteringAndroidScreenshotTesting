@@ -9,12 +9,14 @@ import org.koin.compose.koinInject
 object SettingsScreenDestination
 
 fun NavGraphBuilder.settingsScreen(
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onNavigateToThirdPartyLicenses: () -> Unit
 ) {
     composable<SettingsScreenDestination> {
         SettingsScreen(
             viewModel = koinInject(),
-            onNavigateUp = onNavigateUp
+            onNavigateUp = onNavigateUp,
+            onNavigateToThirdPartyLicenses = onNavigateToThirdPartyLicenses
         )
     }
 }

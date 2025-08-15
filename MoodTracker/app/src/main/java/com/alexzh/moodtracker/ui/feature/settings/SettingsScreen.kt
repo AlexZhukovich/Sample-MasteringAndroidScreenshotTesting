@@ -18,13 +18,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsInfoItem
+import com.alexzh.moodtracker.ui.designsystem.settings.SettingsNavigationItem
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSectionTitle
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSwitchItem
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsScreenViewModel,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onNavigateToThirdPartyLicenses: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -33,7 +35,8 @@ fun SettingsScreen(
         onDynamicColorsChange = { enabled ->
             viewModel.onEvent(SettingsScreenEvent.OnDynamicColorsChanged(enabled))
         },
-        onNavigateUp = onNavigateUp
+        onNavigateUp = onNavigateUp,
+        onNavigateToThirdPartyLicenses = onNavigateToThirdPartyLicenses
     )
 }
 
@@ -41,7 +44,8 @@ fun SettingsScreen(
 fun SettingsScreenContent(
     uiState: SettingsScreenUiState,
     onDynamicColorsChange: (Boolean) -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onNavigateToThirdPartyLicenses: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -67,6 +71,10 @@ fun SettingsScreenContent(
             )
             SettingsSectionTitle(
                 title = stringResource(R.string.settingsScreen_aboutSection_title),
+            )
+            SettingsNavigationItem(
+                title = stringResource(R.string.settingsScreen_thirdPartyLicenses_title),
+                onClick = onNavigateToThirdPartyLicenses
             )
             SettingsInfoItem(
                 title = stringResource(R.string.settingsScreen_version_title),
