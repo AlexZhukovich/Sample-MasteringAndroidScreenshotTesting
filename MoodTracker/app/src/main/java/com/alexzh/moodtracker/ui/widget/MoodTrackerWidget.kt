@@ -68,7 +68,7 @@ private fun MoodButton(
     val context = LocalContext.current
     Column(
         modifier = modifier.clickable(
-            actionStartActivity(createEditMoodScreenIntent(context, mood.happiness))
+            actionStartActivity(createEditMoodScreenIntent(context, mood))
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalAlignment = Alignment.CenterVertically
@@ -90,10 +90,10 @@ private fun MoodButton(
 
 private fun createEditMoodScreenIntent(
     context: Context,
-    happiness: Float
+    mood: LocalizedMood
 ) = Intent(
     Intent.ACTION_VIEW,
-    "moodtracker://editMood?preselectedHappiness=${happiness}".toUri(),
+    "moodtracker://editMood?preselectedMood=${mood.name}".toUri(),
     context,
     MainActivity::class.java
 )

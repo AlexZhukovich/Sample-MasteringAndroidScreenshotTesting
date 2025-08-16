@@ -2,10 +2,10 @@ package com.alexzh.moodtracker.ui.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.alexzh.moodtracker.R
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class LocalizedMood(
     val happiness: Float,
     @StringRes val label: Int,
