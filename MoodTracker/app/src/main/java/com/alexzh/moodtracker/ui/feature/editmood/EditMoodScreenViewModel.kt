@@ -35,6 +35,7 @@ class EditMoodScreenViewModel(
     val events = _events.receiveAsFlow()
 
     val moodId: Long = savedStateHandle.get<Long>("moodId") ?: 0L
+    private val preselectedHappiness: Float? = savedStateHandle.get<Float>("preselectedHappiness")
     
     private val actionCategoriesFlow = actionCategoryDataSource.getActionCategoryDetails()
         .map { categoryDetails -> mapActionCategoriesToUi(categoryDetails) }
@@ -44,7 +45,12 @@ class EditMoodScreenViewModel(
         EditMoodScreenUiState(
             isNewMood = moodId == 0L,
             selectedDate = dateProvider.getCurrentDate(),
-            selectedTime = LocalTime.now()
+            selectedTime = LocalTime.now(),
+            moodItems = SelectableMoodItems(
+                selectedMood = preselectedHappiness?.let { happiness ->
+                    LocalizedMood.fromHappiness(happiness)
+                }
+            )
         )
     )
     
@@ -64,6 +70,11 @@ class EditMoodScreenViewModel(
             isNewMood = moodId == 0L,
             selectedDate = dateProvider.getCurrentDate(),
             selectedTime = LocalTime.now(),
+            moodItems = SelectableMoodItems(
+                selectedMood = preselectedHappiness?.let { happiness ->
+                    LocalizedMood.fromHappiness(happiness)
+                }
+            )
         )
     )
     
