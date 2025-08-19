@@ -88,4 +88,7 @@
     <string name="designSystem_dateRangeSelector_openDatePicker_contentDescription">Open date picker</string>
     <string name="designSystem_dateRangeSelector_selectedDate_contentDescription">Select date %1$s</string>
     <string name="designSystem_dateRangeSelector_futureDateNotSelectable_contentDescription">Future date %1$s, not selectable</string>
+    
+    <!-- Widget -->
+    <string name="widget_description">Mood tracking widget</string>
 </resources>
