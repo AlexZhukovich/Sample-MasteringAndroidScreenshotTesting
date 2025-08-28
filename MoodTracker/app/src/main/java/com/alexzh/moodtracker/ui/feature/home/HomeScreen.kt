@@ -46,8 +46,8 @@ import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.remembe
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
-import com.alexzh.moodtracker.ui.navigation.AppBottomNavigationBar
-import com.alexzh.moodtracker.ui.navigation.BottomNavigationItems
+import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
+import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
 import com.alexzh.moodtracker.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -83,61 +83,60 @@ fun HomeScreenContent(
     onChangeSelectedDate: (LocalDate) -> Unit,
     onNavigateToStatistics: () -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            HomeScreenTopAppBar(
-                onNavigateToSettings = onNavigateToSettings
-            )
-        },
-        bottomBar = {
-            AppBottomNavigationBar(
-                selectedItem = BottomNavigationItems.HOME,
-                onNavigateToHome = {},
-                onNavigateToStatistics = onNavigateToStatistics
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = onNavigateToAddMood
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_add),
-                    contentDescription = stringResource(R.string.homeScreen_addMoodButton_label)
+    AppNavigationSuiteScaffold(
+        selectedItem = AppNavigationItems.HOME,
+        onNavigateToHome = { },
+        onNavigateToStatistics = onNavigateToStatistics
+    ) {
+        Scaffold(
+            topBar = {
+                HomeScreenTopAppBar(
+                    onNavigateToSettings = onNavigateToSettings
                 )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = onNavigateToAddMood
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_add),
+                        contentDescription = stringResource(R.string.homeScreen_addMoodButton_label)
+                    )
+                }
             }
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            val dateRangeSelectorState = rememberDateRangeSelectorState(
-                selectedDate = uiState.selectedDate,
-                daysCount = 7,
-                currentDate = uiState.currentDate
-            )
-
-            DateRangeSelector(
-                state = dateRangeSelectorState,
-                onDateChange = onChangeSelectedDate
-            )
-
-            Box(
-                modifier = Modifier.fillMaxSize()
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
             ) {
-                when {
-                    uiState.isLoading -> CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                    uiState.moodItems.isEmpty() -> EmptyState(
-                        title = stringResource(R.string.homeScreen_emptyState_title),
-                        text = stringResource(
-                            R.string.homeScreen_emptyState_label,
-                            uiState.selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                val dateRangeSelectorState = rememberDateRangeSelectorState(
+                    selectedDate = uiState.selectedDate,
+                    daysCount = 7,
+                    currentDate = uiState.currentDate
+                )
+
+                DateRangeSelector(
+                    state = dateRangeSelectorState,
+                    onDateChange = onChangeSelectedDate
+                )
+
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    when {
+                        uiState.isLoading -> CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
                         )
-                    )
-                    else -> MoodItemsList(uiState.moodItems, onNavigateToMoodPreview)
+                        uiState.moodItems.isEmpty() -> EmptyState(
+                            title = stringResource(R.string.homeScreen_emptyState_title),
+                            text = stringResource(
+                                R.string.homeScreen_emptyState_label,
+                                uiState.selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                            )
+                        )
+                        else -> MoodItemsList(uiState.moodItems, onNavigateToMoodPreview)
+                    }
                 }
             }
         }

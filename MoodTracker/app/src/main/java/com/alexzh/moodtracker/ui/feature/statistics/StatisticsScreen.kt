@@ -27,8 +27,8 @@ import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.chart.ActionToHappinessChart
 import com.alexzh.moodtracker.ui.designsystem.chart.AverageDailyMoodChart
 import com.alexzh.moodtracker.ui.designsystem.section.CardSection
-import com.alexzh.moodtracker.ui.navigation.AppBottomNavigationBar
-import com.alexzh.moodtracker.ui.navigation.BottomNavigationItems
+import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
+import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
 
 @Composable
 fun StatisticsScreen(
@@ -51,35 +51,34 @@ fun StatisticsScreenContent(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            StatisticsScreenTopAppBar(
-                selectedDateTitle = uiState.selectedDateRange.title,
-                onPreviousMonth = onPreviousMonth,
-                onNextMonth = onNextMonth
-            )
-        },
-        bottomBar = {
-            AppBottomNavigationBar(
-                selectedItem = BottomNavigationItems.STATISTICS,
-                onNavigateToHome = onNavigateToHome,
-                onNavigateToStatistics = { }
-            )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            AverageDailyMoodSection(
-                averageDailyMoodChartData = uiState.averageDailyMoodChartData
-            )
-            ActionToHappinessSection(
-                actionToHappinessChartData = uiState.actionToHappinessChartData
-            )
+    AppNavigationSuiteScaffold(
+        selectedItem = AppNavigationItems.STATISTICS,
+        onNavigateToHome = onNavigateToHome,
+        onNavigateToStatistics = { }
+    ) {
+        Scaffold(
+            topBar = {
+                StatisticsScreenTopAppBar(
+                    selectedDateTitle = uiState.selectedDateRange.title,
+                    onPreviousMonth = onPreviousMonth,
+                    onNextMonth = onNextMonth
+                )
+            }
+        ) { innerPadding ->
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                AverageDailyMoodSection(
+                    averageDailyMoodChartData = uiState.averageDailyMoodChartData
+                )
+                ActionToHappinessSection(
+                    actionToHappinessChartData = uiState.actionToHappinessChartData
+                )
+            }
         }
     }
 }
