@@ -6,7 +6,8 @@ import org.koin.dsl.module
 val actionCategoriesModule = module {
     viewModel {
         ActionCategoriesScreenViewModel(
-            actionCategoryDataSource = get()
+            actionCategoryDataSource = get(),
+            actionDataSource = get()
         )
     }
 }

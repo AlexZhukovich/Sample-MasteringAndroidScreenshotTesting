@@ -5,7 +5,6 @@ import com.alexzh.moodtracker.data.initialization.DataInitializer
 import com.alexzh.moodtracker.di.appModule
 import com.alexzh.moodtracker.di.dataModule
 import com.alexzh.moodtracker.ui.feature.actioncategories.actionCategoriesModule
-import com.alexzh.moodtracker.ui.feature.actioncategorydetails.actionCategoryDetailsModule
 import com.alexzh.moodtracker.ui.feature.editmood.editMoodModule
 import com.alexzh.moodtracker.ui.feature.home.homeModule
 import com.alexzh.moodtracker.ui.feature.previewmood.previewMoodModule
@@ -35,7 +34,6 @@ class MoodTrackerApplication : Application() {
                 previewMoodModule,
                 statisticsModule,
                 actionCategoriesModule,
-                actionCategoryDetailsModule,
                 settingsModule
             )
         }

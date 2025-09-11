@@ -1,146 +1,227 @@
 package com.alexzh.moodtracker.ui.feature.actioncategories
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices.PHONE
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.PastelAccentColor
-import com.alexzh.moodtracker.ui.designsystem.color.ColorSelectionGrid
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryCard
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryDetailsTopAppBar
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionItemCard
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoriesScreenTopAppBar
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.AddActionDialog
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.AddCategoryDialog
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.EditActionDialog
+import com.alexzh.moodtracker.ui.feature.actioncategories.components.EditCategoryDialog
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
+import com.alexzh.moodtracker.ui.model.ActionItem
+import com.alexzh.moodtracker.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ActionCategoriesScreen(
     viewModel: ActionCategoriesScreenViewModel,
-    onNavigateToEditActionCategory: (actionCategoryId: Long) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ActionCategoriesScreenContent(
-        uiState = uiState.value,
-        onNavigateToEditActionCategory = onNavigateToEditActionCategory,
-        onDeleteActionCategory = { actionCategoryId ->
-            viewModel.onEvent(ActionCategoriesScreenEvent.OnDeleteActionCategory(actionCategoryId))
-        },
-        onEditActionCategory = { categoryId, name, color ->
-            viewModel.onEvent(ActionCategoriesScreenEvent.OnEditActionCategory(categoryId, name, color))
-        },
-        onAddActionCategory = { name, color ->
-            viewModel.onEvent(ActionCategoriesScreenEvent.OnAddActionCategory(name, color))
-        },
+        uiState = uiState,
+        onAddCategory = { name, color -> viewModel.onEvent(ActionCategoriesScreenEvent.OnAddCategory(name, color)) },
+        onEditCategory = { categoryId, name, color -> viewModel.onEvent(ActionCategoriesScreenEvent.OnEditCategory(categoryId, name, color)) },
+        onDeleteCategory = { categoryId -> viewModel.onEvent(ActionCategoriesScreenEvent.OnDeleteCategory(categoryId)) },
+        onSelectCategory = { categoryId -> viewModel.onEvent(ActionCategoriesScreenEvent.OnSelectCategory(categoryId)) },
+        onClearCategorySelection = { viewModel.onEvent(ActionCategoriesScreenEvent.OnClearCategorySelection) },
+        onAddAction = { actionName -> viewModel.onEvent(ActionCategoriesScreenEvent.OnAddAction(actionName)) },
+        onEditAction = { actionId, actionName -> viewModel.onEvent(ActionCategoriesScreenEvent.OnEditAction(actionId, actionName)) },
+        onDeleteAction = { actionId -> viewModel.onEvent(ActionCategoriesScreenEvent.OnDeleteAction(actionId)) },
         onNavigateUp = onNavigateUp
     )
 }
 
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun ActionCategoriesScreenContent(
     uiState: ActionCategoriesScreenUiState,
-    onNavigateToEditActionCategory: (actionCategoryId: Long) -> Unit,
-    onDeleteActionCategory: (actionCategoryId: Long) -> Unit,
-    onEditActionCategory: (categoryId: Long, name: String, color: PastelAccentColor) -> Unit,
-    onAddActionCategory: (name: String, color: PastelAccentColor) -> Unit,
+    onAddCategory: (name: String, color: PastelAccentColor) -> Unit,
+    onEditCategory: (categoryId: Long, name: String, color: PastelAccentColor) -> Unit,
+    onDeleteCategory: (categoryId: Long) -> Unit,
+    onSelectCategory: (categoryId: Long) -> Unit,
+    onClearCategorySelection: () -> Unit,
+    onAddAction: (actionName: String) -> Unit,
+    onEditAction: (actionId: Long, actionName: String) -> Unit,
+    onDeleteAction: (actionId: Long) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
-    var deletingCategory by remember { mutableStateOf<ActionCategoryItem?>(null) }
+    val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
+    val coroutineScope = rememberCoroutineScope()
+    val isExpandedLayout = navigator.scaffoldDirective.maxHorizontalPartitions > 1
+
+    BackHandler(enabled = !isExpandedLayout && uiState.selectedCategoryDetails != null) {
+        onClearCategorySelection()
+        coroutineScope.launch {
+            navigator.navigateBack()
+        }
+    }
+    
     var showAddCategoryDialog by remember { mutableStateOf(false) }
-    var showEditCategoryDialog by remember { mutableStateOf(false) }
     var editingCategory by remember { mutableStateOf<ActionCategoryItem?>(null) }
+    var deletingCategory by remember { mutableStateOf<ActionCategoryItem?>(null) }
 
     editingCategory?.let { category ->
-        if (showEditCategoryDialog) {
-            EditCategoryDialog(
-                category = category,
-                onDismiss = {
-                    showEditCategoryDialog = false
-                    editingCategory = null
-                },
-                onSave = { name, color ->
-                    onEditActionCategory(category.id, name, color)
-                    showEditCategoryDialog = false
-                    editingCategory = null
-                }
-            )
-        }
+        EditCategoryDialog(
+            category = category,
+            onDismiss = { editingCategory = null },
+            onSave = { name, color ->
+                onEditCategory(category.id, name, color)
+                editingCategory = null
+            }
+        )
     }
 
     deletingCategory?.let { category ->
-        if (showDeleteConfirmationDialog) {
-            DeleteConfirmationDialog(
-                title = stringResource(R.string.actionCategoriesScreen_deleteCategoryDialog_title),
-                text = stringResource(R.string.actionCategoriesScreen_deleteCategoryDialog_label, category.name),
-                onDismiss = {
-                    showDeleteConfirmationDialog = false
-                    deletingCategory = null
-                },
-                onConfirm = {
-                    onDeleteActionCategory(category.id)
-                    showDeleteConfirmationDialog = false
-                    deletingCategory = null
-                }
-            )
-        }
+        DeleteConfirmationDialog(
+            title = stringResource(R.string.actionCategoriesScreen_deleteCategoryDialog_title),
+            text = stringResource(R.string.actionCategoriesScreen_deleteCategoryDialog_label, category.name),
+            onDismiss = { deletingCategory = null },
+            onConfirm = {
+                onDeleteCategory(category.id)
+                deletingCategory = null
+            }
+        )
     }
 
     if (showAddCategoryDialog) {
         AddCategoryDialog(
-            onDismiss = {
-                showAddCategoryDialog = false
-            },
+            onDismiss = { showAddCategoryDialog = false },
             onSave = { name, color ->
-                onAddActionCategory(name, color)
+                onAddCategory(name, color)
                 showAddCategoryDialog = false
             }
         )
     }
-    
-    Scaffold(
-        topBar = {
-            ActionCategoriesScreenTopAppBar(
-                onNavigateUp = onNavigateUp
-            )
+
+    ListDetailPaneScaffold(
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            AnimatedPane {
+                ActionCategoriesListPane(
+                    isLoading = uiState.isLoadingCategories,
+                    categories = uiState.categories,
+                    selectedCategoryId = uiState.selectedCategoryDetails?.category?.id,
+                    isExpandedLayout = navigator.scaffoldDirective.maxHorizontalPartitions > 1,
+                    onCategoryClick = { categoryId ->
+                        onSelectCategory(categoryId)
+                        coroutineScope.launch {
+                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, categoryId)
+                        }
+                    },
+                    onEditCategory = { category -> editingCategory = category },
+                    onDeleteCategory = { category -> deletingCategory = category },
+                    onAddCategory = { showAddCategoryDialog = true },
+                    onNavigateUp = onNavigateUp
+                )
+            }
         },
+        detailPane = {
+            AnimatedPane {
+                val coroutineScope = rememberCoroutineScope()
+                uiState.selectedCategoryDetails?.let { categoryDetails ->
+                    ActionCategoryDetailsPane(
+                        categoryDetails = categoryDetails,
+                        isExpandedLayout = isExpandedLayout,
+                        onAddAction = onAddAction,
+                        onEditAction = onEditAction,
+                        onDeleteAction = onDeleteAction,
+                        onNavigateUp = {
+                            if (isExpandedLayout) {
+                                onClearCategorySelection()
+                            } else {
+                                onClearCategorySelection()
+                                coroutineScope.launch {
+                                    navigator.navigateBack()
+                                }
+                            }
+                        }
+                    )
+                } ?: ActionCategorySelectionPlaceholder()
+            }
+        }
+    )
+}
+
+@Composable
+private fun ActionCategorySelectionPlaceholder(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.actionCategoriesScreen_placeholder_label),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
+@Composable
+private fun ActionCategoriesListPane(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean,
+    categories: List<ActionCategoryItem>,
+    selectedCategoryId: Long?,
+    isExpandedLayout: Boolean,
+    onCategoryClick: (Long) -> Unit,
+    onEditCategory: (ActionCategoryItem) -> Unit,
+    onDeleteCategory: (ActionCategoryItem) -> Unit,
+    onAddCategory: () -> Unit,
+    onNavigateUp: () -> Unit
+) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        topBar = { ActionCategoriesScreenTopAppBar(onNavigateUp = onNavigateUp) },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showAddCategoryDialog = true }
-            ) {
+            FloatingActionButton(onClick = onAddCategory) {
                 Icon(
                     painter = painterResource(R.drawable.ic_add),
                     contentDescription = stringResource(R.string.actionCategoriesScreen_addCategoryButton_label)
@@ -149,27 +230,111 @@ fun ActionCategoriesScreenContent(
         }
     ) { innerPadding ->
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(innerPadding)
         ) {
             when {
-                uiState.isLoading -> CircularProgressIndicator(
+                categories.isEmpty() && isLoading -> CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
-                uiState.categories.isEmpty() -> EmptyState(
+                categories.isEmpty() -> EmptyState(
                     text = stringResource(R.string.actionCategoriesScreen_emptyState_label)
                 )
                 else -> ActionCategoriesList(
-                    categories = uiState.categories,
-                    onActionCategoryClick = onNavigateToEditActionCategory,
-                    onEditCategory = { category ->
-                        editingCategory = category
-                        showEditCategoryDialog = true
-                    },
-                    onDeleteCategory = { category ->
-                        deletingCategory = category
-                        showDeleteConfirmationDialog = true
-                    }
+                    categories = categories,
+                    selectedCategoryId = selectedCategoryId,
+                    isExpandedLayout = isExpandedLayout,
+                    onActionCategoryClick = onCategoryClick,
+                    onEditCategory = onEditCategory,
+                    onDeleteCategory = onDeleteCategory
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ActionCategoryDetailsPane(
+    modifier: Modifier = Modifier,
+    categoryDetails: CategoryDetailsUiState,
+    isExpandedLayout: Boolean,
+    onAddAction: (String) -> Unit,
+    onEditAction: (Long, String) -> Unit,
+    onDeleteAction: (Long) -> Unit,
+    onNavigateUp: () -> Unit
+) {
+    var editingAction by remember { mutableStateOf<ActionItem?>(null) }
+    var deletingAction by remember { mutableStateOf<ActionItem?>(null) }
+    var showAddActionDialog by remember { mutableStateOf(false) }
+
+    editingAction?.let { action ->
+        EditActionDialog(
+            action = action,
+            onDismiss = { editingAction = null },
+            onSave = { actionId, actionName ->
+                onEditAction(actionId, actionName)
+                editingAction = null
+            }
+        )
+    }
+
+    deletingAction?.let { action ->
+        DeleteConfirmationDialog(
+            title = stringResource(R.string.actionCategoryDetailsScreen_deleteActionDialog_title),
+            text = stringResource(R.string.actionCategoryDetailsScreen_deleteActionDialog_label, action.name),
+            onDismiss = { deletingAction = null },
+            onConfirm = {
+                onDeleteAction(action.id)
+                deletingAction = null
+            }
+        )
+    }
+
+    if (showAddActionDialog) {
+        AddActionDialog(
+            onDismiss = { showAddActionDialog = false },
+            onSave = { actionName ->
+                onAddAction(actionName)
+                showAddActionDialog = false
+            }
+        )
+    }
+
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            ActionCategoryDetailsTopAppBar(
+                title = categoryDetails.category.name,
+                onNavigateUp = onNavigateUp,
+                showBackButton = !isExpandedLayout
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { showAddActionDialog = true }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_add),
+                    contentDescription = stringResource(R.string.actionCategoryDetailsScreen_addActionButton_label)
+                )
+            }
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            when {
+                categoryDetails.isLoadingActions -> CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+                categoryDetails.actions.isEmpty() -> EmptyState(
+                    text = stringResource(R.string.actionCategoryDetailsScreen_emptyState_label)
+                )
+                else -> ActionList(
+                    actions = categoryDetails.actions,
+                    onEditAction = { action -> editingAction = action },
+                    onDeleteAction = { action -> deletingAction = action }
                 )
             }
         }
@@ -180,6 +345,8 @@ fun ActionCategoriesScreenContent(
 private fun ActionCategoriesList(
     modifier: Modifier = Modifier,
     categories: List<ActionCategoryItem>,
+    selectedCategoryId: Long?,
+    isExpandedLayout: Boolean,
     onActionCategoryClick: (Long) -> Unit,
     onEditCategory: (ActionCategoryItem) -> Unit,
     onDeleteCategory: (ActionCategoryItem) -> Unit
@@ -192,6 +359,7 @@ private fun ActionCategoriesList(
         items(categories) { category ->
             ActionCategoryCard(
                 category = category,
+                isSelected = isExpandedLayout && selectedCategoryId == category.id,
                 onActionCategoryClick = onActionCategoryClick,
                 onEditCategory = onEditCategory,
                 onDeleteCategory = onDeleteCategory
@@ -201,195 +369,86 @@ private fun ActionCategoriesList(
 }
 
 @Composable
-private fun ActionCategoryCard(
+private fun ActionList(
     modifier: Modifier = Modifier,
-    category: ActionCategoryItem,
-    onActionCategoryClick: (Long) -> Unit,
-    onEditCategory: (ActionCategoryItem) -> Unit,
-    onDeleteCategory: (ActionCategoryItem) -> Unit,
-    isDarkTheme: Boolean = isSystemInDarkTheme()
+    actions: List<ActionItem>,
+    onEditAction: (ActionItem) -> Unit,
+    onDeleteAction: (ActionItem) -> Unit
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        onClick = { onActionCategoryClick(category.id) }
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Surface(
-                modifier = Modifier.size(36.dp),
-                shape = CircleShape,
-                color = category.color.getColor(isDarkTheme)
-            ) {}
-            Text(
-                modifier = Modifier.weight(1.0f)
-                    .padding(start = 4.dp),
-                text = category.name,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleMedium
+        items(actions) { action ->
+            ActionItemCard(
+                action = action,
+                onEditAction = { onEditAction(action) },
+                onDeleteAction = { onDeleteAction(action) }
             )
-            IconButton(onClick = { onEditCategory(category) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.actionCategoriesScreen_editCategory_contentDescription)
-                )
-            }
-            IconButton(onClick = { onDeleteCategory(category) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_delete),
-                    contentDescription = stringResource(R.string.actionCategoriesScreen_deleteCategory_contentDescription)
-                )
-            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Preview(name = "Phone - Light", device = PHONE, showBackground = true)
+@Preview(name = "Phone - Dark", device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
+@Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun ActionCategoriesScreenTopAppBar(
-    onNavigateUp: () -> Unit
+private fun ActionCategoriesAdaptiveScreenContentTabletPreview(
+    @PreviewParameter(ActionCategoriesScreenUiStateProvider::class) uiState: ActionCategoriesScreenUiState
 ) {
-    TopAppBar(
-        title = {
-            Text(
-                text = stringResource(R.string.actionCategoriesScreen_title)
-            )
-        },
-        navigationIcon = {
-            IconButton(onNavigateUp) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
-                )
-            }
-        }
-    )
+    AppTheme {
+        ActionCategoriesScreenContent(
+            uiState = uiState,
+            onAddCategory = { _, _ -> },
+            onEditCategory = { _, _, _ -> },
+            onDeleteCategory = { _ -> },
+            onSelectCategory = { _ -> },
+            onClearCategorySelection = { },
+            onAddAction = { _ -> },
+            onEditAction = { _, _ -> },
+            onDeleteAction = { _ -> },
+            onNavigateUp = { }
+        )
+    }
 }
 
-@Composable
-private fun AddCategoryDialog(
-    onDismiss: () -> Unit,
-    onSave: (name: String, color: PastelAccentColor) -> Unit
-) {
-    var categoryName by remember { mutableStateOf("") }
-    var selectedColor by remember { mutableStateOf<PastelAccentColor?>(null) }
-    val isDarkTheme = isSystemInDarkTheme()
+private val sampleCategories = listOf(
+    ActionCategoryItem(id = 1L, name = "Hobbies", color = PastelAccentColor.BLUE),
+    ActionCategoryItem(id = 2L, name = "Physical Activity", color = PastelAccentColor.GREEN),
+    ActionCategoryItem(id = 3L, name = "Relaxation", color = PastelAccentColor.VIOLET),
+    ActionCategoryItem(id = 4L, name = "Social", color = PastelAccentColor.PINK),
+    ActionCategoryItem(id = 5L, name = "Work", color = PastelAccentColor.ORANGE)
+)
 
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.actionCategoriesScreen_addCategoryDialog_title),
-                style = MaterialTheme.typography.headlineSmall
+private val sampleActions = listOf(
+    ActionItem(id = 1L, name = "Drawing"),
+    ActionItem(id = 2L, name = "Writing"),
+    ActionItem(id = 3L, name = "Cooking"),
+    ActionItem(id = 4L, name = "Reading"),
+    ActionItem(id = 5L, name = "Gaming")
+)
+
+class ActionCategoriesScreenUiStateProvider : PreviewParameterProvider<ActionCategoriesScreenUiState> {
+    override val values: Sequence<ActionCategoriesScreenUiState>
+        get() = sequenceOf(
+            ActionCategoriesScreenUiState(
+                categories = emptyList(),
+                isLoadingCategories = false
+            ),
+            ActionCategoriesScreenUiState(
+                categories = sampleCategories,
+                isLoadingCategories = false
+            ),
+            ActionCategoriesScreenUiState(
+                categories = sampleCategories,
+                isLoadingCategories = false,
+                selectedCategoryDetails = CategoryDetailsUiState(
+                    category = sampleCategories.first(),
+                    actions = sampleActions,
+                    isLoadingActions = false
+                )
             )
-        },
-        text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                OutlinedTextField(
-                    value = categoryName,
-                    onValueChange = { categoryName = it },
-                    label = { Text(stringResource(R.string.actionCategoriesScreen_addCategoryDialog_categoryName_label)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
-                )
-                
-                Text(
-                    text = stringResource(R.string.actionCategoriesScreen_addCategoryDialog_selectColor_label),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                
-                ColorSelectionGrid(
-                    selectedColor = selectedColor,
-                    onColorSelected = { selectedColor = it },
-                    isDarkTheme = isDarkTheme
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { 
-                    if (selectedColor != null) {
-                        onSave(categoryName.trim(), selectedColor!!)
-                    }
-                },
-                enabled = categoryName.trim().isNotEmpty() && selectedColor != null
-            ) {
-                Text(stringResource(R.string.common_save_label))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.common_cancel_label))
-            }
-        }
-    )
-}
-
-@Composable
-private fun EditCategoryDialog(
-    category: ActionCategoryItem,
-    onDismiss: () -> Unit,
-    onSave: (name: String, color: PastelAccentColor) -> Unit
-) {
-    var categoryName by remember { mutableStateOf(category.name) }
-    var selectedColor by remember { mutableStateOf<PastelAccentColor?>(category.color) }
-    val isDarkTheme = isSystemInDarkTheme()
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = stringResource(R.string.actionCategoriesScreen_editCategoryDialog_title),
-                style = MaterialTheme.typography.headlineSmall
-            )
-        },
-        text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                OutlinedTextField(
-                    value = categoryName,
-                    onValueChange = { categoryName = it },
-                    label = { Text(stringResource(R.string.actionCategoriesScreen_editCategoryDialog_categoryName_label)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
-                )
-                
-                Text(
-                    text = stringResource(R.string.actionCategoriesScreen_editCategoryDialog_selectColor_label),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                
-                ColorSelectionGrid(
-                    selectedColor = selectedColor,
-                    onColorSelected = { selectedColor = it },
-                    isDarkTheme = isDarkTheme
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = { 
-                    if (selectedColor != null) {
-                        onSave(categoryName.trim(), selectedColor!!)
-                    }
-                },
-                enabled = categoryName.trim().isNotEmpty() && selectedColor != null && 
-                         (categoryName.trim() != category.name || selectedColor != category.color)
-            ) {
-                Text(stringResource(R.string.common_save_label))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.common_cancel_label))
-            }
-        }
-    )
+        )
 }
