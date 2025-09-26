@@ -20,6 +20,9 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.activity.compose.BackHandler
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -90,7 +93,11 @@ fun ActionCategoriesScreenContent(
     onDeleteAction: (actionId: Long) -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
+    val navigator = rememberListDetailPaneScaffoldNavigator<Long>(
+        scaffoldDirective = calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(currentWindowAdaptiveInfo()),
+        adaptStrategies = ListDetailPaneScaffoldDefaults.adaptStrategies(),
+    )
+
     val coroutineScope = rememberCoroutineScope()
     val isExpandedLayout = navigator.scaffoldDirective.maxHorizontalPartitions > 1
 
