@@ -10,7 +10,7 @@ import org.koin.androidx.compose.koinViewModel
 object HomeScreenDestination
 
 fun NavGraphBuilder.homeScreen(
-    onNavigateToMoodPreview: (moodId: Long) -> Unit,
+    onNavigateToEditMood: (moodId: Long) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onNavigateToStatistics: () -> Unit
@@ -18,9 +18,9 @@ fun NavGraphBuilder.homeScreen(
     composable<HomeScreenDestination> {
         HomeScreen(
             viewModel = koinViewModel<HomeScreenViewModel>(),
+            onNavigateToEditMood = onNavigateToEditMood,
             onNavigateToSettings = onNavigateToSettings,
             onNavigateToStatistics = onNavigateToStatistics,
-            onNavigateToMoodPreview = onNavigateToMoodPreview,
             onNavigateToAddMood = onNavigateToAddMood
         )
     }

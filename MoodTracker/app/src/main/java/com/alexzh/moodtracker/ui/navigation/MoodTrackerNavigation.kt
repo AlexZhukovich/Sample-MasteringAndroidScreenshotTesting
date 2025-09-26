@@ -11,8 +11,6 @@ import com.alexzh.moodtracker.ui.feature.editmood.editMoodScreen
 import com.alexzh.moodtracker.ui.feature.home.HomeScreenDestination
 import com.alexzh.moodtracker.ui.feature.home.homeScreen
 import com.alexzh.moodtracker.ui.feature.home.navigateToHome
-import com.alexzh.moodtracker.ui.feature.previewmood.PreviewMoodScreenDestination
-import com.alexzh.moodtracker.ui.feature.previewmood.previewMoodScreen
 import com.alexzh.moodtracker.ui.feature.settings.SettingsScreenDestination
 import com.alexzh.moodtracker.ui.feature.settings.licence.SettingsLicensesScreenDestination
 import com.alexzh.moodtracker.ui.feature.settings.licence.settingsLicensesScreen
@@ -30,17 +28,13 @@ fun MoodTrackerNavigation(
         startDestination = startDestination
     ) {
         homeScreen(
-            onNavigateToMoodPreview = { moodId -> navController.navigate(PreviewMoodScreenDestination(moodId)) },
+            onNavigateToEditMood = { moodId -> navController.navigate(EditMoodScreenDestination(moodId)) },
             onNavigateToSettings = { navController.navigate(SettingsScreenDestination) },
             onNavigateToAddMood = { navController.navigate(EditMoodScreenDestination()) },
             onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
         )
         editMoodScreen(
             onNavigateToActionCategories = { navController.navigate(ActionCategoriesScreenDestination) },
-            onNavigateUp = { navController.navigateUp() }
-        )
-        previewMoodScreen(
-            onNavigateToEditMood = { moodId -> navController.navigate(EditMoodScreenDestination(moodId)) },
             onNavigateUp = { navController.navigateUp() }
         )
         statisticsScreen(
