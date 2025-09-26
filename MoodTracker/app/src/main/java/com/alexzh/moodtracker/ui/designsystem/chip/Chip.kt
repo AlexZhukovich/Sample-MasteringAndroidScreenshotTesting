@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.designsystem.chip
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -20,7 +21,8 @@ fun Chip(
         modifier = modifier,
         shape = CircleShape,
         color = MaterialTheme.colorScheme.secondaryContainer,
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.primary)
     ) {
         Text(
             text = text,
