@@ -23,7 +23,9 @@
 
     <string name="statisticsScreen_title">Statistics</string>
     <string name="statisticsScreen_averageDailyMoodSection_label">Average Daily Mood</string>
-    <string name="statisticsScreen_actionToHappinessSection_label">Action to Happiness</string>
+    <string name="statisticsScreen_actionImpactOverviewSection_label">Action Impact Overview</string>
+    <string name="statisticsScreen_positiveImpactActionsSection_label">Positive Impact Actions</string>
+    <string name="statisticsScreen_negativeImpactActionsSection_label">Negative Impact Actions</string>
 
     <string name="actionCategoriesScreen_title">Manage Actions</string>
     <string name="actionCategoriesScreen_addCategoryButton_label">Add Category</string>

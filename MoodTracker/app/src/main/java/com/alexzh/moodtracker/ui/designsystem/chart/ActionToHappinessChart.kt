@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.times
 @Composable
 fun ActionToHappinessChart(
     modifier: Modifier = Modifier,
-    data: List<ChartDataItem>,
+    data: ActionImpactData,
     barColorProvider: (Float) -> Color = ChartDefaults.defaultBarColorProvider(),
     labelColor: Color = MaterialTheme.colorScheme.onSurface,
     cornerRadius: Dp = 10.dp,
@@ -34,7 +34,8 @@ fun ActionToHappinessChart(
     textStartPadding: Dp = 16.dp,
     maxValue: Float = 5.0f
 ) {
-    val itemCount = data.size
+    val allItems = data.positiveImpactData + data.negativeImpactData
+    val itemCount = allItems.size
     val totalBarsHeight = itemCount * barHeight
     val totalSpacingHeight = (itemCount - 1) * spacingBetweenItems
     val totalHeight = totalBarsHeight + totalSpacingHeight
@@ -58,7 +59,7 @@ fun ActionToHappinessChart(
                 fontWeight = FontWeight.Normal
             )
 
-            data.forEachIndexed { index, item ->
+            allItems.forEachIndexed { index, item ->
                 val label = item.label
                 val barColor = barColorProvider(item.value)
                 val barWidth = (item.value / maxValue) * (size.width)
@@ -95,11 +96,16 @@ fun ActionToHappinessChart(
 @Preview(showBackground = true)
 @Composable
 fun Preview_ActivityToHappinessChart() {
-    val data = listOf(
-        ChartDataItem("Reading", 5.0f),
-        ChartDataItem("Walking", 4.5f),
-        ChartDataItem("Shopping", 2.7f),
-        ChartDataItem("Cooking", 1.2f),
+    val data = ActionImpactData(
+        positiveImpactData = listOf(
+            ChartDataItem("Reading", 5.0f),
+            ChartDataItem("Walking", 4.5f),
+            ChartDataItem("Cooking", 3.2f),
+        ),
+        negativeImpactData = listOf(
+            ChartDataItem("Shopping", 2.7f),
+            ChartDataItem("Working Late", 1.2f),
+        )
     )
 
     ActionToHappinessChart(

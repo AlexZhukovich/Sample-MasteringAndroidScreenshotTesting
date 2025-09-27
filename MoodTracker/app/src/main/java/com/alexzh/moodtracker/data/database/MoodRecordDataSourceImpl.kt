@@ -10,6 +10,7 @@ import com.alexzh.moodtracker.domain.model.MoodRecordWithActions
 import com.alexzh.moodtracker.data.mapper.toDomain
 import com.alexzh.moodtracker.data.mapper.toDomainList
 import com.alexzh.moodtracker.domain.model.ActionToHappiness
+import com.alexzh.moodtracker.domain.model.SegmentedActionImpact
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
@@ -76,6 +77,27 @@ class MoodRecordDataSourceImpl(
                 ActionToHappiness(actionTitle, averageHappiness)
             }
             .sortedByDescending { it.happiness }
+    }
+
+    override suspend fun getSegmentedActionImpact(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        threshold: Float
+    ): SegmentedActionImpact {
+        val allActionData = getAverageActionToMoodHappiness(startDate, endDate)
+
+        val positiveFactors = allActionData
+            .filter { it.happiness > threshold }
+            .sortedByDescending { it.happiness }
+
+        val negativeFactors = allActionData
+            .filter { it.happiness <= threshold }
+            .sortedByDescending { it.happiness }
+
+        return SegmentedActionImpact(
+            positiveImpact = positiveFactors,
+            negativeImpact = negativeFactors
+        )
     }
 
     override fun getMoodRecordsForDate(date: LocalDate): Flow<List<MoodRecordWithActions>> {

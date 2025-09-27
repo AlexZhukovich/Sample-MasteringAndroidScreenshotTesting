@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.statistics
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,15 +17,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.chart.ActionToHappinessChart
+import com.alexzh.moodtracker.ui.designsystem.chart.ActionImpactData
 import com.alexzh.moodtracker.ui.designsystem.chart.AverageDailyMoodChart
 import com.alexzh.moodtracker.ui.designsystem.section.CardSection
 import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
@@ -44,6 +50,7 @@ fun StatisticsScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun StatisticsScreenContent(
     uiState: StatisticsScreenUiState,
@@ -51,6 +58,9 @@ fun StatisticsScreenContent(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit
 ) {
+    val context = LocalContext.current
+    val windowSizeClass = calculateWindowSizeClass(context as android.app.Activity)
+    val windowWidthSizeClass = windowSizeClass.widthSizeClass
     AppNavigationSuiteScaffold(
         selectedItem = AppNavigationItems.STATISTICS,
         onNavigateToHome = onNavigateToHome,
@@ -66,7 +76,8 @@ fun StatisticsScreenContent(
             }
         ) { innerPadding ->
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
                     .verticalScroll(rememberScrollState()),
@@ -76,7 +87,11 @@ fun StatisticsScreenContent(
                     averageDailyMoodChartData = uiState.averageDailyMoodChartData
                 )
                 ActionToHappinessSection(
-                    actionToHappinessChartData = uiState.actionToHappinessChartData
+                    actionImpactData = ActionImpactData(
+                        positiveImpactData = uiState.actionImpactChartData.positiveImpact,
+                        negativeImpactData = uiState.actionImpactChartData.negativeImpact,
+                    ),
+                    windowWidthSizeClass = windowWidthSizeClass
                 )
             }
         }
@@ -90,10 +105,10 @@ private fun AverageDailyMoodSection(
     CardSection(
         modifier = Modifier.fillMaxWidth(),
         title = stringResource(R.string.statisticsScreen_averageDailyMoodSection_label),
-        capitalizeTitle = true
     ) {
         AverageDailyMoodChart(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .height(250.dp),
             data = averageDailyMoodChartData.data,
             scrollPosition = averageDailyMoodChartData.scrollPosition
@@ -103,16 +118,76 @@ private fun AverageDailyMoodSection(
 
 @Composable
 private fun ActionToHappinessSection(
-    actionToHappinessChartData: ActionToHappinessChartData
+    actionImpactData: ActionImpactData,
+    windowWidthSizeClass: WindowWidthSizeClass
 ) {
-    CardSection(
-        modifier = Modifier.fillMaxWidth(),
-        title = stringResource(R.string.statisticsScreen_actionToHappinessSection_label),
-        capitalizeTitle = true
-    ) {
-        ActionToHappinessChart(
-            data = actionToHappinessChartData.data,
-        )
+    when (windowWidthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                CardSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = stringResource(R.string.statisticsScreen_actionImpactOverviewSection_label)
+                ) {
+                    ActionToHappinessChart(
+                        modifier = Modifier.fillMaxWidth(),
+                        data = ActionImpactData(
+                            positiveImpactData = actionImpactData.positiveImpactData,
+                            negativeImpactData = actionImpactData.negativeImpactData
+                        )
+                    )
+                }
+            }
+        }
+        else -> {
+            if (actionImpactData.isNotEmpty()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    if (actionImpactData.positiveImpactData.isNotEmpty()) {
+                        Box(modifier = Modifier.weight(1f)) {
+
+                            CardSection(
+                                modifier = Modifier.fillMaxWidth(),
+                                title = stringResource(R.string.statisticsScreen_positiveImpactActionsSection_label)
+                            ) {
+                                ActionToHappinessChart(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    data = ActionImpactData(
+                                        positiveImpactData = actionImpactData.positiveImpactData,
+                                        negativeImpactData = emptyList()
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    if (actionImpactData.negativeImpactData.isNotEmpty()) {
+                        Box(modifier = Modifier.weight(1f)) {
+                            CardSection(
+                                modifier = Modifier.fillMaxWidth(),
+                                title = stringResource(R.string.statisticsScreen_negativeImpactActionsSection_label)
+                            ) {
+                                ActionToHappinessChart(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    data = ActionImpactData(
+                                        positiveImpactData = emptyList(),
+                                        negativeImpactData = actionImpactData.negativeImpactData
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    if (actionImpactData.isEmpty()) {
+                        Box(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+        }
     }
 }
 
