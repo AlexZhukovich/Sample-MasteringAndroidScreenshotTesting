@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ActionCategoryDao {
-    @Query("SELECT * FROM action_categories ORDER BY name ASC")
+    @Query("SELECT * FROM action_categories")
     fun getActionCategories(): Flow<List<ActionCategoryEntity>>
 
     @Query("SELECT * FROM action_categories WHERE id = :actionCategoryId")

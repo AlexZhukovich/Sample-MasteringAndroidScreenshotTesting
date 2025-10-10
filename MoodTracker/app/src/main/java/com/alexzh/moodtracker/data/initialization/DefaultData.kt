@@ -1,6 +1,5 @@
 package com.alexzh.moodtracker.data.initialization
 
-import com.alexzh.moodtracker.domain.PastelAccentColor
 import com.alexzh.moodtracker.domain.model.ActionCategory
 import com.alexzh.moodtracker.domain.model.Action
 
@@ -9,28 +8,23 @@ object DefaultData {
     val defaultCategories = listOf(
         ActionCategory(
             id = 1,
-            name = "Physical Activity",
-            color = PastelAccentColor.GREEN
+            name = "Physical Activity"
         ),
         ActionCategory(
             id = 2,
-            name = "Social",
-            color = PastelAccentColor.BLUE
+            name = "Social"
         ),
         ActionCategory(
             id = 3,
-            name = "Work",
-            color = PastelAccentColor.YELLOW
+            name = "Work"
         ),
         ActionCategory(
             id = 4,
-            name = "Relaxation",
-            color = PastelAccentColor.LAVENDER
+            name = "Relaxation"
         ),
         ActionCategory(
             id = 5,
-            name = "Hobbies",
-            color = PastelAccentColor.PINK
+            name = "Hobbies"
         )
     )
     

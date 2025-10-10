@@ -191,8 +191,7 @@ class EditMoodScreenViewModel(
             .associate { categoryDetail ->
                 val categoryItem = ActionCategoryItem(
                     id = categoryDetail.id,
-                    name = categoryDetail.name,
-                    color = categoryDetail.color
+                    name = categoryDetail.name
                 )
                 val actionItems = categoryDetail.actions.map { action ->
                     ActionItem(

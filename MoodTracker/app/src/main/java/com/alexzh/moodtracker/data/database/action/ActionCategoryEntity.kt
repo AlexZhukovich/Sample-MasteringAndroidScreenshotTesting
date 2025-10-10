@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class ActionCategoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val name: String,
-    val colorName: String
+    val name: String
 )

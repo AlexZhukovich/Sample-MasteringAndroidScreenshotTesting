@@ -1,6 +1,5 @@
 package com.alexzh.moodtracker.ui.feature.actioncategories.components
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,8 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.domain.PastelAccentColor
-import com.alexzh.moodtracker.ui.designsystem.color.ColorSelectionGrid
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 
@@ -107,11 +104,9 @@ fun EditActionDialog(
 @Composable
 fun AddCategoryDialog(
     onDismiss: () -> Unit,
-    onSave: (name: String, color: PastelAccentColor) -> Unit
+    onSave: (name: String) -> Unit
 ) {
     var categoryName by remember { mutableStateOf("") }
-    var selectedColor by remember { mutableStateOf<PastelAccentColor?>(null) }
-    val isDarkTheme = isSystemInDarkTheme()
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -122,38 +117,18 @@ fun AddCategoryDialog(
             )
         },
         text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                OutlinedTextField(
-                    value = categoryName,
-                    onValueChange = { categoryName = it },
-                    label = { Text(stringResource(R.string.actionCategoriesScreen_addCategoryDialog_categoryName_label)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
-                )
-
-                Text(
-                    text = stringResource(R.string.actionCategoriesScreen_addCategoryDialog_selectColor_label),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                ColorSelectionGrid(
-                    selectedColor = selectedColor,
-                    onColorSelected = { selectedColor = it },
-                    isDarkTheme = isDarkTheme
-                )
-            }
+            OutlinedTextField(
+                value = categoryName,
+                onValueChange = { categoryName = it },
+                label = { Text(stringResource(R.string.actionCategoriesScreen_addCategoryDialog_categoryName_label)) },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
         },
         confirmButton = {
             TextButton(
-                onClick = {
-                    if (selectedColor != null) {
-                        onSave(categoryName.trim(), selectedColor!!)
-                    }
-                },
-                enabled = categoryName.trim().isNotEmpty() && selectedColor != null
+                onClick = { onSave(categoryName.trim()) },
+                enabled = categoryName.trim().isNotEmpty()
             ) {
                 Text(stringResource(R.string.common_save_label))
             }
@@ -170,11 +145,9 @@ fun AddCategoryDialog(
 fun EditCategoryDialog(
     category: ActionCategoryItem,
     onDismiss: () -> Unit,
-    onSave: (name: String, color: PastelAccentColor) -> Unit
+    onSave: (name: String) -> Unit
 ) {
     var categoryName by remember { mutableStateOf(category.name) }
-    var selectedColor by remember { mutableStateOf<PastelAccentColor?>(category.color) }
-    val isDarkTheme = isSystemInDarkTheme()
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -201,23 +174,12 @@ fun EditCategoryDialog(
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
-                ColorSelectionGrid(
-                    selectedColor = selectedColor,
-                    onColorSelected = { selectedColor = it },
-                    isDarkTheme = isDarkTheme
-                )
             }
         },
         confirmButton = {
             TextButton(
-                onClick = {
-                    if (selectedColor != null) {
-                        onSave(categoryName.trim(), selectedColor!!)
-                    }
-                },
-                enabled = categoryName.trim().isNotEmpty() && selectedColor != null &&
-                        (categoryName.trim() != category.name || selectedColor != category.color)
+                onClick = { onSave(categoryName.trim()) },
+                enabled = categoryName.trim().isNotEmpty() && categoryName.trim() != category.name
             ) {
                 Text(stringResource(R.string.common_save_label))
             }

@@ -41,7 +41,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.domain.PastelAccentColor
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryCard
@@ -67,8 +66,8 @@ fun ActionCategoriesScreen(
 
     ActionCategoriesScreenContent(
         uiState = uiState,
-        onAddCategory = { name, color -> viewModel.onEvent(ActionCategoriesScreenEvent.OnAddCategory(name, color)) },
-        onEditCategory = { categoryId, name, color -> viewModel.onEvent(ActionCategoriesScreenEvent.OnEditCategory(categoryId, name, color)) },
+        onAddCategory = { name -> viewModel.onEvent(ActionCategoriesScreenEvent.OnAddCategory(name)) },
+        onEditCategory = { categoryId, name -> viewModel.onEvent(ActionCategoriesScreenEvent.OnEditCategory(categoryId, name)) },
         onDeleteCategory = { categoryId -> viewModel.onEvent(ActionCategoriesScreenEvent.OnDeleteCategory(categoryId)) },
         onSelectCategory = { categoryId -> viewModel.onEvent(ActionCategoriesScreenEvent.OnSelectCategory(categoryId)) },
         onClearCategorySelection = { viewModel.onEvent(ActionCategoriesScreenEvent.OnClearCategorySelection) },
@@ -83,8 +82,8 @@ fun ActionCategoriesScreen(
 @Composable
 fun ActionCategoriesScreenContent(
     uiState: ActionCategoriesScreenUiState,
-    onAddCategory: (name: String, color: PastelAccentColor) -> Unit,
-    onEditCategory: (categoryId: Long, name: String, color: PastelAccentColor) -> Unit,
+    onAddCategory: (name: String) -> Unit,
+    onEditCategory: (categoryId: Long, name: String) -> Unit,
     onDeleteCategory: (categoryId: Long) -> Unit,
     onSelectCategory: (categoryId: Long) -> Unit,
     onClearCategorySelection: () -> Unit,
@@ -116,8 +115,8 @@ fun ActionCategoriesScreenContent(
         EditCategoryDialog(
             category = category,
             onDismiss = { editingCategory = null },
-            onSave = { name, color ->
-                onEditCategory(category.id, name, color)
+            onSave = { name ->
+                onEditCategory(category.id, name)
                 editingCategory = null
             }
         )
@@ -138,8 +137,8 @@ fun ActionCategoriesScreenContent(
     if (showAddCategoryDialog) {
         AddCategoryDialog(
             onDismiss = { showAddCategoryDialog = false },
-            onSave = { name, color ->
-                onAddCategory(name, color)
+            onSave = { name ->
+                onAddCategory(name)
                 showAddCategoryDialog = false
             }
         )
@@ -408,8 +407,8 @@ private fun ActionCategoriesAdaptiveScreenContentTabletPreview(
     AppTheme {
         ActionCategoriesScreenContent(
             uiState = uiState,
-            onAddCategory = { _, _ -> },
-            onEditCategory = { _, _, _ -> },
+            onAddCategory = { _ -> },
+            onEditCategory = { _, _ -> },
             onDeleteCategory = { _ -> },
             onSelectCategory = { _ -> },
             onClearCategorySelection = { },
@@ -422,11 +421,11 @@ private fun ActionCategoriesAdaptiveScreenContentTabletPreview(
 }
 
 private val sampleCategories = listOf(
-    ActionCategoryItem(id = 1L, name = "Hobbies", color = PastelAccentColor.BLUE),
-    ActionCategoryItem(id = 2L, name = "Physical Activity", color = PastelAccentColor.GREEN),
-    ActionCategoryItem(id = 3L, name = "Relaxation", color = PastelAccentColor.VIOLET),
-    ActionCategoryItem(id = 4L, name = "Social", color = PastelAccentColor.PINK),
-    ActionCategoryItem(id = 5L, name = "Work", color = PastelAccentColor.ORANGE)
+    ActionCategoryItem(id = 1L, name = "Hobbies"),
+    ActionCategoryItem(id = 2L, name = "Physical Activity"),
+    ActionCategoryItem(id = 3L, name = "Relaxation"),
+    ActionCategoryItem(id = 4L, name = "Social"),
+    ActionCategoryItem(id = 5L, name = "Work")
 )
 
 private val sampleActions = listOf(

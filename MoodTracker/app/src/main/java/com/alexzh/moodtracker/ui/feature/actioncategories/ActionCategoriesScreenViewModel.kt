@@ -3,7 +3,6 @@ package com.alexzh.moodtracker.ui.feature.actioncategories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import com.alexzh.moodtracker.domain.PastelAccentColor
 import com.alexzh.moodtracker.domain.datasource.ActionCategoryDataSource
 import com.alexzh.moodtracker.domain.datasource.ActionDataSource
 import com.alexzh.moodtracker.domain.model.Action
@@ -51,8 +50,7 @@ class ActionCategoriesScreenViewModel(
                 CategoryDetailsUiState(
                     category = ActionCategoryItem(
                         id = it.id,
-                        name = it.name,
-                        color = it.color
+                        name = it.name
                     ),
                     actions = it.actions.map { action -> mapToActionItem(action) },
                     isLoadingActions = false
@@ -67,8 +65,8 @@ class ActionCategoriesScreenViewModel(
 
     fun onEvent(event: ActionCategoriesScreenEvent) {
         when (event) {
-            is OnAddCategory -> addCategory(categoryName = event.name, color = event.color)
-            is OnEditCategory -> editCategory(categoryId = event.categoryId, categoryName = event.name, color = event.color)
+            is OnAddCategory -> addCategory(categoryName = event.name)
+            is OnEditCategory -> editCategory(categoryId = event.categoryId, categoryName = event.name)
             is OnDeleteCategory -> deleteCategory(categoryId = event.categoryId)
             is OnSelectCategory -> selectCategory(categoryId = event.categoryId)
             is OnClearCategorySelection -> clearSelection()
@@ -86,23 +84,21 @@ class ActionCategoriesScreenViewModel(
         selectedCategoryId.value = null
     }
 
-    private fun addCategory(categoryName: String, color: PastelAccentColor) {
+    private fun addCategory(categoryName: String) {
         viewModelScope.launch {
             val actionCategory = ActionCategory(
                 id = 0,
-                name = categoryName,
-                color = color
+                name = categoryName
             )
             actionCategoryDataSource.insertActionCategory(actionCategory)
         }
     }
 
-    private fun editCategory(categoryId: Long, categoryName: String, color: PastelAccentColor) {
+    private fun editCategory(categoryId: Long, categoryName: String) {
         viewModelScope.launch {
             val actionCategory = ActionCategory(
                 id = categoryId,
-                name = categoryName,
-                color = color
+                name = categoryName
             )
             actionCategoryDataSource.updateActionCategory(actionCategory)
         }
@@ -116,8 +112,7 @@ class ActionCategoriesScreenViewModel(
             
             val actionCategory = ActionCategory(
                 id = categoryId,
-                name = "",
-                color = PastelAccentColor.GREY
+                name = ""
             )
             actionCategoryDataSource.deleteActionCategory(actionCategory)
         }
@@ -162,8 +157,7 @@ class ActionCategoriesScreenViewModel(
     private fun mapToActionCategoryItem(actionCategory: ActionCategory): ActionCategoryItem {
         return ActionCategoryItem(
             id = actionCategory.id,
-            name = actionCategory.name,
-            color = actionCategory.color
+            name = actionCategory.name
         )
     }
 
