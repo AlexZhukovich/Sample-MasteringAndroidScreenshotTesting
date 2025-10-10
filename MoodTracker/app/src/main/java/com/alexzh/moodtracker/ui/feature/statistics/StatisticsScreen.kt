@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,10 +30,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.ui.designsystem.chart.ActionToHappinessChart
 import com.alexzh.moodtracker.ui.designsystem.chart.ActionImpactData
+import com.alexzh.moodtracker.ui.designsystem.chart.ActionToHappinessChart
 import com.alexzh.moodtracker.ui.designsystem.chart.AverageDailyMoodChart
+import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.section.CardSection
+import com.alexzh.moodtracker.ui.feature.statistics.components.StatisticsEmptyStateAnimatedIcon
 import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
 import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
 
@@ -75,24 +78,45 @@ fun StatisticsScreenContent(
                 )
             }
         ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                AverageDailyMoodSection(
-                    averageDailyMoodChartData = uiState.averageDailyMoodChartData
-                )
-                ActionToHappinessSection(
-                    actionImpactData = ActionImpactData(
-                        positiveImpactData = uiState.actionImpactChartData.positiveImpact,
-                        negativeImpactData = uiState.actionImpactChartData.negativeImpact,
-                    ),
-                    windowWidthSizeClass = windowWidthSizeClass
-                )
+            when {
+                uiState.isLoading -> {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+                }
+                uiState.actionImpactChartData.isEmpty() && uiState.averageDailyMoodChartData.isEmpty() -> {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        EmptyState(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            icon = { StatisticsEmptyStateAnimatedIcon() },
+                            title = stringResource(R.string.statisticsScreen_emptyState_title),
+                            text = stringResource(R.string.statisticsScreen_emptyState_label)
+                        )
+                    }
+                }
+                else -> {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                            .padding(horizontal = 16.dp)
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        AverageDailyMoodSection(
+                            averageDailyMoodChartData = uiState.averageDailyMoodChartData
+                        )
+                        ActionToHappinessSection(
+                            actionImpactData = ActionImpactData(
+                                positiveImpactData = uiState.actionImpactChartData.positiveImpact,
+                                negativeImpactData = uiState.actionImpactChartData.negativeImpact,
+                            ),
+                            windowWidthSizeClass = windowWidthSizeClass
+                        )
+                    }
+                }
             }
         }
     }

@@ -13,8 +13,8 @@ object ChartDefaults {
     fun defaultBarColorProvider(isDarkColor: Boolean = isSystemInDarkTheme()): (Float) -> Color = { value ->
         when (value) {
             0f -> ChartColors.ZERO.getColor(isDarkColor)
-            in 0.01f..1.65f -> ChartColors.LOW_VALUES.getColor(isDarkColor)
-            in 1.66f..3.3f -> ChartColors.MEDIUM_VALUES.getColor(isDarkColor)
+            in 0.01f..2.5f -> ChartColors.LOW_VALUES.getColor(isDarkColor)
+            in 2.5f..3.8f -> ChartColors.MEDIUM_VALUES.getColor(isDarkColor)
             else -> ChartColors.HIGH_VALUES.getColor(isDarkColor)
         }
     }

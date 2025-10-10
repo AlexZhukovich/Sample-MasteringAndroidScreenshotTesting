@@ -22,6 +22,8 @@
     <string name="editMoodScreen_saveButton_label">Save</string>
 
     <string name="statisticsScreen_title">Statistics</string>
+    <string name="statisticsScreen_emptyState_title">No data for this month</string>
+    <string name="statisticsScreen_emptyState_label">Switch to a different month or start tracking to see your patterns</string>
     <string name="statisticsScreen_averageDailyMoodSection_label">Average Daily Mood</string>
     <string name="statisticsScreen_actionImpactOverviewSection_label">Action Impact Overview</string>
     <string name="statisticsScreen_positiveImpactActionsSection_label">Positive Impact Actions</string>

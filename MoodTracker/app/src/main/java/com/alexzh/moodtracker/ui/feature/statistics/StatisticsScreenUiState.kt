@@ -19,9 +19,13 @@ data class SelectedDateRangeData(
 data class AverageDailyMoodChartData(
     val data: List<ChartDataItem> = emptyList(),
     val scrollPosition: Int = 0
-)
+) {
+    fun isEmpty(): Boolean = data.none { it.value != 0.0f }
+}
 
 data class ActionImpactChartData(
     val positiveImpact: List<ChartDataItem> = emptyList(),
     val negativeImpact: List<ChartDataItem> = emptyList()
-)
+) {
+    fun isEmpty(): Boolean = positiveImpact.isEmpty() && negativeImpact.isEmpty()
+}
