@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
+import com.alexzh.moodtracker.ui.designsystem.chip.ChipSize
 import com.alexzh.moodtracker.ui.model.ActionItem
 import kotlin.collections.forEach
 
@@ -22,7 +23,10 @@ fun MoodActionChips(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         actions.forEach { action ->
-            Chip(text = action.name)
+            Chip(
+                text = action.name,
+                size = ChipSize.Small
+            )
         }
     }
 }

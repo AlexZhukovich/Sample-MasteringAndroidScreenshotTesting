@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +27,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -60,6 +58,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowWidthSizeClass
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
+import com.alexzh.moodtracker.ui.designsystem.chip.Chip
 import com.alexzh.moodtracker.ui.designsystem.core.modifier.circleLayout
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
@@ -451,15 +450,10 @@ private fun ActionCategoryCard(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             actions.forEach {
-                FilterChip(
-                    modifier = Modifier
-                        .height(36.dp)
-                        .padding(vertical = 2.dp),
+                Chip(
+                    text = it.name,
                     selected = selectedActionIds.contains(it.id),
                     onClick = { onActionChange(it) },
-                    label = {
-                        Text(it.name)
-                    }
                 )
             }
         }
