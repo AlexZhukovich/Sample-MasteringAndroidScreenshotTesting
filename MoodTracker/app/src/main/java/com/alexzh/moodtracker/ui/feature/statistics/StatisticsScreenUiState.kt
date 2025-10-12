@@ -7,7 +7,7 @@ data class StatisticsScreenUiState(
     val isLoading: Boolean = false,
     val selectedDateRange: SelectedDateRangeData,
     val averageDailyMoodChartData: AverageDailyMoodChartData = AverageDailyMoodChartData(),
-    val actionToHappinessChartData: ActionToHappinessChartData = ActionToHappinessChartData()
+    val actionImpactChartData: ActionImpactChartData = ActionImpactChartData()
 )
 
 data class SelectedDateRangeData(
@@ -19,8 +19,13 @@ data class SelectedDateRangeData(
 data class AverageDailyMoodChartData(
     val data: List<ChartDataItem> = emptyList(),
     val scrollPosition: Int = 0
-)
+) {
+    fun isEmpty(): Boolean = data.none { it.value != 0.0f }
+}
 
-data class ActionToHappinessChartData(
-    val data: List<ChartDataItem> = emptyList()
-)
+data class ActionImpactChartData(
+    val positiveImpact: List<ChartDataItem> = emptyList(),
+    val negativeImpact: List<ChartDataItem> = emptyList()
+) {
+    fun isEmpty(): Boolean = positiveImpact.isEmpty() && negativeImpact.isEmpty()
+}

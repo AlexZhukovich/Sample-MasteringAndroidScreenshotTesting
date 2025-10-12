@@ -7,5 +7,6 @@ data class HomeScreenUiState(
     val isLoading: Boolean = false,
     val moodItems: List<MoodItem> = emptyList(),
     val selectedDate: LocalDate,
-    val currentDate: LocalDate
+    val currentDate: LocalDate,
+    val selectedMoodItem: MoodItem? = null,
 )

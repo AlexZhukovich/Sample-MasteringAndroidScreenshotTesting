@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -25,6 +26,7 @@ class HomeScreenViewModel(
 ) : ViewModel() {
 
     private val selectedDate = MutableStateFlow(dateProvider.getCurrentDate())
+    private val selectedMoodItem = MutableStateFlow<MoodItem?>(null)
     private val currentDate: StateFlow<LocalDate> = dateProvider.currentDateFlow
         .stateIn(viewModelScope, SharingStarted.Eagerly, dateProvider.getCurrentDate())
     
@@ -38,12 +40,14 @@ class HomeScreenViewModel(
     val uiState: StateFlow<HomeScreenUiState> = combine(
         selectedDate,
         currentDate,
-        moodItemsFlow
-    ) { selectedDate, currentDate, moodItems ->
+        moodItemsFlow,
+        selectedMoodItem
+    ) { selectedDate, currentDate, moodItems, selectedMoodItem ->
         HomeScreenUiState(
             selectedDate = selectedDate,
             currentDate = currentDate,
             moodItems = moodItems,
+            selectedMoodItem = selectedMoodItem,
             isLoading = false
         )
     }.stateIn(
@@ -58,11 +62,34 @@ class HomeScreenViewModel(
     fun onEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.OnChangeData -> updateSelectedDate(event.date)
+            is HomeScreenEvent.OnSelectMoodItem -> selectMoodItem(event.moodId)
+            is HomeScreenEvent.OnClearSelection -> clearSelection()
+            is HomeScreenEvent.OnDeleteMood -> deleteMood()
         }
     }
-    
+
     private fun updateSelectedDate(selectedDate: LocalDate) {
         this.selectedDate.value = selectedDate
+        clearSelection()
+    }
+
+    private fun selectMoodItem(moodId: Long) {
+        val moodItem = uiState.value.moodItems.find { it.id == moodId }
+        selectedMoodItem.value = moodItem
+    }
+
+    private fun clearSelection() {
+        selectedMoodItem.value = null
+    }
+
+    private fun deleteMood() {
+        val currentSelectedMood = selectedMoodItem.value
+        if (currentSelectedMood != null) {
+            viewModelScope.launch {
+                moodRecordDataSource.deleteMoodRecord(currentSelectedMood.id)
+                clearSelection()
+            }
+        }
     }
 
     private fun mapToMoodItem(moodRecord: MoodRecordWithActions): MoodItem {

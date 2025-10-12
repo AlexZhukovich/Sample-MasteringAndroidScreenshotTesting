@@ -1,54 +1,70 @@
 package com.alexzh.moodtracker.ui.feature.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.ui.designsystem.chip.Chip
+import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
+import com.alexzh.moodtracker.ui.feature.home.components.HomeScreenTopAppBar
+import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
+import com.alexzh.moodtracker.ui.feature.home.components.MoodItemCard
+import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewActions
+import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewHeader
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
-import com.alexzh.moodtracker.ui.navigation.AppBottomNavigationBar
-import com.alexzh.moodtracker.ui.navigation.BottomNavigationItems
+import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
+import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
 import com.alexzh.moodtracker.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -57,7 +73,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
-    onNavigateToMoodPreview: (Long) -> Unit,
+    onNavigateToEditMood: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onNavigateToStatistics: () -> Unit,
@@ -66,22 +82,92 @@ fun HomeScreen(
 
     HomeScreenContent(
         uiState = uiState,
-        onNavigateToMoodPreview = onNavigateToMoodPreview,
+        onNavigateToEditMood = onNavigateToEditMood,
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToAddMood = onNavigateToAddMood,
         onChangeSelectedDate = { viewModel.onEvent(HomeScreenEvent.OnChangeData(it)) },
+        onSelectMoodItem = { viewModel.onEvent(HomeScreenEvent.OnSelectMoodItem(it)) },
+        onClearSelection = { viewModel.onEvent(HomeScreenEvent.OnClearSelection) },
+        onDeleteMood = { viewModel.onEvent(HomeScreenEvent.OnDeleteMood) },
         onNavigateToStatistics = onNavigateToStatistics
     )
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun HomeScreenContent(
     uiState: HomeScreenUiState,
-    onNavigateToMoodPreview: (Long) -> Unit,
+    onNavigateToEditMood: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
-    onNavigateToStatistics: () -> Unit,
+    onSelectMoodItem: (Long) -> Unit,
+    onClearSelection: () -> Unit,
+    onDeleteMood: () -> Unit,
+    onNavigateToStatistics: () -> Unit
+) {
+    val context = LocalContext.current
+    val windowSizeClass = calculateWindowSizeClass(context as android.app.Activity)
+    val windowWidthSizeClass = windowSizeClass.widthSizeClass
+    val navigator = rememberListDetailPaneScaffoldNavigator<Long>(
+        scaffoldDirective = calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(currentWindowAdaptiveInfo()),
+        adaptStrategies = ListDetailPaneScaffoldDefaults.adaptStrategies(),
+    )
+
+    LaunchedEffect(uiState.selectedMoodItem) {
+        if (uiState.selectedMoodItem != null) {
+            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, uiState.selectedMoodItem.id)
+        } else {
+            navigator.navigateTo(ListDetailPaneScaffoldRole.List)
+        }
+    }
+
+    AppNavigationSuiteScaffold(
+        selectedItem = AppNavigationItems.HOME,
+        onNavigateToHome = { },
+        onNavigateToStatistics = onNavigateToStatistics
+    ) {
+        if (windowWidthSizeClass == WindowWidthSizeClass.Compact || windowWidthSizeClass == WindowWidthSizeClass.Medium) {
+            HomeScreenContentCompactMedium(
+                uiState = uiState,
+                windowWidthSizeClass = windowWidthSizeClass,
+                onNavigateToEditMood = onNavigateToEditMood,
+                onNavigateToSettings = onNavigateToSettings,
+                onNavigateToAddMood = onNavigateToAddMood,
+                onChangeSelectedDate = onChangeSelectedDate,
+                onSelectMoodItem = onSelectMoodItem,
+                onClearSelection = onClearSelection,
+                onDeleteMood = onDeleteMood
+            )
+        } else {
+            HomeScreenContentExpanded(
+                uiState = uiState,
+                windowWidthSizeClass = windowWidthSizeClass,
+                navigator = navigator,
+                onNavigateToEditMood = onNavigateToEditMood,
+                onNavigateToSettings = onNavigateToSettings,
+                onNavigateToAddMood = onNavigateToAddMood,
+                onChangeSelectedDate = onChangeSelectedDate,
+                onSelectMoodItem = onSelectMoodItem,
+                onClearSelection = onClearSelection,
+                onDeleteMood = onDeleteMood
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HomeScreenContentCompactMedium(
+    uiState: HomeScreenUiState,
+    windowWidthSizeClass: WindowWidthSizeClass,
+    onNavigateToEditMood: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToAddMood: () -> Unit,
+    onChangeSelectedDate: (LocalDate) -> Unit,
+    onSelectMoodItem: (Long) -> Unit,
+    onClearSelection: () -> Unit,
+    onDeleteMood: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -89,17 +175,8 @@ fun HomeScreenContent(
                 onNavigateToSettings = onNavigateToSettings
             )
         },
-        bottomBar = {
-            AppBottomNavigationBar(
-                selectedItem = BottomNavigationItems.HOME,
-                onNavigateToHome = {},
-                onNavigateToStatistics = onNavigateToStatistics
-            )
-        },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onNavigateToAddMood
-            ) {
+            FloatingActionButton(onClick = onNavigateToAddMood) {
                 Icon(
                     painter = painterResource(R.drawable.ic_add),
                     contentDescription = stringResource(R.string.homeScreen_addMoodButton_label)
@@ -123,143 +200,245 @@ fun HomeScreenContent(
                 onDateChange = onChangeSelectedDate
             )
 
-            Box(
-                modifier = Modifier.fillMaxSize()
+            Box(modifier = Modifier.fillMaxSize()) {
+                MoodItemsContent(
+                    uiState = uiState,
+                    onSelectMoodItem = onSelectMoodItem
+                )
+            }
+        }
+
+        if (uiState.selectedMoodItem != null) {
+            val bottomSheetState = rememberModalBottomSheetState()
+            val coroutineScope = rememberCoroutineScope()
+
+            ModalBottomSheet(
+                onDismissRequest = onClearSelection,
+                sheetState = bottomSheetState
             ) {
-                when {
-                    uiState.isLoading -> CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                    uiState.moodItems.isEmpty() -> EmptyState(
-                        title = stringResource(R.string.homeScreen_emptyState_title),
-                        text = stringResource(
-                            R.string.homeScreen_emptyState_label,
-                            uiState.selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
-                        )
-                    )
-                    else -> MoodItemsList(uiState.moodItems, onNavigateToMoodPreview)
-                }
+                MoodPreviewContent(
+                    moodItem = uiState.selectedMoodItem,
+                    windowWidthSizeClass = windowWidthSizeClass,
+                    onClose = onClearSelection,
+                    onNavigateToEditMood = { moodId ->
+                        coroutineScope.launch {
+                            bottomSheetState.hide()
+                            onNavigateToEditMood(moodId)
+                        }
+                    },
+                    onDelete = onDeleteMood
+                )
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-private fun MoodItemsList(
-    moodItems: List<MoodItem>,
-    onMoodItemClick: (Long) -> Unit,
-    modifier: Modifier = Modifier
+private fun HomeScreenContentExpanded(
+    uiState: HomeScreenUiState,
+    windowWidthSizeClass: WindowWidthSizeClass,
+    navigator: androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator<Long>,
+    onNavigateToEditMood: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToAddMood: () -> Unit,
+    onChangeSelectedDate: (LocalDate) -> Unit,
+    onSelectMoodItem: (Long) -> Unit,
+    onClearSelection: () -> Unit,
+    onDeleteMood: () -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(moodItems) { moodItem ->
-            MoodItemCard(
-                moodItem = moodItem,
-                onClick = { onMoodItemClick(moodItem.id) }
+    Scaffold(
+        topBar = {
+            HomeScreenTopAppBar(
+                onNavigateToSettings = onNavigateToSettings
+            )
+        },
+        floatingActionButton = {
+            if (uiState.selectedMoodItem == null) {
+                FloatingActionButton(onClick = onNavigateToAddMood) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_add),
+                        contentDescription = stringResource(R.string.homeScreen_addMoodButton_label)
+                    )
+                }
+            }
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                 .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            val daysCount = when (windowWidthSizeClass) {
+                WindowWidthSizeClass.Compact -> 7
+                WindowWidthSizeClass.Medium -> 10
+                WindowWidthSizeClass.Expanded -> 14
+                else -> 14
+            }
+
+            val dateRangeSelectorState = rememberDateRangeSelectorState(
+                selectedDate = uiState.selectedDate,
+                daysCount = daysCount,
+                currentDate = uiState.currentDate
+            )
+
+            DateRangeSelector(
+                state = dateRangeSelectorState,
+                onDateChange = onChangeSelectedDate
+            )
+
+            ListDetailPaneScaffold(
+                directive = navigator.scaffoldDirective,
+                value = navigator.scaffoldValue,
+                listPane = {
+                    MoodItemsContent(
+                        uiState = uiState,
+                        onSelectMoodItem = onSelectMoodItem
+                    )
+                },
+                detailPane = {
+                    if (uiState.selectedMoodItem != null) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(end = 16.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            MoodPreviewContent(
+                                moodItem = uiState.selectedMoodItem,
+                                windowWidthSizeClass = windowWidthSizeClass,
+                                onNavigateToEditMood = onNavigateToEditMood,
+                                onClose = onClearSelection,
+                                onDelete = onDeleteMood
+                            )
+                        }
+                    }
+                }
             )
         }
     }
 }
 
 @Composable
-private fun MoodItemCard(
-    moodItem: MoodItem,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+private fun MoodItemsContent(
+    uiState: HomeScreenUiState,
+    onSelectMoodItem: (Long) -> Unit,
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-        onClick = onClick
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Image(
-                        modifier = Modifier.size(42.dp),
-                        painter = painterResource(moodItem.mood.icon),
-                        contentDescription = stringResource(moodItem.mood.label),
+    when {
+        uiState.isLoading -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        }
+        uiState.moodItems.isEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                EmptyState(
+                    title = stringResource(R.string.homeScreen_emptyState_title),
+                    text = stringResource(
+                        R.string.homeScreen_emptyState_label,
+                        uiState.selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
                     )
-                    Text(
-                        text = stringResource(moodItem.mood.label),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                
-                Text(
-                    text = moodItem.formattedDate,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            
-            if (moodItem.note.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = moodItem.note,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-            
-            if (moodItem.actions.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                ActionChips(actions = moodItem.actions)
-            }
+        }
+        else -> {
+            MoodItemsGrid(
+                moodItems = uiState.moodItems,
+                onMoodItemClick = onSelectMoodItem,
+                selectedMoodId = uiState.selectedMoodItem?.id,
+            )
         }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ActionChips(
-    actions: List<ActionItem>,
-    modifier: Modifier = Modifier
+private fun MoodItemsGrid(
+    modifier: Modifier = Modifier,
+    moodItems: List<MoodItem>,
+    onMoodItemClick: (Long) -> Unit,
+    selectedMoodId: Long? = null,
 ) {
-    FlowRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(280.dp),
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(moodItems) { moodItem ->
+            MoodItemCard(
+                moodItem = moodItem,
+                onClick = { onMoodItemClick(moodItem.id) },
+                isSelected = selectedMoodId == moodItem.id
+            )
+        }
+    }
+}
+
+@Composable
+private fun MoodPreviewContent(
+    moodItem: MoodItem,
+    windowWidthSizeClass: WindowWidthSizeClass,
+    onNavigateToEditMood: (Long) -> Unit,
+    onClose: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    val containerPadding = if (windowWidthSizeClass == WindowWidthSizeClass.Compact || windowWidthSizeClass == WindowWidthSizeClass.Medium) {
+        PaddingValues(horizontal = 16.dp)
+    } else {
+        PaddingValues(all = 16.dp)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(containerPadding),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        actions.forEach { action ->
-            Chip(text = action.name)
+        MoodPreviewHeader(
+            moodItem = moodItem,
+            windowWidthSizeClass = windowWidthSizeClass,
+            onClose = onClose,
+            onNavigateToEditMood = onNavigateToEditMood,
+            onDelete = { showDeleteDialog = true }
+        )
+
+        if (moodItem.actions.isNotEmpty()) {
+            MoodActionChips(actions = moodItem.actions)
+        }
+
+        if (moodItem.note.isNotBlank()) {
+            Text(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
+                text = moodItem.note,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+
+        if (windowWidthSizeClass == WindowWidthSizeClass.Expanded) {
+            MoodPreviewActions(
+                moodItem = moodItem,
+                onNavigateToEditMood = onNavigateToEditMood,
+                onDelete = { showDeleteDialog = true }
+            )
         }
     }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun HomeScreenTopAppBar(
-    modifier: Modifier = Modifier,
-    onNavigateToSettings: () -> Unit,
-) {
-    TopAppBar(
-        modifier = modifier,
-        title = { Text(stringResource(R.string.homeScreen_title)) },
-        actions = {
-            IconButton(onClick = onNavigateToSettings) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_settings),
-                    contentDescription = stringResource(R.string.navigation_settings_label)
-                )
+    if (showDeleteDialog) {
+        DeleteConfirmationDialog(
+            title = stringResource(R.string.common_deleteDialogTitle_label),
+            text = stringResource(R.string.common_deleteDialogText_label),
+            onDismiss = { showDeleteDialog = false },
+            onConfirm = {
+                showDeleteDialog = false
+                onDelete()
             }
-
-        }
-    )
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -276,10 +455,13 @@ private fun Preview_HomeScreen_Loading() {
     AppTheme {
         HomeScreenContent(
             uiState = uiState,
-            onNavigateToMoodPreview = { },
+            onNavigateToEditMood = { },
             onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
+            onSelectMoodItem = { },
+            onClearSelection = { },
+            onDeleteMood = { },
             onNavigateToStatistics = { }
         )
     }
@@ -298,10 +480,13 @@ private fun Preview_HomeScreen_Empty() {
     AppTheme {
         HomeScreenContent(
             uiState = uiState,
-            onNavigateToMoodPreview = { },
+            onNavigateToEditMood = { },
             onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
+            onSelectMoodItem = { },
+            onClearSelection = { },
+            onDeleteMood = { },
             onNavigateToStatistics = { }
         )
     }
@@ -351,10 +536,13 @@ private fun Preview_HomeScreen_Success() {
     AppTheme {
         HomeScreenContent(
             uiState = uiState,
-            onNavigateToMoodPreview = { },
+            onNavigateToEditMood = { },
             onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
+            onSelectMoodItem = { },
+            onClearSelection = { },
+            onDeleteMood = { },
             onNavigateToStatistics = { }
         )
     }

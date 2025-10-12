@@ -9,12 +9,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,7 +27,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +34,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,8 +55,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
+import com.alexzh.moodtracker.ui.designsystem.chip.Chip
 import com.alexzh.moodtracker.ui.designsystem.core.modifier.circleLayout
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
@@ -112,9 +115,9 @@ fun EditMoodScreenContent(
     onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val focusManager = LocalFocusManager.current
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
-    val scrollState = rememberScrollState()
     val isDatePickerOpen = remember { mutableStateOf(false) }
     val isTimePickerOpen = remember { mutableStateOf(false) }
 
@@ -148,39 +151,168 @@ fun EditMoodScreenContent(
             )
         }
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            when (windowSizeClass.windowWidthSizeClass) {
+                WindowWidthSizeClass.COMPACT -> {
+                    EditMoodScreenCompactContent(
+                        uiState = uiState,
+                        onMoodChange = onMoodChange,
+                        onActionChange = onActionChange,
+                        onDatePickerOpen = { isDatePickerOpen.value = true },
+                        onTimePickerOpen = { isTimePickerOpen.value = true },
+                        onNoteChange = onNoteChange,
+                        onSave = onSave,
+                        onNavigateToActionCategories = onNavigateToActionCategories,
+                        bringIntoViewRequester = bringIntoViewRequester,
+                        focusManager = focusManager,
+                    )
+                }
+                WindowWidthSizeClass.MEDIUM, WindowWidthSizeClass.EXPANDED -> {
+                    EditMoodScreenExpandedContent(
+                        uiState = uiState,
+                        onMoodChange = onMoodChange,
+                        onActionChange = onActionChange,
+                        onDatePickerOpen = { isDatePickerOpen.value = true },
+                        onTimePickerOpen = { isTimePickerOpen.value = true },
+                        onNoteChange = onNoteChange,
+                        onSave = onSave,
+                        onNavigateToActionCategories = onNavigateToActionCategories,
+                        bringIntoViewRequester = bringIntoViewRequester,
+                        focusManager = focusManager,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun EditMoodScreenCompactContent(
+    modifier: Modifier = Modifier,
+    uiState: EditMoodScreenUiState,
+    onMoodChange: (LocalizedMood) -> Unit,
+    onActionChange: (ActionItem) -> Unit,
+    onDatePickerOpen: () -> Unit,
+    onTimePickerOpen: () -> Unit,
+    onNoteChange: (String) -> Unit,
+    onSave: () -> Unit,
+    onNavigateToActionCategories: () -> Unit,
+    bringIntoViewRequester: BringIntoViewRequester,
+    focusManager: FocusManager,
+) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .verticalScroll(scrollState),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        MoodSection(
+            items = LocalizedMood.entries.toList(),
+            selectedMood = uiState.moodItems.selectedMood,
+            onMoodSelected = onMoodChange
+        )
+        ActionCategoriesSection(
+            items = uiState.actionCategoryItems,
+            onNavigateToActionCategories = onNavigateToActionCategories,
+            onActionChange = onActionChange
+        )
+        NoteSection(
+            note = uiState.note,
+            onNoteChange = onNoteChange,
+            bringIntoViewRequester = bringIntoViewRequester,
+            focusManager = focusManager
+        )
+        DateTimeSection(
+            modifier = Modifier.padding(vertical = 8.dp),
+            date = uiState.selectedDate,
+            time = uiState.selectedTime,
+            onDateChange = onDatePickerOpen,
+            onTimeChange = onTimePickerOpen
+        )
+        PrimaryButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onSave,
+            enabled = uiState.canSave,
+            text = stringResource(R.string.editMoodScreen_saveButton_label)
+        )
+    }
+}
+
+@Composable
+private fun EditMoodScreenExpandedContent(
+    modifier: Modifier = Modifier,
+    uiState: EditMoodScreenUiState,
+    onMoodChange: (LocalizedMood) -> Unit,
+    onActionChange: (ActionItem) -> Unit,
+    onDatePickerOpen: () -> Unit,
+    onTimePickerOpen: () -> Unit,
+    onNoteChange: (String) -> Unit,
+    onSave: () -> Unit,
+    onNavigateToActionCategories: () -> Unit,
+    bringIntoViewRequester: BringIntoViewRequester,
+    focusManager: FocusManager,
+) {
+    val leftPaneScrollState = rememberScrollState()
+    val rightPaneScrollState = rememberScrollState()
+
+    Row(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Column(
+            modifier = modifier
+                .weight(1.0f)
+                .fillMaxHeight()
+                .verticalScroll(leftPaneScrollState),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             MoodSection(
                 items = LocalizedMood.entries.toList(),
                 selectedMood = uiState.moodItems.selectedMood,
                 onMoodSelected = onMoodChange
             )
-            ActionCategoriesSection(
-                items = uiState.actionCategoryItems,
-                onNavigateToActionCategories = onNavigateToActionCategories,
-                onActionChange = onActionChange
-            )
+
             NoteSection(
                 note = uiState.note,
                 onNoteChange = onNoteChange,
                 bringIntoViewRequester = bringIntoViewRequester,
                 focusManager = focusManager
             )
+
             DateTimeSection(
-                modifier = Modifier.padding(vertical = 8.dp),
                 date = uiState.selectedDate,
                 time = uiState.selectedTime,
-                onDateChange = { isDatePickerOpen.value = true },
-                onTimeChange = { isTimePickerOpen.value = true }
+                onDateChange = onDatePickerOpen,
+                onTimeChange = onTimePickerOpen
+            )
+        }
+
+        Column(
+            modifier = modifier
+                .weight(1.0f)
+                .fillMaxHeight()
+        ) {
+            ActionCategoriesSection(
+                modifier = Modifier
+                    .weight(1.0f)
+                    .verticalScroll(rightPaneScrollState),
+                items = uiState.actionCategoryItems,
+                onNavigateToActionCategories = onNavigateToActionCategories,
+                onActionChange = onActionChange
             )
             PrimaryButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 onClick = onSave,
                 enabled = uiState.canSave,
                 text = stringResource(R.string.editMoodScreen_saveButton_label)
@@ -190,7 +322,7 @@ fun EditMoodScreenContent(
 }
 
 @Composable
-fun MoodSection(
+private fun MoodSection(
     modifier: Modifier = Modifier,
     items: List<LocalizedMood>,
     selectedMood: LocalizedMood?,
@@ -219,7 +351,7 @@ fun MoodSection(
 }
 
 @Composable
-fun SelectableMoodItem(
+private fun SelectableMoodItem(
     modifier: Modifier = Modifier,
     isSelected: Boolean,
     @DrawableRes icon: Int,
@@ -271,7 +403,7 @@ fun SelectableMoodItem(
 }
 
 @Composable
-fun ActionCategoriesSection(
+private fun ActionCategoriesSection(
     modifier: Modifier = Modifier,
     items: SelectableActionCategories,
     onNavigateToActionCategories: () -> Unit,
@@ -301,7 +433,7 @@ fun ActionCategoriesSection(
 }
 
 @Composable
-fun ActionCategoryCard(
+private fun ActionCategoryCard(
     modifier: Modifier = Modifier,
     title: String,
     actions: List<ActionItem>,
@@ -318,15 +450,10 @@ fun ActionCategoryCard(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             actions.forEach {
-                FilterChip(
-                    modifier = Modifier
-                        .height(36.dp)
-                        .padding(vertical = 2.dp),
+                Chip(
+                    text = it.name,
                     selected = selectedActionIds.contains(it.id),
                     onClick = { onActionChange(it) },
-                    label = {
-                        Text(it.name)
-                    }
                 )
             }
         }
@@ -334,7 +461,7 @@ fun ActionCategoryCard(
 }
 
 @Composable
-fun NoteSection(
+private fun NoteSection(
     modifier: Modifier = Modifier,
     note: String,
     onNoteChange: (String) -> Unit,
@@ -406,7 +533,7 @@ private fun DateTimeSection(
 }
 
 @Composable
-fun DateTimeItem(
+private fun DateTimeItem(
     modifier: Modifier = Modifier,
     label: String,
     icon: Painter,

@@ -73,36 +73,46 @@ class StatisticsScreenViewModel(
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, AverageDailyMoodChartData())
 
-    private val actionToHappinessDataFlow = selectedDateRangeFlow
+    private val actionImpactDataFlow = selectedDateRangeFlow
         .flatMapLatest { dateRange ->
             flow {
-                val actionData = moodRepository.getAverageActionToMoodHappiness(
+                val segmentedData = moodRepository.getSegmentedActionImpact(
                     startDate = dateRange.startDate,
                     endDate = dateRange.endDate
                 )
-                
-                val chartData = actionData.map { actionToHappiness ->
+
+                val positiveImpact = segmentedData.positiveImpact.map { actionToHappiness ->
                     ChartDataItem(
                         label = actionToHappiness.action,
                         value = actionToHappiness.happiness
                     )
                 }
-                
-                emit(ActionToHappinessChartData(data = chartData))
+
+                val negativeImpact = segmentedData.negativeImpact.map { actionToHappiness ->
+                    ChartDataItem(
+                        label = actionToHappiness.action,
+                        value = actionToHappiness.happiness
+                    )
+                }
+
+                emit(ActionImpactChartData(
+                    positiveImpact = positiveImpact,
+                    negativeImpact = negativeImpact
+                ))
             }
         }
-        .stateIn(viewModelScope, SharingStarted.Lazily, ActionToHappinessChartData())
+        .stateIn(viewModelScope, SharingStarted.Lazily, ActionImpactChartData())
     
     val uiState: StateFlow<StatisticsScreenUiState> = combine(
         selectedDateRangeFlow,
         averageDailyMoodDataFlow,
-        actionToHappinessDataFlow
-    ) { selectedDateRange, averageDailyMoodChart, actionToHappinessChart ->
+        actionImpactDataFlow
+    ) { selectedDateRange, averageDailyMoodChart, actionImpactChartData ->
         StatisticsScreenUiState(
             isLoading = false,
             selectedDateRange = selectedDateRange,
             averageDailyMoodChartData = averageDailyMoodChart,
-            actionToHappinessChartData = actionToHappinessChart
+            actionImpactChartData = actionImpactChartData
         )
     }.stateIn(
         scope = viewModelScope,

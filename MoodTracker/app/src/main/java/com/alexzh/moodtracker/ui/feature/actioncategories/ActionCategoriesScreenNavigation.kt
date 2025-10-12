@@ -9,13 +9,11 @@ import org.koin.androidx.compose.koinViewModel
 data object ActionCategoriesScreenDestination
 
 fun NavGraphBuilder.actionCategoriesScreen(
-    onNavigateToEditActionCategory: (actionCategoryId: Long) -> Unit,
     onNavigateUp: () -> Unit
 ) {
     composable<ActionCategoriesScreenDestination> {
         ActionCategoriesScreen(
             viewModel = koinViewModel<ActionCategoriesScreenViewModel>(),
-            onNavigateToEditActionCategory = onNavigateToEditActionCategory,
             onNavigateUp = onNavigateUp
         )
     }

@@ -187,7 +187,7 @@ private fun DateRangeSelectorContent(
 
     Column(
         modifier = modifier.padding(
-            horizontal =  16.dp,
+            horizontal =  8.dp,
             vertical = 8.dp
         )
     ) {
