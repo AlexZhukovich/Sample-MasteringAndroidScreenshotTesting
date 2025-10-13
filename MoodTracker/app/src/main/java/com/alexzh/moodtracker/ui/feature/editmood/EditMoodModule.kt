@@ -6,8 +6,9 @@ import org.koin.dsl.module
 val editMoodModule = module {
     viewModel {
         EditMoodScreenViewModel(
-            actionCategoryDataSource = get(),
             moodRecordDataSource = get(),
+            imagePathResolver = get(),
+            actionCategoryDataSource = get(),
             dateProvider = get(),
             savedStateHandle = get(),
         )

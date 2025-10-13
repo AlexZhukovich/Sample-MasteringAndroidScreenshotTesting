@@ -7,5 +7,6 @@ data class MoodRecordWithActions(
     val happiness: Float,
     val date: LocalDateTime,
     val note: String,
-    val actions: List<Action>
+    val actions: List<Action>,
+    val photos: List<MoodPhoto> = emptyList()
 )

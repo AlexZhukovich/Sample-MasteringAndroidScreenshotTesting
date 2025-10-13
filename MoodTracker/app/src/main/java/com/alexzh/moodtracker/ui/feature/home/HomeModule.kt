@@ -7,6 +7,7 @@ val homeModule = module {
     viewModel {
         HomeScreenViewModel(
             moodRecordDataSource = get(),
+            imagePathResolver = get(),
             dateProvider = get()
         )
     }

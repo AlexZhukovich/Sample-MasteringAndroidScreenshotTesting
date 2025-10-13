@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.domain.datasource
 
+import android.net.Uri
 import com.alexzh.moodtracker.data.database.mood.MoodRecordEntity
 import com.alexzh.moodtracker.domain.model.ActionToHappiness
 import com.alexzh.moodtracker.domain.model.DateToHappiness
@@ -18,12 +19,20 @@ interface MoodRecordDataSource {
     suspend fun getSegmentedActionImpact(startDate: LocalDate, endDate: LocalDate, threshold: Float = 3.4f): SegmentedActionImpact
 
     fun getMoodRecordsForDate(date: LocalDate): Flow<List<MoodRecordWithActions>>
-    
+
     suspend fun getMoodRecordById(id: Long): MoodRecordWithActions?
-    
-    suspend fun insertMoodRecordWithActions(moodRecord: MoodRecordEntity, actionIds: List<Long>): Long
-    
-    suspend fun updateMoodRecordWithActions(moodRecord: MoodRecordEntity, actionIds: List<Long>)
-    
+
+    suspend fun insertMoodRecordWithActions(
+        moodRecord: MoodRecordEntity,
+        actionIds: List<Long>,
+        photoUris: List<Uri> = emptyList()
+    ): Long
+
+    suspend fun updateMoodRecordWithActions(
+        moodRecord: MoodRecordEntity,
+        actionIds: List<Long>,
+        photoUris: List<Uri> = emptyList()
+    )
+
     suspend fun deleteMoodRecord(id: Long)
 }

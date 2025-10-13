@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.domain.datasource.MoodRecordDataSource
 import com.alexzh.moodtracker.domain.model.MoodRecordWithActions
 import com.alexzh.moodtracker.domain.provider.DateProvider
+import com.alexzh.moodtracker.domain.resolver.ImagePathResolver
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
@@ -22,6 +23,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenViewModel(
     private val moodRecordDataSource: MoodRecordDataSource,
+    private val imagePathResolver: ImagePathResolver,
     dateProvider: DateProvider
 ) : ViewModel() {
 
@@ -99,12 +101,16 @@ class HomeScreenViewModel(
                 name = action.title
             )
         }
+        val photoUris = moodRecord.photos.map { moodImage ->
+            imagePathResolver.resolveImageUri(moodImage.photoPath)
+        }
         return MoodItem(
             id = moodRecord.id,
             mood = LocalizedMood.fromHappiness(moodRecord.happiness),
             date = moodRecord.date,
             note = moodRecord.note,
-            actions = actions
+            actions = actions,
+            photos = photoUris
         )
     }
 }
