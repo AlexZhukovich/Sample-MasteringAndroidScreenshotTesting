@@ -187,33 +187,39 @@ class EditMoodScreenViewModel(
     
     private fun saveMood() {
         val currentState = _uiState.value
-        if (!currentState.canSave) {
+        if (!currentState.canSave || currentState.isLoading) {
             return
         }
 
+        _uiState.update { it.copy(isLoading = true) }
+
         viewModelScope.launch {
-            val moodRecord = MoodRecordEntity(
-                id = moodId,
-                happiness = currentState.moodItems.selectedMood?.happiness ?: 0f,
-                date = currentState.selectedDate.atTime(currentState.selectedTime),
-                note = currentState.note
-            )
+            try {
+                val moodRecord = MoodRecordEntity(
+                    id = moodId,
+                    happiness = currentState.moodItems.selectedMood?.happiness ?: 0f,
+                    date = currentState.selectedDate.atTime(currentState.selectedTime),
+                    note = currentState.note
+                )
 
-            if (moodId == 0L) {
-                moodRecordDataSource.insertMoodRecordWithActions(
-                    moodRecord = moodRecord,
-                    actionIds = currentState.actionCategoryItems.selectedUserActivityIds,
-                    photoUris = currentState.photos
-                )
-            } else {
-                moodRecordDataSource.updateMoodRecordWithActions(
-                    moodRecord = moodRecord,
-                    actionIds = currentState.actionCategoryItems.selectedUserActivityIds,
-                    photoUris = currentState.photos
-                )
+                if (moodId == 0L) {
+                    moodRecordDataSource.insertMoodRecordWithActions(
+                        moodRecord = moodRecord,
+                        actionIds = currentState.actionCategoryItems.selectedUserActivityIds,
+                        photoUris = currentState.photos
+                    )
+                } else {
+                    moodRecordDataSource.updateMoodRecordWithActions(
+                        moodRecord = moodRecord,
+                        actionIds = currentState.actionCategoryItems.selectedUserActivityIds,
+                        photoUris = currentState.photos
+                    )
+                }
+
+                _events.send(UiEvent.NavigateBack)
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
             }
-
-            _events.send(UiEvent.NavigateBack)
         }
     }
     

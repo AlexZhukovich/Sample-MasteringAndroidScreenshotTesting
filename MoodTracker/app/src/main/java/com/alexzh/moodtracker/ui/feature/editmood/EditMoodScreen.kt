@@ -31,6 +31,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -162,6 +163,7 @@ fun EditMoodScreenContent(
         topBar = {
             EditMoodScreenTopAppBar(
                 newMood = uiState.isNewMood,
+                isLoading = uiState.isLoading,
                 onNavigateUp = onNavigateUp
             )
         }
@@ -201,6 +203,30 @@ fun EditMoodScreenContent(
                         bringIntoViewRequester = bringIntoViewRequester,
                         focusManager = focusManager,
                     )
+                }
+            }
+
+            if (uiState.isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
+                        .clickable(enabled = false) { },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.editMoodScreen_saving_label),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
         }
@@ -703,6 +729,7 @@ fun EditMoodScreenAddPhotoButton(
 private fun EditMoodScreenTopAppBar(
     modifier: Modifier = Modifier,
     newMood: Boolean,
+    isLoading: Boolean,
     onNavigateUp: () -> Unit
 ) {
     TopAppBar(
@@ -717,7 +744,10 @@ private fun EditMoodScreenTopAppBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = onNavigateUp) {
+            IconButton(
+                onClick = onNavigateUp,
+                enabled = !isLoading
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = stringResource(R.string.common_navigateUp_contentDescription)

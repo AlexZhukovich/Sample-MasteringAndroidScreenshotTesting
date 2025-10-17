@@ -19,7 +19,7 @@ data class EditMoodScreenUiState(
     val isMoodDataLoaded: Boolean = false,
 ) {
     val canSave: Boolean
-        get() = moodItems.selectedMood != null
+        get() = moodItems.selectedMood != null && !isLoading
 }
 
 data class SelectableMoodItems(

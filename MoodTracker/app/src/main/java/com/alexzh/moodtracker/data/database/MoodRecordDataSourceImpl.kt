@@ -18,6 +18,9 @@ import com.alexzh.moodtracker.data.mapper.toDomain
 import com.alexzh.moodtracker.data.mapper.toDomainList
 import com.alexzh.moodtracker.domain.model.ActionToHappiness
 import com.alexzh.moodtracker.domain.model.SegmentedActionImpact
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
@@ -144,8 +147,12 @@ class MoodRecordDataSourceImpl(
             }
         }
 
-        photoUris.forEach { uri ->
-            savePhotoForMood(moodRecordId, uri)
+        if (photoUris.isNotEmpty()) {
+            coroutineScope {
+                photoUris.map { uri ->
+                    async { savePhotoForMood(moodRecordId, uri) }
+                }.awaitAll()
+            }
         }
 
         return moodRecordId
@@ -257,8 +264,12 @@ class MoodRecordDataSourceImpl(
             moodPhotoDao.deleteById(photo.id)
         }
 
-        photosToAdd.forEach { uri ->
-            savePhotoForMood(moodRecordId, uri)
+        if (photosToAdd.isNotEmpty()) {
+            coroutineScope {
+                photosToAdd.map { uri ->
+                    async { savePhotoForMood(moodRecordId, uri) }
+                }.awaitAll()
+            }
         }
     }
 }
