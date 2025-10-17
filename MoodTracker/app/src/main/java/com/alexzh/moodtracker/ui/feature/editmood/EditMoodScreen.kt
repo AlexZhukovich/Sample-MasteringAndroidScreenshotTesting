@@ -1,5 +1,9 @@
 package com.alexzh.moodtracker.ui.feature.editmood
 
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
@@ -13,6 +17,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,16 +31,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.ripple
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,9 +54,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -55,7 +67,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.window.core.layout.WindowWidthSizeClass
+import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
@@ -89,6 +101,7 @@ fun EditMoodScreen(
         onActionChange = { actionItem -> viewModel.onEvent(EditMoodScreenEvent.OnActionChange(actionItem)) },
         onDateChange = { date -> viewModel.onEvent(EditMoodScreenEvent.OnDateChange(date)) },
         onTimeChange = { time -> viewModel.onEvent(EditMoodScreenEvent.OnTimeChange(time)) },
+        onPhotoChange = { action -> viewModel.onEvent(EditMoodScreenEvent.OnPhotoChange(action)) },
         onSave = { viewModel.onEvent(EditMoodScreenEvent.OnSave) },
         onNavigateToActionCategories = onNavigateToActionCategories,
         onNavigateUp = onNavigateUp
@@ -103,6 +116,7 @@ fun EditMoodScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun EditMoodScreenContent(
     uiState: EditMoodScreenUiState,
@@ -111,11 +125,13 @@ fun EditMoodScreenContent(
     onActionChange: (ActionItem) -> Unit,
     onDateChange: (LocalDate) -> Unit,
     onTimeChange: (LocalTime) -> Unit,
+    onPhotoChange: (PhotoAction) -> Unit,
     onSave: () -> Unit,
     onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val context = LocalContext.current
+    val windowSizeClass = calculateWindowSizeClass(context as android.app.Activity)
     val focusManager = LocalFocusManager.current
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val isDatePickerOpen = remember { mutableStateOf(false) }
@@ -147,6 +163,7 @@ fun EditMoodScreenContent(
         topBar = {
             EditMoodScreenTopAppBar(
                 newMood = uiState.isNewMood,
+                isLoading = uiState.isLoading,
                 onNavigateUp = onNavigateUp
             )
         }
@@ -156,8 +173,8 @@ fun EditMoodScreenContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            when (windowSizeClass.windowWidthSizeClass) {
-                WindowWidthSizeClass.COMPACT -> {
+            when (windowSizeClass.widthSizeClass) {
+                WindowWidthSizeClass.Compact -> {
                     EditMoodScreenCompactContent(
                         uiState = uiState,
                         onMoodChange = onMoodChange,
@@ -165,13 +182,14 @@ fun EditMoodScreenContent(
                         onDatePickerOpen = { isDatePickerOpen.value = true },
                         onTimePickerOpen = { isTimePickerOpen.value = true },
                         onNoteChange = onNoteChange,
+                        onPhotoChange = onPhotoChange,
                         onSave = onSave,
                         onNavigateToActionCategories = onNavigateToActionCategories,
                         bringIntoViewRequester = bringIntoViewRequester,
                         focusManager = focusManager,
                     )
                 }
-                WindowWidthSizeClass.MEDIUM, WindowWidthSizeClass.EXPANDED -> {
+                else -> {
                     EditMoodScreenExpandedContent(
                         uiState = uiState,
                         onMoodChange = onMoodChange,
@@ -179,11 +197,36 @@ fun EditMoodScreenContent(
                         onDatePickerOpen = { isDatePickerOpen.value = true },
                         onTimePickerOpen = { isTimePickerOpen.value = true },
                         onNoteChange = onNoteChange,
+                        onPhotoChange = onPhotoChange,
                         onSave = onSave,
                         onNavigateToActionCategories = onNavigateToActionCategories,
                         bringIntoViewRequester = bringIntoViewRequester,
                         focusManager = focusManager,
                     )
+                }
+            }
+
+            if (uiState.isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
+                        .clickable(enabled = false) { },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Text(
+                            text = stringResource(R.string.editMoodScreen_saving_label),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             }
         }
@@ -199,6 +242,7 @@ private fun EditMoodScreenCompactContent(
     onDatePickerOpen: () -> Unit,
     onTimePickerOpen: () -> Unit,
     onNoteChange: (String) -> Unit,
+    onPhotoChange: (PhotoAction) -> Unit,
     onSave: () -> Unit,
     onNavigateToActionCategories: () -> Unit,
     bringIntoViewRequester: BringIntoViewRequester,
@@ -236,6 +280,10 @@ private fun EditMoodScreenCompactContent(
             onDateChange = onDatePickerOpen,
             onTimeChange = onTimePickerOpen
         )
+        PhotosSection(
+            photos = uiState.photos,
+            onPhotoChange = onPhotoChange
+        )
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = onSave,
@@ -254,6 +302,7 @@ private fun EditMoodScreenExpandedContent(
     onDatePickerOpen: () -> Unit,
     onTimePickerOpen: () -> Unit,
     onNoteChange: (String) -> Unit,
+    onPhotoChange: (PhotoAction) -> Unit,
     onSave: () -> Unit,
     onNavigateToActionCategories: () -> Unit,
     bringIntoViewRequester: BringIntoViewRequester,
@@ -293,6 +342,11 @@ private fun EditMoodScreenExpandedContent(
                 time = uiState.selectedTime,
                 onDateChange = onDatePickerOpen,
                 onTimeChange = onTimePickerOpen
+            )
+
+            PhotosSection(
+                photos = uiState.photos,
+                onPhotoChange = onPhotoChange
             )
         }
 
@@ -547,13 +601,15 @@ private fun DateTimeItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier
+                .size(24.dp)
                 .alpha(alpha = 0.8f),
             painter = icon,
             contentDescription = label
         )
         Text(
-            modifier = Modifier.weight(1.0f)
+            modifier = Modifier
+                .weight(1.0f)
                 .padding(horizontal = 8.dp),
             text = label,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
@@ -566,11 +622,114 @@ private fun DateTimeItem(
     }
 }
 
+@Composable
+private fun PhotosSection(
+    modifier: Modifier = Modifier,
+    photos: List<Uri>,
+    onPhotoChange: (PhotoAction) -> Unit
+) {
+    val photoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let { onPhotoChange(PhotoAction.Add(it)) }
+    }
+
+    Section(
+        modifier = modifier.fillMaxWidth(),
+        title = stringResource(R.string.editMoodScreen_photos_label)
+    ) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            photos.forEachIndexed { index, imageUri ->
+                EditMoodScreenPhotoThumbnail(
+                    imageUri = imageUri,
+                    onRemove = { onPhotoChange(PhotoAction.Remove(index)) }
+                )
+            }
+
+            if (photos.size <= 2) {
+                EditMoodScreenAddPhotoButton(
+                    photoPicker = photoPicker
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EditMoodScreenPhotoThumbnail(
+    imageUri: Uri,
+    onRemove: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(100.dp)
+            .aspectRatio(1f)
+    ) {
+        AsyncImage(
+            model = imageUri,
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(6.dp)
+                .clip(MaterialTheme.shapes.medium),
+            contentScale = ContentScale.Crop
+        )
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(
+                    color = MaterialTheme.colorScheme.surface
+                )
+                .clickable(onClick = onRemove),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_close),
+                contentDescription = stringResource(R.string.editMoodScreen_removePhoto_label),
+                modifier = Modifier.size(16.dp),
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }
+}
+
+@Composable
+fun EditMoodScreenAddPhotoButton(
+    modifier: Modifier = Modifier,
+    photoPicker: ManagedActivityResultLauncher<String, Uri?>
+) {
+    OutlinedCard(
+        modifier = modifier
+            .size(100.dp)
+            .padding(6.dp)
+            .aspectRatio(1f),
+        onClick = { photoPicker.launch("image/*") }
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_add),
+                contentDescription = stringResource(R.string.editMoodScreen_addPhoto_label),
+                modifier = Modifier.size(32.dp)
+            )
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EditMoodScreenTopAppBar(
     modifier: Modifier = Modifier,
     newMood: Boolean,
+    isLoading: Boolean,
     onNavigateUp: () -> Unit
 ) {
     TopAppBar(
@@ -585,7 +744,10 @@ private fun EditMoodScreenTopAppBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = onNavigateUp) {
+            IconButton(
+                onClick = onNavigateUp,
+                enabled = !isLoading
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = stringResource(R.string.common_navigateUp_contentDescription)

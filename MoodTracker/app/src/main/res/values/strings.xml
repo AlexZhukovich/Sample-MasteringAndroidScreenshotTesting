@@ -19,6 +19,10 @@
     <string name="editMoodScreen_moodSection_label">How do you feel?</string>
     <string name="editMoodScreen_actionCategoriesSection_label">Did you do any activity?</string>
     <string name="editMoodScreen_noteSection_label">Add a note</string>
+    <string name="editMoodScreen_photos_label">Photos (select up to 3 photos)</string>
+    <string name="editMoodScreen_addPhoto_label">Add a photo</string>
+    <string name="editMoodScreen_removePhoto_label">Remove photo</string>
+    <string name="editMoodScreen_saving_label">Saving</string>
     <string name="editMoodScreen_saveButton_label">Save</string>
 
     <string name="statisticsScreen_title">Statistics</string>

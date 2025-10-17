@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.editmood
 
+import android.net.Uri
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
@@ -14,10 +15,11 @@ data class EditMoodScreenUiState(
     val selectedDate: LocalDate,
     val selectedTime: LocalTime = LocalTime.now(),
     val note: String = "",
+    val photos: List<Uri> = emptyList(),
     val isMoodDataLoaded: Boolean = false,
 ) {
     val canSave: Boolean
-        get() = moodItems.selectedMood != null
+        get() = moodItems.selectedMood != null && !isLoading
 }
 
 data class SelectableMoodItems(

@@ -1,16 +1,21 @@
 package com.alexzh.moodtracker.ui.feature.home
 
+import android.net.Uri
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,12 +47,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
@@ -76,7 +84,7 @@ fun HomeScreen(
     onNavigateToEditMood: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
-    onNavigateToStatistics: () -> Unit,
+    onNavigateToStatistics: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -358,11 +366,11 @@ private fun MoodItemsGrid(
     onMoodItemClick: (Long) -> Unit,
     selectedMoodId: Long? = null,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(280.dp),
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(280.dp),
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp, bottom = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalItemSpacing = 8.dp,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(moodItems) { moodItem ->
@@ -409,14 +417,23 @@ private fun MoodPreviewContent(
             MoodActionChips(actions = moodItem.actions)
         }
 
-        if (moodItem.note.isNotBlank()) {
-            Text(
-                modifier = Modifier
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState()),
-                text = moodItem.note,
-                style = MaterialTheme.typography.bodyLarge
-            )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            if (moodItem.note.isNotBlank()) {
+                Text(
+                    text = moodItem.note,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+
+            if (moodItem.photos.isNotEmpty()) {
+                MoodPreviewPhotos(photos = moodItem.photos)
+            }
         }
 
         if (windowWidthSizeClass == WindowWidthSizeClass.Expanded) {
@@ -438,6 +455,30 @@ private fun MoodPreviewContent(
                 onDelete()
             }
         )
+    }
+}
+
+@Composable
+private fun MoodPreviewPhotos(
+    photos: List<Uri>,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        photos.forEach { imageUri ->
+            AsyncImage(
+                model = imageUri,
+                contentDescription = null,
+                modifier = Modifier
+                    .height(160.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                contentScale = ContentScale.Fit
+            )
+        }
     }
 }
 
