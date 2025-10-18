@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -23,10 +24,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -34,10 +36,13 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -101,7 +106,11 @@ fun HomeScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3AdaptiveApi::class)
+@OptIn(
+    ExperimentalMaterial3WindowSizeClassApi::class,
+    ExperimentalMaterial3AdaptiveApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun HomeScreenContent(
     uiState: HomeScreenUiState,
@@ -130,36 +139,88 @@ fun HomeScreenContent(
         }
     }
 
-    AppNavigationSuiteScaffold(
-        selectedItem = AppNavigationItems.HOME,
-        onNavigateToHome = { },
-        onNavigateToStatistics = onNavigateToStatistics
-    ) {
-        if (windowWidthSizeClass == WindowWidthSizeClass.Compact || windowWidthSizeClass == WindowWidthSizeClass.Medium) {
-            HomeScreenContentCompactMedium(
-                uiState = uiState,
-                windowWidthSizeClass = windowWidthSizeClass,
-                onNavigateToEditMood = onNavigateToEditMood,
-                onNavigateToSettings = onNavigateToSettings,
-                onNavigateToAddMood = onNavigateToAddMood,
-                onChangeSelectedDate = onChangeSelectedDate,
-                onSelectMoodItem = onSelectMoodItem,
-                onClearSelection = onClearSelection,
-                onDeleteMood = onDeleteMood
-            )
-        } else {
-            HomeScreenContentExpanded(
-                uiState = uiState,
-                windowWidthSizeClass = windowWidthSizeClass,
-                navigator = navigator,
-                onNavigateToEditMood = onNavigateToEditMood,
-                onNavigateToSettings = onNavigateToSettings,
-                onNavigateToAddMood = onNavigateToAddMood,
-                onChangeSelectedDate = onChangeSelectedDate,
-                onSelectMoodItem = onSelectMoodItem,
-                onClearSelection = onClearSelection,
-                onDeleteMood = onDeleteMood
-            )
+    when(windowWidthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            if (uiState.selectedMoodItem != null) {
+                MoodPreviewScreenContent(
+                    moodItem = uiState.selectedMoodItem,
+                    onNavigateToEditMood = onNavigateToEditMood,
+                    onNavigateUp = onClearSelection,
+                    onDelete = onDeleteMood
+                )
+            } else {
+                AppNavigationSuiteScaffold(
+                    selectedItem = AppNavigationItems.HOME,
+                    onNavigateToHome = { },
+                    onNavigateToStatistics = onNavigateToStatistics
+                ) {
+                    HomeScreenContentCompactMedium(
+                        uiState = uiState,
+                        onNavigateToSettings = onNavigateToSettings,
+                        onNavigateToAddMood = onNavigateToAddMood,
+                        onChangeSelectedDate = onChangeSelectedDate,
+                        onSelectMoodItem = onSelectMoodItem
+                    )
+                }
+            }
+        }
+        WindowWidthSizeClass.Medium -> {
+            if (uiState.selectedMoodItem != null) {
+                val bottomSheetState = rememberModalBottomSheetState()
+                val coroutineScope = rememberCoroutineScope()
+
+                ModalBottomSheet(
+                    onDismissRequest = onClearSelection,
+                    sheetState = bottomSheetState
+                ) {
+                    MoodPreviewContent(
+                        moodItem = uiState.selectedMoodItem,
+                        windowWidthSizeClass = windowWidthSizeClass,
+                        onClose = onClearSelection,
+                        onNavigateToEditMood = { moodId ->
+                            coroutineScope.launch {
+                                bottomSheetState.hide()
+                                onNavigateToEditMood(moodId)
+                            }
+                        },
+                        onDelete = onDeleteMood
+                    )
+                }
+            }
+
+            AppNavigationSuiteScaffold(
+                selectedItem = AppNavigationItems.HOME,
+                onNavigateToHome = { },
+                onNavigateToStatistics = onNavigateToStatistics
+            ) {
+                HomeScreenContentCompactMedium(
+                    uiState = uiState,
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToAddMood = onNavigateToAddMood,
+                    onChangeSelectedDate = onChangeSelectedDate,
+                    onSelectMoodItem = onSelectMoodItem
+                )
+            }
+        }
+        else -> {
+            AppNavigationSuiteScaffold(
+                selectedItem = AppNavigationItems.HOME,
+                onNavigateToHome = { },
+                onNavigateToStatistics = onNavigateToStatistics
+            ) {
+                HomeScreenContentExpanded(
+                    uiState = uiState,
+                    windowWidthSizeClass = windowWidthSizeClass,
+                    navigator = navigator,
+                    onNavigateToEditMood = onNavigateToEditMood,
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToAddMood = onNavigateToAddMood,
+                    onChangeSelectedDate = onChangeSelectedDate,
+                    onSelectMoodItem = onSelectMoodItem,
+                    onClearSelection = onClearSelection,
+                    onDeleteMood = onDeleteMood
+                )
+            }
         }
     }
 }
@@ -168,14 +229,10 @@ fun HomeScreenContent(
 @Composable
 private fun HomeScreenContentCompactMedium(
     uiState: HomeScreenUiState,
-    windowWidthSizeClass: WindowWidthSizeClass,
-    onNavigateToEditMood: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
-    onSelectMoodItem: (Long) -> Unit,
-    onClearSelection: () -> Unit,
-    onDeleteMood: () -> Unit
+    onSelectMoodItem: (Long) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -212,29 +269,6 @@ private fun HomeScreenContentCompactMedium(
                 MoodItemsContent(
                     uiState = uiState,
                     onSelectMoodItem = onSelectMoodItem
-                )
-            }
-        }
-
-        if (uiState.selectedMoodItem != null) {
-            val bottomSheetState = rememberModalBottomSheetState()
-            val coroutineScope = rememberCoroutineScope()
-
-            ModalBottomSheet(
-                onDismissRequest = onClearSelection,
-                sheetState = bottomSheetState
-            ) {
-                MoodPreviewContent(
-                    moodItem = uiState.selectedMoodItem,
-                    windowWidthSizeClass = windowWidthSizeClass,
-                    onClose = onClearSelection,
-                    onNavigateToEditMood = { moodId ->
-                        coroutineScope.launch {
-                            bottomSheetState.hide()
-                            onNavigateToEditMood(moodId)
-                        }
-                    },
-                    onDelete = onDeleteMood
                 )
             }
         }
@@ -458,6 +492,107 @@ private fun MoodPreviewContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MoodPreviewScreenContent(
+    moodItem: MoodItem,
+    onNavigateToEditMood: (Long) -> Unit,
+    onNavigateUp: () -> Unit,
+    onDelete: () -> Unit
+) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    BackHandler(onBack = onNavigateUp)
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(moodItem.mood.icon),
+                            contentDescription = stringResource(moodItem.mood.label),
+                            modifier = Modifier.size(32.dp)
+                        )
+                        Column {
+                            Text(
+                                text = stringResource(moodItem.mood.label),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = moodItem.formattedDate,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = onNavigateUp) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_arrow_back),
+                            contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = { onNavigateToEditMood(moodItem.id) }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_edit),
+                            contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+                        )
+                    }
+                    IconButton(onClick = { showDeleteDialog = true }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_delete),
+                            contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            if (moodItem.actions.isNotEmpty()) {
+                MoodActionChips(actions = moodItem.actions)
+            }
+
+            if (moodItem.note.isNotBlank()) {
+                Text(
+                    text = moodItem.note,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+
+            if (moodItem.photos.isNotEmpty()) {
+                MoodPreviewPhotos(photos = moodItem.photos)
+            }
+        }
+    }
+
+    if (showDeleteDialog) {
+        DeleteConfirmationDialog(
+            title = stringResource(R.string.common_deleteDialogTitle_label),
+            text = stringResource(R.string.common_deleteDialogText_label),
+            onDismiss = { showDeleteDialog = false },
+            onConfirm = {
+                showDeleteDialog = false
+                onDelete()
+            }
+        )
+    }
+}
+
 @Composable
 private fun MoodPreviewPhotos(
     photos: List<Uri>,
@@ -474,7 +609,7 @@ private fun MoodPreviewPhotos(
                 model = imageUri,
                 contentDescription = null,
                 modifier = Modifier
-                    .height(160.dp)
+                    .height(200.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentScale = ContentScale.Fit
             )
