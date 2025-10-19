@@ -3,10 +3,12 @@ package com.alexzh.moodtracker.ui.feature.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.domain.datasource.SettingsDataSource
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.domain.provider.AppInfoProvider
+import com.alexzh.moodtracker.ui.model.LocalizedIconShape
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -15,14 +17,21 @@ class SettingsScreenViewModel(
     private val appInfoProvider: AppInfoProvider
 ): ViewModel() {
 
-    val uiState: StateFlow<SettingsScreenUiState> = settingsDataSource.isDynamicColorsEnabled()
-        .map { isDynamicColorsEnabled ->
-            SettingsScreenUiState(
-                isLoading = false,
-                isDynamicColorsEnabled = isDynamicColorsEnabled,
-                appVersion = appInfoProvider.getAppInfo().versionName
-            )
+    val uiState: StateFlow<SettingsScreenUiState> = combine(
+        settingsDataSource.isDynamicColorsEnabled(),
+        settingsDataSource.getIconShape()
+    ) { isDynamicColorsEnabled, iconShape ->
+        val localizedIconShape = when (iconShape) {
+            IconShape.CIRCLE -> LocalizedIconShape.CIRCLE
+            IconShape.ROUNDED_SQUARE -> LocalizedIconShape.ROUNDED_SQUARE
         }
+        SettingsScreenUiState(
+            isLoading = false,
+            isDynamicColorsEnabled = isDynamicColorsEnabled,
+            iconShape = localizedIconShape,
+            appVersion = appInfoProvider.getAppInfo().versionName
+        )
+    }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
@@ -32,12 +41,23 @@ class SettingsScreenViewModel(
     fun onEvent(event: SettingsScreenEvent) {
         when (event) {
             is SettingsScreenEvent.OnDynamicColorsChanged -> setDynamicColorsEnabled(event.enabled)
+            is SettingsScreenEvent.OnIconShapeChanged -> setIconShape(event.iconShape)
         }
     }
 
     private fun setDynamicColorsEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settingsDataSource.setDynamicColorsEnabled(enabled)
+        }
+    }
+
+    private fun setIconShape(localizedIconShape: LocalizedIconShape) {
+        viewModelScope.launch {
+            val iconShape = when (localizedIconShape) {
+                LocalizedIconShape.CIRCLE -> IconShape.CIRCLE
+                LocalizedIconShape.ROUNDED_SQUARE -> IconShape.ROUNDED_SQUARE
+            }
+            settingsDataSource.setIconShape(iconShape)
         }
     }
 }

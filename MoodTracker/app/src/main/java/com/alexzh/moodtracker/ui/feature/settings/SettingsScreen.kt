@@ -17,10 +17,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.settings.SettingsDropdownItem
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsInfoItem
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsNavigationItem
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSectionTitle
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSwitchItem
+import com.alexzh.moodtracker.ui.model.LocalizedIconShape
 
 @Composable
 fun SettingsScreen(
@@ -36,6 +38,9 @@ fun SettingsScreen(
         onDynamicColorsChange = { enabled ->
             viewModel.onEvent(SettingsScreenEvent.OnDynamicColorsChanged(enabled))
         },
+        onIconShapeChange = { iconShape ->
+            viewModel.onEvent(SettingsScreenEvent.OnIconShapeChanged(iconShape))
+        },
         onNavigateUp = onNavigateUp,
         onNavigateToManageActions = onNavigateToManageActions,
         onNavigateToThirdPartyLicenses = onNavigateToThirdPartyLicenses
@@ -46,6 +51,7 @@ fun SettingsScreen(
 fun SettingsScreenContent(
     uiState: SettingsScreenUiState,
     onDynamicColorsChange: (Boolean) -> Unit,
+    onIconShapeChange: (LocalizedIconShape) -> Unit,
     onNavigateUp: () -> Unit,
     onNavigateToManageActions: () -> Unit,
     onNavigateToThirdPartyLicenses: () -> Unit
@@ -71,6 +77,14 @@ fun SettingsScreenContent(
                 checked = uiState.isDynamicColorsEnabled,
                 onCheckedChange = onDynamicColorsChange,
                 enabled = !uiState.isLoading
+            )
+            SettingsDropdownItem(
+                title = stringResource(R.string.settingsScreen_iconShape_title),
+                description = stringResource(R.string.settingsScreen_iconShapeDialog_description),
+                options = LocalizedIconShape.entries,
+                selectedOption = uiState.iconShape,
+                optionLabel = { stringResource(it.label) },
+                onOptionSelected = onIconShapeChange,
             )
             SettingsNavigationItem(
                 title = stringResource(R.string.settingsScreen_manageActions_title),

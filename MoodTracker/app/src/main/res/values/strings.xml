@@ -63,6 +63,11 @@
     <string name="settingsScreen_generalSection_title">General</string>
     <string name="settingsScreen_dynamicColors_title">Dynamic colors</string>
     <string name="settingsScreen_dynamicColors_description">Use colors from your wallpaper when available</string>
+    <string name="settingsScreen_iconShape_title">Icon shape</string>
+    <string name="settingsScreen_iconShapeDialog_title">Select Icon Shape</string>
+    <string name="settingsScreen_iconShapeDialog_description">Choose the style for mood icons</string>
+    <string name="settingsScreen_iconShape_circle_label">Circle</string>
+    <string name="settingsScreen_iconShape_roundedSquare_label">Rounded Square</string>
     <string name="settingsScreen_manageActions_title">Manage Actions</string>
     <string name="settingsScreen_aboutSection_title">About</string>
     <string name="settingsScreen_thirdPartyLicenses_title">Third Party Licenses</string>
