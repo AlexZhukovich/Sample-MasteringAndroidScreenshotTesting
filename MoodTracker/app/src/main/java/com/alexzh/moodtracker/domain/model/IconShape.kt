@@ -1,6 +1,6 @@
 package com.alexzh.moodtracker.domain.model
 
-enum class IconShape() {
+enum class IconShape {
     CIRCLE,
     ROUNDED_SQUARE;
 

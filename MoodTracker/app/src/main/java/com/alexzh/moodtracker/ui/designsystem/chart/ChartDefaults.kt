@@ -5,7 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.model.LocalizedMood
 
 object ChartDefaults {
 
@@ -20,13 +21,13 @@ object ChartDefaults {
     }
 
     @Composable
-    internal fun defaultHappinessIconProvider(): @Composable (Float) -> Painter? = { happiness ->
+    internal fun defaultHappinessIconProvider(iconShape: IconShape): @Composable (Float) -> Painter? = { happiness ->
         when (happiness) {
-            5.0f -> painterResource(id = R.drawable.ic_mood_happy_colorful)
-            4.0f -> painterResource(id = R.drawable.ic_mood_good_colorful)
-            3.0f -> painterResource(id = R.drawable.ic_mood_ok_colorful)
-            2.0f -> painterResource(id = R.drawable.ic_mood_sad_colorful)
-            1.0f -> painterResource(id = R.drawable.ic_mood_angry_colorful)
+            5.0f -> painterResource(LocalizedMood.HAPPY.getIcon(iconShape))
+            4.0f -> painterResource(LocalizedMood.GOOD.getIcon(iconShape))
+            3.0f -> painterResource(LocalizedMood.OK.getIcon(iconShape))
+            2.0f -> painterResource(LocalizedMood.SAD.getIcon(iconShape))
+            1.0f -> painterResource(LocalizedMood.ANGRY.getIcon(iconShape))
             else -> null
         }
     }

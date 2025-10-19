@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.chart.ActionImpactData
 import com.alexzh.moodtracker.ui.designsystem.chart.ActionToHappinessChart
 import com.alexzh.moodtracker.ui.designsystem.chart.AverageDailyMoodChart
@@ -106,7 +107,8 @@ fun StatisticsScreenContent(
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         AverageDailyMoodSection(
-                            averageDailyMoodChartData = uiState.averageDailyMoodChartData
+                            averageDailyMoodChartData = uiState.averageDailyMoodChartData,
+                            iconShape = uiState.iconShape
                         )
                         ActionToHappinessSection(
                             actionImpactData = ActionImpactData(
@@ -124,7 +126,8 @@ fun StatisticsScreenContent(
 
 @Composable
 private fun AverageDailyMoodSection(
-    averageDailyMoodChartData: AverageDailyMoodChartData
+    averageDailyMoodChartData: AverageDailyMoodChartData,
+    iconShape: IconShape
 ) {
     CardSection(
         modifier = Modifier.fillMaxWidth(),
@@ -135,6 +138,7 @@ private fun AverageDailyMoodSection(
                 .fillMaxWidth()
                 .height(250.dp),
             data = averageDailyMoodChartData.data,
+            iconShape = iconShape,
             scrollPosition = averageDailyMoodChartData.scrollPosition
         )
     }

@@ -20,11 +20,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.model.MoodItem
 
 @Composable
 fun MoodPreviewHeader(
     moodItem: MoodItem,
+    iconShape: IconShape,
     windowWidthSizeClass: WindowWidthSizeClass,
     onNavigateToEditMood: (Long) -> Unit,
     onClose: () -> Unit,
@@ -40,7 +42,7 @@ fun MoodPreviewHeader(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Image(
-                painter = painterResource(moodItem.mood.icon),
+                painter = painterResource(moodItem.mood.getIcon(iconShape)),
                 contentDescription = stringResource(moodItem.mood.label),
                 modifier = Modifier.size(48.dp)
             )

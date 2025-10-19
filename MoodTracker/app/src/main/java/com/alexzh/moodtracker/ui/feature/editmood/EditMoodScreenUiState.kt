@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.editmood
 
 import android.net.Uri
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
@@ -17,6 +18,7 @@ data class EditMoodScreenUiState(
     val note: String = "",
     val photos: List<Uri> = emptyList(),
     val isMoodDataLoaded: Boolean = false,
+    val iconShape: IconShape = IconShape.CIRCLE
 ) {
     val canSave: Boolean
         get() = moodItems.selectedMood != null && !isLoading

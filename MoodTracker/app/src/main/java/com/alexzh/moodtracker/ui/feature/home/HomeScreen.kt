@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
@@ -144,6 +145,7 @@ fun HomeScreenContent(
             if (uiState.selectedMoodItem != null) {
                 MoodPreviewScreenContent(
                     moodItem = uiState.selectedMoodItem,
+                    iconShape = uiState.iconShape,
                     onNavigateToEditMood = onNavigateToEditMood,
                     onNavigateUp = onClearSelection,
                     onDelete = onDeleteMood
@@ -175,6 +177,7 @@ fun HomeScreenContent(
                 ) {
                     MoodPreviewContent(
                         moodItem = uiState.selectedMoodItem,
+                        iconShape = uiState.iconShape,
                         windowWidthSizeClass = windowWidthSizeClass,
                         onClose = onClearSelection,
                         onNavigateToEditMood = { moodId ->
@@ -348,6 +351,7 @@ private fun HomeScreenContentExpanded(
                         ) {
                             MoodPreviewContent(
                                 moodItem = uiState.selectedMoodItem,
+                                iconShape = uiState.iconShape,
                                 windowWidthSizeClass = windowWidthSizeClass,
                                 onNavigateToEditMood = onNavigateToEditMood,
                                 onClose = onClearSelection,
@@ -386,6 +390,7 @@ private fun MoodItemsContent(
         else -> {
             MoodItemsGrid(
                 moodItems = uiState.moodItems,
+                iconShape = uiState.iconShape,
                 onMoodItemClick = onSelectMoodItem,
                 selectedMoodId = uiState.selectedMoodItem?.id,
             )
@@ -397,6 +402,7 @@ private fun MoodItemsContent(
 private fun MoodItemsGrid(
     modifier: Modifier = Modifier,
     moodItems: List<MoodItem>,
+    iconShape: IconShape,
     onMoodItemClick: (Long) -> Unit,
     selectedMoodId: Long? = null,
 ) {
@@ -410,6 +416,7 @@ private fun MoodItemsGrid(
         items(moodItems) { moodItem ->
             MoodItemCard(
                 moodItem = moodItem,
+                iconShape = iconShape,
                 onClick = { onMoodItemClick(moodItem.id) },
                 isSelected = selectedMoodId == moodItem.id
             )
@@ -420,6 +427,7 @@ private fun MoodItemsGrid(
 @Composable
 private fun MoodPreviewContent(
     moodItem: MoodItem,
+    iconShape: IconShape,
     windowWidthSizeClass: WindowWidthSizeClass,
     onNavigateToEditMood: (Long) -> Unit,
     onClose: () -> Unit,
@@ -441,6 +449,7 @@ private fun MoodPreviewContent(
     ) {
         MoodPreviewHeader(
             moodItem = moodItem,
+            iconShape = iconShape,
             windowWidthSizeClass = windowWidthSizeClass,
             onClose = onClose,
             onNavigateToEditMood = onNavigateToEditMood,
@@ -496,6 +505,7 @@ private fun MoodPreviewContent(
 @Composable
 private fun MoodPreviewScreenContent(
     moodItem: MoodItem,
+    iconShape: IconShape,
     onNavigateToEditMood: (Long) -> Unit,
     onNavigateUp: () -> Unit,
     onDelete: () -> Unit
@@ -513,7 +523,7 @@ private fun MoodPreviewScreenContent(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            painter = painterResource(moodItem.mood.icon),
+                            painter = painterResource(moodItem.mood.getIcon(iconShape)),
                             contentDescription = stringResource(moodItem.mood.label),
                             modifier = Modifier.size(32.dp)
                         )
