@@ -7,7 +7,8 @@ val statisticsModule = module {
     viewModel {
         StatisticsScreenViewModel(
             moodRepository = get(),
-            dateProvider = get()
+            dateProvider = get(),
+            settingsDataSource = get()
         )
     }
 }

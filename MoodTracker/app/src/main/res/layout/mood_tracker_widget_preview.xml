@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:src="@drawable/ic_mood_angry_colorful"
+            android:src="@drawable/ic_mood_angry_circle"
             android:contentDescription="@string/mood_angry" />
 
         <TextView
@@ -36,7 +36,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:src="@drawable/ic_mood_sad_colorful"
+            android:src="@drawable/ic_mood_sad_circle"
             android:contentDescription="@string/mood_sad" />
         <TextView
             android:layout_width="match_parent"
@@ -55,7 +55,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:src="@drawable/ic_mood_ok_colorful"
+            android:src="@drawable/ic_mood_ok_circle"
             android:contentDescription="@string/mood_ok" />
         <TextView
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:src="@drawable/ic_mood_good_colorful"
+            android:src="@drawable/ic_mood_good_circle"
             android:contentDescription="@string/mood_good" />
         <TextView
             android:layout_width="match_parent"
@@ -94,7 +94,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:src="@drawable/ic_mood_happy_colorful"
+            android:src="@drawable/ic_mood_happy_circle"
             android:contentDescription="@string/mood_happy" />
         <TextView
             android:layout_width="match_parent"

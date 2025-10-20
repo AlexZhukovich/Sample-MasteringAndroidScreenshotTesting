@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.statistics
 
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.chart.ChartDataItem
 import java.time.LocalDate
 
@@ -7,7 +8,8 @@ data class StatisticsScreenUiState(
     val isLoading: Boolean = false,
     val selectedDateRange: SelectedDateRangeData,
     val averageDailyMoodChartData: AverageDailyMoodChartData = AverageDailyMoodChartData(),
-    val actionImpactChartData: ActionImpactChartData = ActionImpactChartData()
+    val actionImpactChartData: ActionImpactChartData = ActionImpactChartData(),
+    val iconShape: IconShape = IconShape.CIRCLE
 )
 
 data class SelectedDateRangeData(

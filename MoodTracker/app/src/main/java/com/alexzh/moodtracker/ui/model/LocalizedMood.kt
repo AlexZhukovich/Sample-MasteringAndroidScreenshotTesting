@@ -3,19 +3,29 @@ package com.alexzh.moodtracker.ui.model
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
 import kotlinx.serialization.Serializable
 
 @Serializable
 enum class LocalizedMood(
     val happiness: Float,
     @StringRes val label: Int,
-    @DrawableRes val icon: Int
+    @DrawableRes val circleIcon: Int,
+    @DrawableRes val roundedSquareIcon: Int
 ) {
-    ANGRY(1.0f, R.string.mood_angry, R.drawable.ic_mood_angry_colorful),
-    SAD(2.0f, R.string.mood_sad, R.drawable.ic_mood_sad_colorful),
-    OK(3.0f, R.string.mood_ok, R.drawable.ic_mood_ok_colorful),
-    GOOD(4.0f, R.string.mood_good, R.drawable.ic_mood_good_colorful),
-    HAPPY(5.0f, R.string.mood_happy, R.drawable.ic_mood_happy_colorful);
+    ANGRY(1.0f, R.string.mood_angry, R.drawable.ic_mood_angry_circle, R.drawable.ic_mood_angry_rounded_square),
+    SAD(2.0f, R.string.mood_sad, R.drawable.ic_mood_sad_circle, R.drawable.ic_mood_sad_rounded_square),
+    OK(3.0f, R.string.mood_ok, R.drawable.ic_mood_ok_circle, R.drawable.ic_mood_ok_rounded_square),
+    GOOD(4.0f, R.string.mood_good, R.drawable.ic_mood_good_circle, R.drawable.ic_mood_good_rounded_square),
+    HAPPY(5.0f, R.string.mood_happy, R.drawable.ic_mood_happy_circle, R.drawable.ic_mood_happy_rounded_square);
+
+    @DrawableRes
+    fun getIcon(iconShape: IconShape): Int {
+        return when(iconShape) {
+            IconShape.CIRCLE -> circleIcon
+            IconShape.ROUNDED_SQUARE -> roundedSquareIcon
+        }
+    }
 
     companion object {
         fun fromHappiness(happiness: Float, default: LocalizedMood = OK): LocalizedMood =

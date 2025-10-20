@@ -3,6 +3,7 @@ package com.alexzh.moodtracker.ui.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.domain.datasource.MoodRecordDataSource
+import com.alexzh.moodtracker.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.domain.model.MoodRecordWithActions
 import com.alexzh.moodtracker.domain.provider.DateProvider
 import com.alexzh.moodtracker.domain.resolver.ImagePathResolver
@@ -24,6 +25,7 @@ import java.time.LocalDate
 class HomeScreenViewModel(
     private val moodRecordDataSource: MoodRecordDataSource,
     private val imagePathResolver: ImagePathResolver,
+    settingsDataSource: SettingsDataSource,
     dateProvider: DateProvider
 ) : ViewModel() {
 
@@ -43,14 +45,16 @@ class HomeScreenViewModel(
         selectedDate,
         currentDate,
         moodItemsFlow,
-        selectedMoodItem
-    ) { selectedDate, currentDate, moodItems, selectedMoodItem ->
+        selectedMoodItem,
+        settingsDataSource.getIconShape()
+    ) { selectedDate, currentDate, moodItems, selectedMoodItem, iconShape ->
         HomeScreenUiState(
             selectedDate = selectedDate,
             currentDate = currentDate,
             moodItems = moodItems,
             selectedMoodItem = selectedMoodItem,
-            isLoading = false
+            isLoading = false,
+            iconShape = iconShape
         )
     }.stateIn(
         scope = viewModelScope,

@@ -6,10 +6,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -69,9 +67,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
-import com.alexzh.moodtracker.ui.designsystem.core.modifier.circleLayout
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.section.CardSection
@@ -260,6 +258,7 @@ private fun EditMoodScreenCompactContent(
         MoodSection(
             items = LocalizedMood.entries.toList(),
             selectedMood = uiState.moodItems.selectedMood,
+            iconShape = uiState.iconShape,
             onMoodSelected = onMoodChange
         )
         ActionCategoriesSection(
@@ -327,6 +326,7 @@ private fun EditMoodScreenExpandedContent(
             MoodSection(
                 items = LocalizedMood.entries.toList(),
                 selectedMood = uiState.moodItems.selectedMood,
+                iconShape = uiState.iconShape,
                 onMoodSelected = onMoodChange
             )
 
@@ -380,6 +380,7 @@ private fun MoodSection(
     modifier: Modifier = Modifier,
     items: List<LocalizedMood>,
     selectedMood: LocalizedMood?,
+    iconShape: IconShape,
     onMoodSelected: (mood: LocalizedMood) -> Unit
 ) {
     Section(
@@ -395,7 +396,7 @@ private fun MoodSection(
                 SelectableMoodItem(
                     modifier = Modifier.weight(1f),
                     isSelected = selectedMood == mood,
-                    icon = mood.icon,
+                    icon = mood.getIcon(iconShape),
                     label = mood.label,
                     onSelected = { onMoodSelected(mood) }
                 )
@@ -413,9 +414,16 @@ private fun SelectableMoodItem(
     onSelected: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val backgroundColor = when (isSelected) {
+        true -> MaterialTheme.colorScheme.secondaryContainer
+        false -> MaterialTheme.colorScheme.surface
+    }
 
     Column(
         modifier = modifier
+            .clip(MaterialTheme.shapes.medium)
+            .background(backgroundColor)
+            .padding(vertical = 6.dp)
             .clickable(
                 onClick = { onSelected() },
                 interactionSource = interactionSource,
@@ -427,25 +435,7 @@ private fun SelectableMoodItem(
         Image(
             painter = painterResource(icon),
             contentDescription = stringResource(label),
-            modifier = Modifier
-                .size(52.dp)
-                .background(
-                    color = MaterialTheme.colorScheme.surface,
-                    shape = CircleShape
-                )
-                .then(
-                    if (isSelected)
-                        Modifier.border(
-                            border = BorderStroke(
-                                1.dp,
-                                MaterialTheme.colorScheme.primary
-                            ), CircleShape
-                        )
-                    else
-                        Modifier
-                )
-                .circleLayout()
-                .padding(4.dp),
+            modifier = Modifier.size(42.dp)
         )
         Text(
             text = stringResource(label),

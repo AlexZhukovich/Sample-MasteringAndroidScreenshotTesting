@@ -8,6 +8,7 @@ val editMoodModule = module {
         EditMoodScreenViewModel(
             moodRecordDataSource = get(),
             imagePathResolver = get(),
+            settingsDataSource = get(),
             actionCategoryDataSource = get(),
             dateProvider = get(),
             savedStateHandle = get(),

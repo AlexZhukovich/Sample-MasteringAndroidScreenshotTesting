@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.data.database.mood.MoodRecordEntity
 import com.alexzh.moodtracker.domain.datasource.ActionCategoryDataSource
 import com.alexzh.moodtracker.domain.datasource.MoodRecordDataSource
+import com.alexzh.moodtracker.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.domain.model.ActionCategoryDetails
 import com.alexzh.moodtracker.domain.provider.DateProvider
 import com.alexzh.moodtracker.domain.resolver.ImagePathResolver
@@ -30,6 +31,7 @@ import java.time.LocalTime
 class EditMoodScreenViewModel(
     private val moodRecordDataSource: MoodRecordDataSource,
     private val imagePathResolver: ImagePathResolver,
+    settingsDataSource: SettingsDataSource,
     actionCategoryDataSource: ActionCategoryDataSource,
     dateProvider: DateProvider,
     savedStateHandle: SavedStateHandle
@@ -57,12 +59,14 @@ class EditMoodScreenViewModel(
     
     val uiState: StateFlow<EditMoodScreenUiState> = combine(
         actionCategoriesFlow,
+        settingsDataSource.getIconShape(),
         _uiState
-    ) { actionCategories, currentUiState ->
+    ) { actionCategories, iconShape, currentUiState ->
         currentUiState.copy(
             actionCategoryItems = currentUiState.actionCategoryItems.copy(
                 userActivityCategory = actionCategories
-            )
+            ),
+            iconShape = iconShape
         )
     }.stateIn(
         scope = viewModelScope,

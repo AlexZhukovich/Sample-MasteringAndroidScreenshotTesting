@@ -3,6 +3,8 @@ package com.alexzh.moodtracker.ui.widget
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
@@ -26,21 +28,31 @@ import androidx.glance.layout.size
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.alexzh.moodtracker.MainActivity
+import com.alexzh.moodtracker.domain.datasource.SettingsDataSource
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.model.LocalizedMood
+import org.koin.compose.koinInject
 
 class MoodTrackerWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
+            val settingsDataSource = koinInject<SettingsDataSource>()
+            val iconShape by settingsDataSource.getIconShape().collectAsState(initial = IconShape.CIRCLE)
+
             GlanceTheme {
-                MoodTrackerWidgetContent()
+                MoodTrackerWidgetContent(
+                    iconShape = iconShape
+                )
             }
         }
     }
 }
 
 @Composable
-private fun MoodTrackerWidgetContent() {
+private fun MoodTrackerWidgetContent(
+    iconShape: IconShape
+) {
     Row(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -51,10 +63,11 @@ private fun MoodTrackerWidgetContent() {
     ) {
         LocalizedMood.entries.forEach { mood ->
             MoodButton(
-                mood = mood,
                 modifier = GlanceModifier
                     .defaultWeight()
-                    .padding(horizontal = 4.dp)
+                    .padding(horizontal = 4.dp),
+                mood = mood,
+                iconShape = iconShape
             )
         }
     }
@@ -62,8 +75,9 @@ private fun MoodTrackerWidgetContent() {
 
 @Composable
 private fun MoodButton(
+    modifier: GlanceModifier = GlanceModifier,
     mood: LocalizedMood,
-    modifier: GlanceModifier = GlanceModifier
+    iconShape: IconShape
 ) {
     val context = LocalContext.current
     Column(
@@ -74,9 +88,9 @@ private fun MoodButton(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            provider = ImageProvider(mood.icon),
+            provider = ImageProvider(mood.getIcon(iconShape)),
             contentDescription = context.getString(mood.label),
-            modifier = GlanceModifier.size(48.dp)
+            modifier = GlanceModifier.size(48.dp).padding(4.dp)
         )
         Text(
             text = context.getString(mood.label),

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
@@ -37,6 +38,7 @@ import java.time.LocalDateTime
 @Composable
 fun MoodItemCard(
     moodItem: MoodItem,
+    iconShape: IconShape,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     isSelected: Boolean = false
@@ -64,15 +66,16 @@ fun MoodItemCard(
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Image(
-                    modifier = Modifier.size(42.dp),
-                    painter = painterResource(moodItem.mood.icon),
+                    modifier = Modifier.size(36.dp),
+                    painter = painterResource(moodItem.mood.getIcon(iconShape)),
                     contentDescription = stringResource(moodItem.mood.label),
                 )
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(
@@ -94,7 +97,7 @@ fun MoodItemCard(
                     }
 
                     Text(
-                        text = moodItem.actions.joinToString(",") { it.name },
+                        text = moodItem.actions.joinToString(", ") { it.name },
                         style = MaterialTheme.typography.labelMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -155,6 +158,7 @@ fun MoodItemCardPreview_Action_Note() {
                     ActionItem(id = 1L, name = "Work")
                 )
             ),
+            iconShape = IconShape.CIRCLE,
             onClick = {}
         )
     }
@@ -175,6 +179,7 @@ fun MoodItemCardPreview_MultipleActions() {
                     ActionItem(id = 2L, name = "Commute"),
                 )
             ),
+            iconShape = IconShape.ROUNDED_SQUARE,
             onClick = {}
         )
     }
@@ -192,6 +197,7 @@ fun MoodItemCardPreview_Note() {
                 note = "I had difficulty getting up from bed",
                 actions = emptyList()
             ),
+            iconShape = IconShape.CIRCLE,
             onClick = {}
         )
     }

@@ -31,17 +31,19 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.core.painter.toImageBitmap
 
 @Composable
 fun AverageDailyMoodChart(
     modifier: Modifier = Modifier,
     data: List<ChartDataItem>,
-    iconProvider: @Composable (Float) -> Painter? = ChartDefaults.defaultHappinessIconProvider(),
+    iconShape: IconShape,
+    iconProvider: @Composable (Float) -> Painter? = ChartDefaults.defaultHappinessIconProvider(iconShape),
     barColorProvider: (Float) -> Color = ChartDefaults.defaultBarColorProvider(),
     maxValue: Int = 5,
     scrollPosition: Int = 0,
-    iconSize: Dp = 32.dp,
+    iconSize: Dp = 26.dp,
     barWidth: Dp = 20.dp,
     barSpacing: Dp = 20.dp,
     yAxisAreaWidth: Dp = 32.dp,
@@ -182,7 +184,8 @@ private fun Preview_VerticalBarChart() {
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp),
-        data = data
+        data = data,
+        iconShape = IconShape.CIRCLE
     )
 }
 

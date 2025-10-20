@@ -3,6 +3,7 @@ package com.alexzh.moodtracker.ui.feature.statistics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.domain.datasource.MoodRecordDataSource
+import com.alexzh.moodtracker.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.domain.provider.DateProvider
 import com.alexzh.moodtracker.ui.designsystem.chart.ChartDataItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter
 @OptIn(ExperimentalCoroutinesApi::class)
 class StatisticsScreenViewModel(
     private val moodRepository: MoodRecordDataSource,
+    settingsDataSource: SettingsDataSource,
     private val dateProvider: DateProvider,
 ): ViewModel() {
 
@@ -106,13 +108,15 @@ class StatisticsScreenViewModel(
     val uiState: StateFlow<StatisticsScreenUiState> = combine(
         selectedDateRangeFlow,
         averageDailyMoodDataFlow,
-        actionImpactDataFlow
-    ) { selectedDateRange, averageDailyMoodChart, actionImpactChartData ->
+        actionImpactDataFlow,
+        settingsDataSource.getIconShape()
+    ) { selectedDateRange, averageDailyMoodChart, actionImpactChartData, iconShape ->
         StatisticsScreenUiState(
             isLoading = false,
             selectedDateRange = selectedDateRange,
             averageDailyMoodChartData = averageDailyMoodChart,
-            actionImpactChartData = actionImpactChartData
+            actionImpactChartData = actionImpactChartData,
+            iconShape = iconShape
         )
     }.stateIn(
         scope = viewModelScope,
