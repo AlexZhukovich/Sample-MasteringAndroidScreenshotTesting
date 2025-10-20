@@ -63,11 +63,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarAction
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
-import com.alexzh.moodtracker.ui.feature.home.components.HomeScreenTopAppBar
 import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
 import com.alexzh.moodtracker.ui.feature.home.components.MoodItemCard
 import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewActions
@@ -239,8 +240,15 @@ private fun HomeScreenContentCompactMedium(
 ) {
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar(
-                onNavigateToSettings = onNavigateToSettings
+            TopAppBar(
+                title = stringResource(R.string.homeScreen_title),
+                actions = {
+                    TopAppBarAction(
+                        icon = painterResource(R.drawable.ic_settings),
+                        onClick = onNavigateToSettings,
+                        contentDescription = stringResource(R.string.navigation_settings_label)
+                    )
+                }
             )
         },
         floatingActionButton = {
@@ -294,8 +302,15 @@ private fun HomeScreenContentExpanded(
 ) {
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar(
-                onNavigateToSettings = onNavigateToSettings
+            TopAppBar(
+                title = stringResource(R.string.homeScreen_title),
+                actions = {
+                    TopAppBarAction(
+                        icon = painterResource(R.drawable.ic_settings),
+                        onClick = onNavigateToSettings,
+                        contentDescription = stringResource(R.string.navigation_settings_label)
+                    )
+                }
             )
         },
         floatingActionButton = {

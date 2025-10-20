@@ -41,12 +41,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryCard
-import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryDetailsTopAppBar
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionItemCard
-import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoriesScreenTopAppBar
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.AddActionDialog
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.AddCategoryDialog
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.EditActionDialog
@@ -225,7 +225,12 @@ private fun ActionCategoriesListPane(
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = { ActionCategoriesScreenTopAppBar(onNavigateUp = onNavigateUp) },
+        topBar = {
+            TopAppBarWithBackButton(
+                title = stringResource(R.string.actionCategoriesScreen_title),
+                onNavigateUp = onNavigateUp
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddCategory) {
                 Icon(
@@ -310,11 +315,14 @@ private fun ActionCategoryDetailsPane(
     Scaffold(
         modifier = modifier,
         topBar = {
-            ActionCategoryDetailsTopAppBar(
-                title = categoryDetails.category.name,
-                onNavigateUp = onNavigateUp,
-                showBackButton = !isExpandedLayout
-            )
+            if (!isExpandedLayout) {
+                TopAppBarWithBackButton(
+                    title = categoryDetails.category.name,
+                    onNavigateUp = onNavigateUp
+                )
+            } else {
+                TopAppBar(title = categoryDetails.category.name)
+            }
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddActionDialog = true }) {

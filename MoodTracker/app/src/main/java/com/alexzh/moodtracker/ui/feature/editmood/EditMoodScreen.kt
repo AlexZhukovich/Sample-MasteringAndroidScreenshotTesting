@@ -30,7 +30,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -38,7 +37,6 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ripple
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -68,6 +66,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
@@ -159,10 +158,14 @@ fun EditMoodScreenContent(
 
     Scaffold(
         topBar = {
-            EditMoodScreenTopAppBar(
-                newMood = uiState.isNewMood,
-                isLoading = uiState.isLoading,
-                onNavigateUp = onNavigateUp
+            TopAppBarWithBackButton(
+                title = stringResource(
+                    if (uiState.isNewMood) {
+                        R.string.editMoodScreen_addMood_label
+                    } else R.string.editMoodScreen_editMood_label
+                ),
+                onNavigateUp = onNavigateUp,
+                backButtonEnabled = !uiState.isLoading,
             )
         }
     ) { innerPadding ->
@@ -713,37 +716,3 @@ fun EditMoodScreenAddPhotoButton(
         }
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun EditMoodScreenTopAppBar(
-    modifier: Modifier = Modifier,
-    newMood: Boolean,
-    isLoading: Boolean,
-    onNavigateUp: () -> Unit
-) {
-    TopAppBar(
-        modifier = modifier,
-        title = {
-            Text(
-                if (newMood) {
-                    stringResource(R.string.editMoodScreen_addMood_label)
-                } else {
-                    stringResource(R.string.editMoodScreen_editMood_label)
-                }
-            )
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = onNavigateUp,
-                enabled = !isLoading
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
-                )
-            }
-        }
-    )
-}
-

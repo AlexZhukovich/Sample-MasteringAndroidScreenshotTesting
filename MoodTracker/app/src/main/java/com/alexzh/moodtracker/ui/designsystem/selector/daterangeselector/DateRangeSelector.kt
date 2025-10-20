@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.core.modifier.circleLayout
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
+import com.alexzh.moodtracker.ui.designsystem.selector.PeriodSelector
 import com.alexzh.moodtracker.ui.theme.AppTheme
 import kotlinx.coroutines.delay
 import java.time.LocalDate
@@ -104,44 +105,16 @@ private fun DateRangeSelectorHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = onPreviousPeriod,
-                modifier = Modifier.semantics {
-                    contentDescription = previousPeriodContentDescription
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_keyboard_arrow_left),
-                    contentDescription = null
-                )
-            }
-
-            Text(
-                text = selectedRangeTitle,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
-            )
-
-            IconButton(
-                onClick = onNextPeriod,
-                enabled = canNavigateNext,
-                modifier = Modifier.semantics {
-                    contentDescription = if (canNavigateNext) {
-                        nextPeriodEnabledContentDescription
-                    } else {
-                        nextPeriodDisabledContentDescription
-                    }
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_keyboard_arrow_right),
-                    contentDescription = null
-                )
-            }
-        }
+        PeriodSelector(
+            label = selectedRangeTitle,
+            onPrevious = onPreviousPeriod,
+            onNext = onNextPeriod,
+            nextEnabled = canNavigateNext,
+            previousContentDescription = previousPeriodContentDescription,
+            nextEnabledContentDescription = nextPeriodEnabledContentDescription,
+            nextDisabledContentDescription = nextPeriodDisabledContentDescription,
+            textStyle = MaterialTheme.typography.bodyMedium,
+        )
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
