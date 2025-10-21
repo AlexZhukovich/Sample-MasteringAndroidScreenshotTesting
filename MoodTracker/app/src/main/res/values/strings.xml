@@ -45,7 +45,6 @@
     <string name="actionCategoriesScreen_addCategoryDialog_selectColor_label">Select a color</string>
     <string name="actionCategoriesScreen_editCategoryDialog_title">Edit Category</string>
     <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">Category name</string>
-    <string name="actionCategoriesScreen_editCategoryDialog_selectColor_label">Select a color</string>
     <string name="actionCategoriesScreen_placeholder_label">Select a category to view details</string>
 
     <string name="actionCategoryDetailsScreen_addActionButton_label">Add Action</string>
@@ -64,8 +63,7 @@
     <string name="settingsScreen_dynamicColors_title">Dynamic colors</string>
     <string name="settingsScreen_dynamicColors_description">Use colors from your wallpaper when available</string>
     <string name="settingsScreen_iconShape_title">Icon shape</string>
-    <string name="settingsScreen_iconShapeDialog_title">Select Icon Shape</string>
-    <string name="settingsScreen_iconShapeDialog_description">Choose the style for mood icons</string>
+    <string name="settingsScreen_iconShape_description">Choose the style for mood icons</string>
     <string name="settingsScreen_iconShape_circle_label">Circle</string>
     <string name="settingsScreen_iconShape_roundedSquare_label">Rounded Square</string>
     <string name="settingsScreen_manageActions_title">Manage Actions</string>

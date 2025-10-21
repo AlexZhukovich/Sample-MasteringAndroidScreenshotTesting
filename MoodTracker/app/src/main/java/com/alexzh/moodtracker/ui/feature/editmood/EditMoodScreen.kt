@@ -4,9 +4,6 @@ import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -63,14 +60,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
+import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
+import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
 import com.alexzh.moodtracker.ui.designsystem.section.CardSection
 import com.alexzh.moodtracker.ui.designsystem.section.Section
 import com.alexzh.moodtracker.ui.model.ActionItem
@@ -398,9 +396,9 @@ private fun MoodSection(
             items.forEach { mood ->
                 SelectableMoodItem(
                     modifier = Modifier.weight(1f),
+                    mood = mood,
+                    iconShape = iconShape,
                     isSelected = selectedMood == mood,
-                    icon = mood.getIcon(iconShape),
-                    label = mood.label,
                     onSelected = { onMoodSelected(mood) }
                 )
             }
@@ -411,9 +409,9 @@ private fun MoodSection(
 @Composable
 private fun SelectableMoodItem(
     modifier: Modifier = Modifier,
+    mood: LocalizedMood,
+    iconShape: IconShape,
     isSelected: Boolean,
-    @DrawableRes icon: Int,
-    @StringRes label: Int,
     onSelected: () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -435,13 +433,13 @@ private fun SelectableMoodItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Image(
-            painter = painterResource(icon),
-            contentDescription = stringResource(label),
-            modifier = Modifier.size(42.dp)
+        MoodIcon(
+            modifier = Modifier.size(42.dp),
+            mood =  mood,
+            iconShape = iconShape
         )
         Text(
-            text = stringResource(label),
+            text = stringResource(mood.label),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
@@ -662,7 +660,7 @@ private fun EditMoodScreenPhotoThumbnail(
             .aspectRatio(1f)
     ) {
         AsyncImage(
-            model = imageUri,
+            uri = imageUri,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()

@@ -1,6 +1,5 @@
 package com.alexzh.moodtracker.ui.feature.home.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
 import com.alexzh.moodtracker.ui.model.MoodItem
 
 @Composable
@@ -41,10 +41,10 @@ fun MoodPreviewHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Image(
-                painter = painterResource(moodItem.mood.getIcon(iconShape)),
-                contentDescription = stringResource(moodItem.mood.label),
-                modifier = Modifier.size(48.dp)
+            MoodIcon(
+                modifier = Modifier.size(48.dp),
+                mood = moodItem.mood,
+                iconShape = iconShape
             )
             Column {
                 Text(

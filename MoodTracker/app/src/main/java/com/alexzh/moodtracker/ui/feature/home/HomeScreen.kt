@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.home
 
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -36,13 +38,10 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -60,13 +59,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
+import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarAction
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
+import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
 import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
@@ -537,10 +537,10 @@ private fun MoodPreviewScreenContent(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = painterResource(moodItem.mood.getIcon(iconShape)),
-                            contentDescription = stringResource(moodItem.mood.label),
-                            modifier = Modifier.size(32.dp)
+                        MoodIcon(
+                            modifier = Modifier.size(32.dp),
+                            mood = moodItem.mood,
+                            iconShape = iconShape
                         )
                         Column {
                             Text(
@@ -631,7 +631,7 @@ private fun MoodPreviewPhotos(
     ) {
         photos.forEach { imageUri ->
             AsyncImage(
-                model = imageUri,
+                uri = imageUri,
                 contentDescription = null,
                 modifier = Modifier
                     .height(200.dp)

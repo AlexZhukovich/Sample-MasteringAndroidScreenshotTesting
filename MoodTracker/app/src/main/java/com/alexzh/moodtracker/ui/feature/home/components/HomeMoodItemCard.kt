@@ -1,13 +1,11 @@
 package com.alexzh.moodtracker.ui.feature.home.components
 
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,14 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
+import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
@@ -69,10 +67,10 @@ fun MoodItemCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Image(
+                MoodIcon(
                     modifier = Modifier.size(36.dp),
-                    painter = painterResource(moodItem.mood.getIcon(iconShape)),
-                    contentDescription = stringResource(moodItem.mood.label),
+                    mood =  moodItem.mood,
+                    iconShape = iconShape
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -132,7 +130,7 @@ private fun PhotoThumbnails(
     ) {
         images.forEach { imageUri ->
             AsyncImage(
-                model = imageUri,
+                uri = imageUri,
                 contentDescription = null,
                 modifier = Modifier
                     .size(40.dp)

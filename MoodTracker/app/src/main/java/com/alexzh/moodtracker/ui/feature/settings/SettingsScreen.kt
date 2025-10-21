@@ -76,7 +76,7 @@ fun SettingsScreenContent(
             )
             SettingsDropdownItem(
                 title = stringResource(R.string.settingsScreen_iconShape_title),
-                description = stringResource(R.string.settingsScreen_iconShapeDialog_description),
+                description = stringResource(R.string.settingsScreen_iconShape_description),
                 options = LocalizedIconShape.entries,
                 selectedOption = uiState.iconShape,
                 optionLabel = { stringResource(it.label) },
