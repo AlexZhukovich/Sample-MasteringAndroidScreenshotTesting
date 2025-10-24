@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,6 +38,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.designsystem.core.modifier.circleLayout
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.selector.PeriodSelector
@@ -127,16 +126,13 @@ private fun DateRangeSelectorHeader(
             }
 
             IconButton(
-                onClick = onShowDatePicker,
                 modifier = Modifier.semantics {
                     contentDescription = openDatePickerContentDescription
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_date_range),
-                    contentDescription = null
-                )
-            }
+                },
+                onClick = onShowDatePicker,
+                painter = painterResource(R.drawable.ic_date_range),
+                contentDescription = null
+            )
         }
     }
 }

@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
@@ -20,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
+import com.alexzh.moodtracker.ui.designsystem.button.PrimaryIconButton
 import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
 import com.alexzh.moodtracker.ui.model.MoodItem
 
@@ -62,27 +61,22 @@ fun MoodPreviewHeader(
         if (windowWidthSizeClass == WindowWidthSizeClass.Compact || windowWidthSizeClass == WindowWidthSizeClass.Medium) {
             Row {
                 IconButton(
-                    onClick = { onNavigateToEditMood(moodItem.id) }
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_edit),
-                        contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
-                    )
-                }
-                IconButton(onClick = onDelete) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_delete),
-                        contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
-                    )
-                }
-            }
-        } else {
-            IconButton(onClick = onClose) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_close),
-                    contentDescription = stringResource(R.string.homeScreenPreview_close_contentDescription)
+                    onClick = { onNavigateToEditMood(moodItem.id) },
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+                )
+                IconButton(
+                    onClick = onDelete,
+                    painter = painterResource(R.drawable.ic_delete),
+                    contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
                 )
             }
+        } else {
+            IconButton(
+                onClick = onClose,
+                painter = painterResource(R.drawable.ic_close),
+                contentDescription = stringResource(R.string.homeScreenPreview_close_contentDescription)
+            )
         }
     }
 }
@@ -99,32 +93,16 @@ fun MoodPreviewActions(
             .padding(top = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        IconButton(
+        PrimaryIconButton(
             onClick = { onNavigateToEditMood(moodItem.id) },
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ),
-            shape = MaterialTheme.shapes.medium
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_edit),
-                contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
-            )
-        }
+            painter = painterResource(R.drawable.ic_edit),
+            contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+        )
 
-        IconButton(
+        PrimaryIconButton(
             onClick = onDelete,
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ),
-            shape = MaterialTheme.shapes.medium
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_delete),
-                contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
-            )
-        }
+            painter = painterResource(R.drawable.ic_delete),
+            contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
+        )
     }
 }

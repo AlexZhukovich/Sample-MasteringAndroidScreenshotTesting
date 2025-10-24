@@ -2,8 +2,6 @@ package com.alexzh.moodtracker.ui.designsystem.selector
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 
 @Composable
 fun PeriodSelector(
@@ -36,21 +35,18 @@ fun PeriodSelector(
         modifier = modifier
     ) {
         IconButton(
-            onClick = onPrevious,
-            enabled = previousEnabled,
             modifier = if (previousContentDescription != null) {
                 Modifier.semantics {
                     contentDescription = previousContentDescription
                 }
             } else {
                 Modifier
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_keyboard_arrow_left),
-                contentDescription = previousContentDescription
-            )
-        }
+            },
+            onClick = onPrevious,
+            painter = painterResource(R.drawable.ic_keyboard_arrow_left),
+            contentDescription = previousContentDescription,
+            enabled = previousEnabled
+        )
 
         Text(
             text = label,
@@ -59,8 +55,6 @@ fun PeriodSelector(
         )
 
         IconButton(
-            onClick = onNext,
-            enabled = nextEnabled,
             modifier = when {
                 nextEnabledContentDescription != null && nextDisabledContentDescription != null -> {
                     Modifier.semantics {
@@ -77,17 +71,16 @@ fun PeriodSelector(
                     }
                 }
                 else -> Modifier
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_keyboard_arrow_right),
-                contentDescription = when {
-                    nextEnabled && nextEnabledContentDescription != null -> nextEnabledContentDescription
-                    !nextEnabled && nextDisabledContentDescription != null -> nextDisabledContentDescription
-                    nextEnabledContentDescription != null -> nextEnabledContentDescription
-                    else -> null
-                }
-            )
-        }
+            },
+            onClick = onNext,
+            painter = painterResource(R.drawable.ic_keyboard_arrow_right),
+            contentDescription = when {
+                nextEnabled && nextEnabledContentDescription != null -> nextEnabledContentDescription
+                !nextEnabled && nextDisabledContentDescription != null -> nextDisabledContentDescription
+                nextEnabledContentDescription != null -> nextEnabledContentDescription
+                else -> null
+            },
+            enabled = nextEnabled,
+        )
     }
 }

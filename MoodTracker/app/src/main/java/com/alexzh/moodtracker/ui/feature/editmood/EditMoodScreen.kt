@@ -1,7 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.editmood
 
 import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,15 +20,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -51,7 +46,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -63,12 +57,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
-import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
 import com.alexzh.moodtracker.ui.designsystem.chip.Chip
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
+import com.alexzh.moodtracker.ui.designsystem.media.PhotoThumbnailGrid
 import com.alexzh.moodtracker.ui.designsystem.section.CardSection
 import com.alexzh.moodtracker.ui.designsystem.section.Section
 import com.alexzh.moodtracker.ui.model.ActionItem
@@ -458,12 +453,11 @@ private fun ActionCategoriesSection(
         modifier = modifier,
         title = stringResource(R.string.editMoodScreen_actionCategoriesSection_label),
         actions = {
-            IconButton(onClick = onNavigateToActionCategories) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.editMoodScreen_manageActions_label)
-                )
-            }
+            IconButton(
+                onClick = onNavigateToActionCategories,
+                painter = painterResource(R.drawable.ic_edit),
+                contentDescription = stringResource(R.string.editMoodScreen_manageActions_label)
+            )
         }
     ) {
         items.userActivityCategory.forEach { (category, actions) ->
@@ -629,88 +623,13 @@ private fun PhotosSection(
         modifier = modifier.fillMaxWidth(),
         title = stringResource(R.string.editMoodScreen_photos_label)
     ) {
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            photos.forEachIndexed { index, imageUri ->
-                EditMoodScreenPhotoThumbnail(
-                    imageUri = imageUri,
-                    onRemove = { onPhotoChange(PhotoAction.Remove(index)) }
-                )
-            }
-
-            if (photos.size <= 2) {
-                EditMoodScreenAddPhotoButton(
-                    photoPicker = photoPicker
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun EditMoodScreenPhotoThumbnail(
-    imageUri: Uri,
-    onRemove: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .size(100.dp)
-            .aspectRatio(1f)
-    ) {
-        AsyncImage(
-            uri = imageUri,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(6.dp)
-                .clip(MaterialTheme.shapes.medium),
-            contentScale = ContentScale.Crop
+        PhotoThumbnailGrid(
+            photos = photos,
+            thumbnailSize = 80.dp,
+            editable = true,
+            onRemove = { index -> onPhotoChange(PhotoAction.Remove(index)) },
+            maxPhotos = 3,
+            photoPicker = photoPicker
         )
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(
-                    color = MaterialTheme.colorScheme.surface
-                )
-                .clickable(onClick = onRemove),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_close),
-                contentDescription = stringResource(R.string.editMoodScreen_removePhoto_label),
-                modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-}
-
-@Composable
-fun EditMoodScreenAddPhotoButton(
-    modifier: Modifier = Modifier,
-    photoPicker: ManagedActivityResultLauncher<String, Uri?>
-) {
-    OutlinedCard(
-        modifier = modifier
-            .size(100.dp)
-            .padding(6.dp)
-            .aspectRatio(1f),
-        onClick = { photoPicker.launch("image/*") }
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_add),
-                contentDescription = stringResource(R.string.editMoodScreen_addPhoto_label),
-                modifier = Modifier.size(32.dp)
-            )
-        }
     }
 }

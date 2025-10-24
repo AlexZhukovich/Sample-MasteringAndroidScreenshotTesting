@@ -2,8 +2,6 @@ package com.alexzh.moodtracker.ui.designsystem.bars
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -12,6 +10,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import kotlin.Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,20 +42,17 @@ fun TopAppBarWithBackButton(
         navigationIcon = {
             IconButton(
                 onClick = onNavigateUp,
+                painter = painterResource(R.drawable.ic_arrow_back),
+                contentDescription = stringResource(R.string.common_navigateUp_contentDescription),
                 enabled = backButtonEnabled
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
-                )
-            }
+            )
         },
         actions = actions
     )
 }
 
 @Composable
-fun RowScope.TopAppBarAction(
+fun TopAppBarAction(
     modifier: Modifier = Modifier,
     icon: Painter,
     onClick: () -> Unit,
@@ -65,7 +61,7 @@ fun RowScope.TopAppBarAction(
     IconButton(
         modifier = modifier,
         onClick = onClick,
-    ) {
-        Icon(painter = icon, contentDescription = contentDescription)
-    }
+        painter = icon,
+        contentDescription = contentDescription,
+    )
 }

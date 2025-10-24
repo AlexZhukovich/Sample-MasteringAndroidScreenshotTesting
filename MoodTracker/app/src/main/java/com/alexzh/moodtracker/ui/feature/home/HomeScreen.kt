@@ -25,7 +25,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -62,11 +61,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
-import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarAction
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
+import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
 import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
@@ -556,26 +556,23 @@ private fun MoodPreviewScreenContent(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
-                        )
-                    }
+                    IconButton(
+                        onClick = onNavigateUp,
+                        painter = painterResource(R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
+                    )
                 },
                 actions = {
-                    IconButton(onClick = { onNavigateToEditMood(moodItem.id) }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_edit),
-                            contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
-                        )
-                    }
-                    IconButton(onClick = { showDeleteDialog = true }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_delete),
-                            contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
-                        )
-                    }
+                    IconButton(
+                        onClick = { onNavigateToEditMood(moodItem.id) },
+                        painter = painterResource(R.drawable.ic_edit),
+                        contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+                    )
+                    IconButton(
+                        onClick = { showDeleteDialog = true },
+                        painter = painterResource(R.drawable.ic_delete),
+                        contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
+                    )
                 }
             )
         }

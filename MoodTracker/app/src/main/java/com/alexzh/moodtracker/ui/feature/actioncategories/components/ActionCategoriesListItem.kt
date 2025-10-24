@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 
@@ -44,18 +43,16 @@ fun ActionItemCard(
             )
 
             Row {
-                IconButton(onClick = onEditAction) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_edit),
-                        contentDescription = stringResource(R.string.actionCategoryDetailsScreen_editAction_contentDescription)
-                    )
-                }
-                IconButton(onClick = onDeleteAction) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_delete),
-                        contentDescription = stringResource(R.string.actionCategoryDetailsScreen_deleteAction_contentDescription)
-                    )
-                }
+                IconButton(
+                    onClick = onEditAction,
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = stringResource(R.string.actionCategoryDetailsScreen_editAction_contentDescription)
+                )
+                IconButton(
+                    onClick = onDeleteAction,
+                    painter = painterResource(R.drawable.ic_delete),
+                    contentDescription = stringResource(R.string.actionCategoryDetailsScreen_deleteAction_contentDescription)
+                )
             }
         }
     }
@@ -98,18 +95,16 @@ fun ActionCategoryCard(
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium
             )
-            IconButton(onClick = { onEditCategory(category) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.actionCategoriesScreen_editCategory_contentDescription)
-                )
-            }
-            IconButton(onClick = { onDeleteCategory(category) }) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_delete),
-                    contentDescription = stringResource(R.string.actionCategoriesScreen_deleteCategory_contentDescription)
-                )
-            }
+            IconButton(
+                onClick = { onEditCategory(category) },
+                painter = painterResource(R.drawable.ic_edit),
+                contentDescription = stringResource(R.string.actionCategoriesScreen_editCategory_contentDescription)
+            )
+            IconButton(
+                onClick = { onDeleteCategory(category) },
+                painter = painterResource(R.drawable.ic_delete),
+                contentDescription = stringResource(R.string.actionCategoriesScreen_deleteCategory_contentDescription)
+            )
         }
     }
 }
