@@ -63,6 +63,7 @@ import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarAction
 import com.alexzh.moodtracker.ui.designsystem.button.IconButton
+import com.alexzh.moodtracker.ui.designsystem.button.PrimaryIconButton
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
@@ -71,7 +72,6 @@ import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRan
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
 import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
 import com.alexzh.moodtracker.ui.feature.home.components.MoodItemCard
-import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewActions
 import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewHeader
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
@@ -495,11 +495,24 @@ private fun MoodPreviewContent(
         }
 
         if (windowWidthSizeClass == WindowWidthSizeClass.Expanded) {
-            MoodPreviewActions(
-                moodItem = moodItem,
-                onNavigateToEditMood = onNavigateToEditMood,
-                onDelete = { showDeleteDialog = true }
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                PrimaryIconButton(
+                    onClick = { onNavigateToEditMood(moodItem.id) },
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+                )
+
+                PrimaryIconButton(
+                    onClick = onDelete,
+                    painter = painterResource(R.drawable.ic_delete),
+                    contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
+                )
+            }
         }
     }
 
@@ -629,7 +642,6 @@ private fun MoodPreviewPhotos(
         photos.forEach { imageUri ->
             AsyncImage(
                 uri = imageUri,
-                contentDescription = null,
                 modifier = Modifier
                     .height(200.dp)
                     .clip(RoundedCornerShape(8.dp)),

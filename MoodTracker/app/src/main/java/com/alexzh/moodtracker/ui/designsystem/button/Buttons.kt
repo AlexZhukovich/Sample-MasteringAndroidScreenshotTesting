@@ -12,9 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun PrimaryButton(
@@ -76,32 +77,34 @@ fun IconButton(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
 fun ButtonsPreview() {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Text("Enabled & Disabled primary buttons")
-        PrimaryButton(
-            onClick = {},
-            text = "Enabled Primary Button"
-        )
-        PrimaryButton(
-            onClick = {},
-            text = "Disabled Primary Button",
-            enabled = false
-        )
-        Text("Icon buttons")
-        PrimaryIconButton(
-            onClick = {},
-            painter = painterResource(R.drawable.ic_add),
-            contentDescription = null
-        )
-        IconButton(
-            onClick = {},
-            painter = painterResource(R.drawable.ic_add),
-            contentDescription = null
-        )
+    AppTheme {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text("Enabled & Disabled primary buttons")
+            PrimaryButton(
+                onClick = {},
+                text = "Enabled Primary Button"
+            )
+            PrimaryButton(
+                onClick = {},
+                text = "Disabled Primary Button",
+                enabled = false
+            )
+            Text("Icon buttons")
+            PrimaryIconButton(
+                onClick = {},
+                painter = painterResource(R.drawable.ic_add),
+                contentDescription = null
+            )
+            IconButton(
+                onClick = {},
+                painter = painterResource(R.drawable.ic_add),
+                contentDescription = null
+            )
+        }
     }
 }

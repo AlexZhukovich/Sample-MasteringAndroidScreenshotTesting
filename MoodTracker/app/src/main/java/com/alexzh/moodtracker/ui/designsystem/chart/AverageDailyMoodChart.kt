@@ -24,7 +24,9 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.core.painter.toImageBitmap
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun AverageDailyMoodChart(
@@ -166,9 +169,11 @@ fun AverageDailyMoodChart(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
-private fun Preview_VerticalBarChart() {
+private fun Preview_VerticalBarChart(
+    @PreviewParameter(IconShapeProviderProvider::class) iconShape: IconShape
+) {
     val data = listOf(
         ChartDataItem("1", 4.3f),
         ChartDataItem("2", 2f),
@@ -180,12 +185,22 @@ private fun Preview_VerticalBarChart() {
         ChartDataItem("8", 3.75f)
     )
 
-    AverageDailyMoodChart(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(250.dp),
-        data = data,
-        iconShape = IconShape.CIRCLE
-    )
+    AppTheme {
+        AverageDailyMoodChart(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp),
+            data = data,
+            iconShape = iconShape
+        )
+    }
+}
+
+class IconShapeProviderProvider : PreviewParameterProvider<IconShape> {
+    override val values: Sequence<IconShape>
+        get() = sequenceOf(
+            IconShape.CIRCLE,
+            IconShape.ROUNDED_SQUARE
+        )
 }
 

@@ -18,8 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
 import com.alexzh.moodtracker.ui.designsystem.media.PhotoThumbnailGrid
@@ -118,9 +119,33 @@ fun MoodItemCard(
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun MoodItemCardPreview_Action_Note() {
+fun MoodItemCardPreview_Action_Note_Photos() {
+    AppTheme {
+        MoodItemCard(
+            moodItem = MoodItem(
+                id = 1L,
+                mood = LocalizedMood.GOOD,
+                date = LocalDateTime.of(2023, 1, 1, 19, 0),
+                note = "I had a productive day",
+                actions = listOf(
+                    ActionItem(id = 1L, name = "Work")
+                ),
+                photos = listOf(
+                    "content://media/external/images/media/1".toUri(),
+                    "content://media/external/images/media/2".toUri()
+                )
+            ),
+            iconShape = IconShape.CIRCLE,
+            onClick = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun MoodItemCardPreview_Action_Note_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -138,9 +163,9 @@ fun MoodItemCardPreview_Action_Note() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun MoodItemCardPreview_MultipleActions() {
+fun MoodItemCardPreview_MultipleActions_Notes_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -159,9 +184,9 @@ fun MoodItemCardPreview_MultipleActions() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun MoodItemCardPreview_Note() {
+fun MoodItemCardPreview_NoAction_Note_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(

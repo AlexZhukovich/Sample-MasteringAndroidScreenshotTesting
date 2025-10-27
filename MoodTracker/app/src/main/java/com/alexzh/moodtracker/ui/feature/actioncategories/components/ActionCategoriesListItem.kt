@@ -13,11 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun ActionItemCard(
@@ -106,5 +108,60 @@ fun ActionCategoryCard(
                 contentDescription = stringResource(R.string.actionCategoriesScreen_deleteCategory_contentDescription)
             )
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun ActionItemCardPreview() {
+    val action = ActionItem(
+        id = 1L,
+        name = "Running"
+    )
+
+    AppTheme {
+        ActionItemCard(
+            action = action,
+            onEditAction = {},
+            onDeleteAction = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_ActionCategoryCard_Unselected() {
+    val category = ActionCategoryItem(
+        id = 1L,
+        name = "Exercise"
+    )
+
+    AppTheme {
+        ActionCategoryCard(
+            category = category,
+            isSelected = false,
+            onActionCategoryClick = {},
+            onEditCategory = {},
+            onDeleteCategory = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_ActionCategoryCard_Selected() {
+    val category = ActionCategoryItem(
+        id = 1L,
+        name = "Exercise"
+    )
+
+    AppTheme {
+        ActionCategoryCard(
+            category = category,
+            isSelected = true,
+            onActionCategoryClick = {},
+            onEditCategory = {},
+            onDeleteCategory = {}
+        )
     }
 }

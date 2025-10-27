@@ -12,9 +12,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.button.IconButton
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun PeriodSelector(
@@ -81,6 +83,34 @@ fun PeriodSelector(
                 else -> null
             },
             enabled = nextEnabled,
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_PeriodSelector_PreviousAndNextEnabled() {
+    AppTheme {
+        PeriodSelector(
+            label = "January 2025",
+            onPrevious = {},
+            onNext = {},
+            previousEnabled = true,
+            nextEnabled = true
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_PeriodSelector_PreviousAndNextDisabled() {
+    AppTheme {
+        PeriodSelector(
+            label = "Current Month",
+            onPrevious = {},
+            onNext = {},
+            previousEnabled = false,
+            nextEnabled = false
         )
     }
 }

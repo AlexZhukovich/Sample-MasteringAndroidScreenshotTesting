@@ -2,6 +2,8 @@ package com.alexzh.moodtracker.ui.designsystem.media
 
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,9 +24,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun PhotoThumbnailGrid(
@@ -136,5 +141,43 @@ private fun PhotoThumbnail(
                 )
             }
         }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_PhotoThumbnailGrid_MaxPhotos() {
+    AppTheme {
+        PhotoThumbnailGrid(
+            photos = listOf(
+                "content://media/external/images/media/1".toUri(),
+                "content://media/external/images/media/2".toUri(),
+                "content://media/external/images/media/3".toUri()
+            ),
+            thumbnailSize = 80.dp,
+            editable = false,
+            maxPhotos = 3
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_PhotoThumbnailGrid_Editable_OnePhoto() {
+    val photoPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { _: Uri? -> }
+
+    AppTheme {
+        PhotoThumbnailGrid(
+            photos = listOf(
+                "content://media/external/images/media/1".toUri()
+            ),
+            thumbnailSize = 80.dp,
+            editable = true,
+            onRemove = {},
+            maxPhotos = 3,
+            photoPicker = photoPicker
+        )
     }
 }

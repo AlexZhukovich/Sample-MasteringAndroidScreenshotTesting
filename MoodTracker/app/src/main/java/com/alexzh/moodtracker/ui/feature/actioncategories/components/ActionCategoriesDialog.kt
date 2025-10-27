@@ -10,10 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.dialog.FormDialog
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun AddActionDialog(
@@ -109,6 +111,52 @@ fun EditCategoryDialog(
             label = { Text(stringResource(R.string.actionCategoriesScreen_editCategoryDialog_categoryName_label)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_AddActionDialog() {
+    AppTheme {
+        AddActionDialog(
+            onDismiss = {},
+            onSave = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_EditActionDialog() {
+    AppTheme {
+        EditActionDialog(
+            action = ActionItem(id = 1L, name = "Running"),
+            onDismiss = {},
+            onSave = { _, _ -> }
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_AddCategoryDialog() {
+    AppTheme {
+        AddCategoryDialog(
+            onDismiss = {},
+            onSave = {}
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_EditCategoryDialog() {
+    AppTheme {
+        EditCategoryDialog(
+            category = ActionCategoryItem(id = 1L, name = "Exercise"),
+            onDismiss = {},
+            onSave = {}
         )
     }
 }

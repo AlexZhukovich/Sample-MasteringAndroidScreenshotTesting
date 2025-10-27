@@ -35,7 +35,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.designsystem.button.IconButton
@@ -294,7 +294,7 @@ private fun DateIndicator(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
@@ -309,7 +309,7 @@ private fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
@@ -324,7 +324,7 @@ private fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_DateRangeSelector_SelectedDayIsTenDaysBeforeCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)

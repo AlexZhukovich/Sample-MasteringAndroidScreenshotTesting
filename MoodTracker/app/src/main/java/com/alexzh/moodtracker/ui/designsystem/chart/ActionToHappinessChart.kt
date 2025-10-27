@@ -16,11 +16,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun ActionToHappinessChart(
@@ -93,7 +94,7 @@ fun ActionToHappinessChart(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 fun Preview_ActivityToHappinessChart() {
     val data = ActionImpactData(
@@ -108,7 +109,9 @@ fun Preview_ActivityToHappinessChart() {
         )
     )
 
-    ActionToHappinessChart(
-        data = data
-    )
+    AppTheme {
+        ActionToHappinessChart(
+            data = data
+        )
+    }
 }
