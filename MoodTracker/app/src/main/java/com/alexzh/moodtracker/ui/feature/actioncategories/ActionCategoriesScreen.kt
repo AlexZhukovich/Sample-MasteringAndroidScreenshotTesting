@@ -409,7 +409,7 @@ private fun ActionList(
 @Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
 @Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-private fun ActionCategoriesAdaptiveScreenContentTabletPreview(
+private fun Preview_ActionCategoriesAdaptiveScreenContentTablet(
     @PreviewParameter(ActionCategoriesScreenUiStateProvider::class) uiState: ActionCategoriesScreenUiState
 ) {
     AppTheme {
