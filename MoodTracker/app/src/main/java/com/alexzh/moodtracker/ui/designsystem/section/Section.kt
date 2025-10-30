@@ -16,8 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun Section(
@@ -77,6 +82,62 @@ fun CardSection(
             }
             Spacer(modifier = Modifier.height(4.dp))
             content()
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_Section_WithoutActions() {
+    AppTheme {
+        Section(
+            title = "Section Title"
+        ) {
+            Text("Content...")
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_Section_WithActions() {
+    AppTheme {
+        Section(
+            title = "Section Title",
+            actions = {
+                IconButton(
+                    onClick = {},
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = "Edit"
+                )
+            }
+        ) {
+            Text("Content...")
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_CardSection() {
+    AppTheme {
+        CardSection(
+            title = "Card Title"
+        ) {
+            Text("Content...")
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+private fun Preview_CardSection_CapitalizedTitle() {
+    AppTheme {
+        CardSection(
+            title = "Card Title",
+            capitalizeTitle = true
+        ) {
+            Text("Content...")
         }
     }
 }

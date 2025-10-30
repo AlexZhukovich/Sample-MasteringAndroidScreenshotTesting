@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.home
 
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,8 +25,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -36,13 +37,10 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -60,17 +58,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarAction
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
+import com.alexzh.moodtracker.ui.designsystem.button.PrimaryIconButton
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
 import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
+import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
+import com.alexzh.moodtracker.ui.designsystem.media.AsyncImage
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.DateRangeSelector
 import com.alexzh.moodtracker.ui.designsystem.selector.daterangeselector.rememberDateRangeSelectorState
-import com.alexzh.moodtracker.ui.feature.home.components.HomeScreenTopAppBar
 import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
 import com.alexzh.moodtracker.ui.feature.home.components.MoodItemCard
-import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewActions
 import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewHeader
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
@@ -239,8 +240,15 @@ private fun HomeScreenContentCompactMedium(
 ) {
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar(
-                onNavigateToSettings = onNavigateToSettings
+            TopAppBar(
+                title = stringResource(R.string.homeScreen_title),
+                actions = {
+                    TopAppBarAction(
+                        icon = painterResource(R.drawable.ic_settings),
+                        onClick = onNavigateToSettings,
+                        contentDescription = stringResource(R.string.navigation_settings_label)
+                    )
+                }
             )
         },
         floatingActionButton = {
@@ -294,8 +302,15 @@ private fun HomeScreenContentExpanded(
 ) {
     Scaffold(
         topBar = {
-            HomeScreenTopAppBar(
-                onNavigateToSettings = onNavigateToSettings
+            TopAppBar(
+                title = stringResource(R.string.homeScreen_title),
+                actions = {
+                    TopAppBarAction(
+                        icon = painterResource(R.drawable.ic_settings),
+                        onClick = onNavigateToSettings,
+                        contentDescription = stringResource(R.string.navigation_settings_label)
+                    )
+                }
             )
         },
         floatingActionButton = {
@@ -480,11 +495,24 @@ private fun MoodPreviewContent(
         }
 
         if (windowWidthSizeClass == WindowWidthSizeClass.Expanded) {
-            MoodPreviewActions(
-                moodItem = moodItem,
-                onNavigateToEditMood = onNavigateToEditMood,
-                onDelete = { showDeleteDialog = true }
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                PrimaryIconButton(
+                    onClick = { onNavigateToEditMood(moodItem.id) },
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+                )
+
+                PrimaryIconButton(
+                    onClick = onDelete,
+                    painter = painterResource(R.drawable.ic_delete),
+                    contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
+                )
+            }
         }
     }
 
@@ -522,10 +550,10 @@ private fun MoodPreviewScreenContent(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = painterResource(moodItem.mood.getIcon(iconShape)),
-                            contentDescription = stringResource(moodItem.mood.label),
-                            modifier = Modifier.size(32.dp)
+                        MoodIcon(
+                            modifier = Modifier.size(32.dp),
+                            mood = moodItem.mood,
+                            iconShape = iconShape
                         )
                         Column {
                             Text(
@@ -541,26 +569,23 @@ private fun MoodPreviewScreenContent(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
-                        )
-                    }
+                    IconButton(
+                        onClick = onNavigateUp,
+                        painter = painterResource(R.drawable.ic_arrow_back),
+                        contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
+                    )
                 },
                 actions = {
-                    IconButton(onClick = { onNavigateToEditMood(moodItem.id) }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_edit),
-                            contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
-                        )
-                    }
-                    IconButton(onClick = { showDeleteDialog = true }) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_delete),
-                            contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
-                        )
-                    }
+                    IconButton(
+                        onClick = { onNavigateToEditMood(moodItem.id) },
+                        painter = painterResource(R.drawable.ic_edit),
+                        contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
+                    )
+                    IconButton(
+                        onClick = { showDeleteDialog = true },
+                        painter = painterResource(R.drawable.ic_delete),
+                        contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
+                    )
                 }
             )
         }
@@ -616,8 +641,7 @@ private fun MoodPreviewPhotos(
     ) {
         photos.forEach { imageUri ->
             AsyncImage(
-                model = imageUri,
-                contentDescription = null,
+                uri = imageUri,
                 modifier = Modifier
                     .height(200.dp)
                     .clip(RoundedCornerShape(8.dp)),

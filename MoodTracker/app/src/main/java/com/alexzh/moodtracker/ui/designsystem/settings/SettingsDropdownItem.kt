@@ -20,7 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.theme.AppTheme
@@ -112,7 +112,7 @@ fun <T> SettingsDropdownItem(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_SettingsDropdownItem_Enabled() {
     AppTheme {
@@ -128,7 +128,7 @@ private fun Preview_SettingsDropdownItem_Enabled() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_SettingsDropdownItem_NoDescription() {
     AppTheme {
@@ -143,7 +143,7 @@ private fun Preview_SettingsDropdownItem_NoDescription() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_SettingsDropdownItem_Disabled() {
     AppTheme {

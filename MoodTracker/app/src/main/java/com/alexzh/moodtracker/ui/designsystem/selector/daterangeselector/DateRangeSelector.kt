@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,11 +35,13 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.designsystem.core.modifier.circleLayout
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
+import com.alexzh.moodtracker.ui.designsystem.selector.PeriodSelector
 import com.alexzh.moodtracker.ui.theme.AppTheme
 import kotlinx.coroutines.delay
 import java.time.LocalDate
@@ -104,44 +104,16 @@ private fun DateRangeSelectorHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = onPreviousPeriod,
-                modifier = Modifier.semantics {
-                    contentDescription = previousPeriodContentDescription
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_keyboard_arrow_left),
-                    contentDescription = null
-                )
-            }
-
-            Text(
-                text = selectedRangeTitle,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
-            )
-
-            IconButton(
-                onClick = onNextPeriod,
-                enabled = canNavigateNext,
-                modifier = Modifier.semantics {
-                    contentDescription = if (canNavigateNext) {
-                        nextPeriodEnabledContentDescription
-                    } else {
-                        nextPeriodDisabledContentDescription
-                    }
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_keyboard_arrow_right),
-                    contentDescription = null
-                )
-            }
-        }
+        PeriodSelector(
+            label = selectedRangeTitle,
+            onPrevious = onPreviousPeriod,
+            onNext = onNextPeriod,
+            nextEnabled = canNavigateNext,
+            previousContentDescription = previousPeriodContentDescription,
+            nextEnabledContentDescription = nextPeriodEnabledContentDescription,
+            nextDisabledContentDescription = nextPeriodDisabledContentDescription,
+            textStyle = MaterialTheme.typography.bodyMedium,
+        )
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -154,16 +126,13 @@ private fun DateRangeSelectorHeader(
             }
 
             IconButton(
-                onClick = onShowDatePicker,
                 modifier = Modifier.semantics {
                     contentDescription = openDatePickerContentDescription
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_date_range),
-                    contentDescription = null
-                )
-            }
+                },
+                onClick = onShowDatePicker,
+                painter = painterResource(R.drawable.ic_date_range),
+                contentDescription = null
+            )
         }
     }
 }
@@ -325,7 +294,7 @@ private fun DateIndicator(
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
@@ -340,7 +309,7 @@ private fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
@@ -355,7 +324,7 @@ private fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
     }
 }
 
-@Preview(showBackground = true)
+@PreviewLightDark
 @Composable
 private fun Preview_DateRangeSelector_SelectedDayIsTenDaysBeforeCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)

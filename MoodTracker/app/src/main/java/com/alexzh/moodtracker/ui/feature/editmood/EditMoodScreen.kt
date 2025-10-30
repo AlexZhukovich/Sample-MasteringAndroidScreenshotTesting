@@ -1,45 +1,23 @@
 package com.alexzh.moodtracker.ui.feature.editmood
 
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.relocation.BringIntoViewRequester
-import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.ripple
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
@@ -48,41 +26,29 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.AsyncImage
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
-import com.alexzh.moodtracker.ui.designsystem.chip.Chip
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
 import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
-import com.alexzh.moodtracker.ui.designsystem.section.CardSection
-import com.alexzh.moodtracker.ui.designsystem.section.Section
+import com.alexzh.moodtracker.ui.feature.editmood.components.ActionCategoriesSection
+import com.alexzh.moodtracker.ui.feature.editmood.components.DateTimeSection
+import com.alexzh.moodtracker.ui.feature.editmood.components.MoodSection
+import com.alexzh.moodtracker.ui.feature.editmood.components.NoteSection
+import com.alexzh.moodtracker.ui.feature.editmood.components.PhotosSection
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.UiEvent
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
 
 @Composable
 fun EditMoodScreen(
@@ -159,10 +125,14 @@ fun EditMoodScreenContent(
 
     Scaffold(
         topBar = {
-            EditMoodScreenTopAppBar(
-                newMood = uiState.isNewMood,
-                isLoading = uiState.isLoading,
-                onNavigateUp = onNavigateUp
+            TopAppBarWithBackButton(
+                title = stringResource(
+                    if (uiState.isNewMood) {
+                        R.string.editMoodScreen_addMood_label
+                    } else R.string.editMoodScreen_editMood_label
+                ),
+                onNavigateUp = onNavigateUp,
+                backButtonEnabled = !uiState.isLoading,
             )
         }
     ) { innerPadding ->
@@ -374,376 +344,3 @@ private fun EditMoodScreenExpandedContent(
         }
     }
 }
-
-@Composable
-private fun MoodSection(
-    modifier: Modifier = Modifier,
-    items: List<LocalizedMood>,
-    selectedMood: LocalizedMood?,
-    iconShape: IconShape,
-    onMoodSelected: (mood: LocalizedMood) -> Unit
-) {
-    Section(
-        modifier = modifier,
-        title = stringResource(R.string.editMoodScreen_moodSection_label)
-    ) {
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            maxItemsInEachRow = 5
-        ) {
-            items.forEach { mood ->
-                SelectableMoodItem(
-                    modifier = Modifier.weight(1f),
-                    isSelected = selectedMood == mood,
-                    icon = mood.getIcon(iconShape),
-                    label = mood.label,
-                    onSelected = { onMoodSelected(mood) }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun SelectableMoodItem(
-    modifier: Modifier = Modifier,
-    isSelected: Boolean,
-    @DrawableRes icon: Int,
-    @StringRes label: Int,
-    onSelected: () -> Unit,
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val backgroundColor = when (isSelected) {
-        true -> MaterialTheme.colorScheme.secondaryContainer
-        false -> MaterialTheme.colorScheme.surface
-    }
-
-    Column(
-        modifier = modifier
-            .clip(MaterialTheme.shapes.medium)
-            .background(backgroundColor)
-            .padding(vertical = 6.dp)
-            .clickable(
-                onClick = { onSelected() },
-                interactionSource = interactionSource,
-                indication = ripple(bounded = true),
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Image(
-            painter = painterResource(icon),
-            contentDescription = stringResource(label),
-            modifier = Modifier.size(42.dp)
-        )
-        Text(
-            text = stringResource(label),
-            style = MaterialTheme.typography.bodyMedium,
-            textAlign = TextAlign.Center,
-            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
-@Composable
-private fun ActionCategoriesSection(
-    modifier: Modifier = Modifier,
-    items: SelectableActionCategories,
-    onNavigateToActionCategories: () -> Unit,
-    onActionChange: (ActionItem) -> Unit
-) {
-    Section(
-        modifier = modifier,
-        title = stringResource(R.string.editMoodScreen_actionCategoriesSection_label),
-        actions = {
-            IconButton(onClick = onNavigateToActionCategories) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.editMoodScreen_manageActions_label)
-                )
-            }
-        }
-    ) {
-        items.userActivityCategory.forEach { (category, actions) ->
-            ActionCategoryCard(
-                title = category.name,
-                actions = actions,
-                selectedActionIds = items.selectedUserActivityIds,
-                onActionChange = onActionChange
-            )
-        }
-    }
-}
-
-@Composable
-private fun ActionCategoryCard(
-    modifier: Modifier = Modifier,
-    title: String,
-    actions: List<ActionItem>,
-    selectedActionIds: List<Long>,
-    onActionChange: (ActionItem) -> Unit
-) {
-    CardSection(
-        modifier = modifier,
-        title = title
-    ) {
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            actions.forEach {
-                Chip(
-                    text = it.name,
-                    selected = selectedActionIds.contains(it.id),
-                    onClick = { onActionChange(it) },
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun NoteSection(
-    modifier: Modifier = Modifier,
-    note: String,
-    onNoteChange: (String) -> Unit,
-    bringIntoViewRequester: BringIntoViewRequester,
-    focusManager: FocusManager
-) {
-    val coroutineScope = rememberCoroutineScope()
-
-    Section(
-        modifier = modifier
-            .fillMaxWidth()
-            .imePadding(),
-        title = stringResource(R.string.editMoodScreen_noteSection_label)
-    ) {
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .bringIntoViewRequester(bringIntoViewRequester)
-                .onFocusEvent {
-                    if (it.isFocused) {
-                        coroutineScope.launch {
-                            bringIntoViewRequester.bringIntoView()
-                        }
-                    }
-                },
-            value = note,
-            onValueChange = onNoteChange,
-            minLines = 5,
-            maxLines = 5,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                focusManager.clearFocus()
-            })
-        )
-    }
-}
-
-@Composable
-private fun DateTimeSection(
-    modifier: Modifier = Modifier,
-    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault()),
-    timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()),
-    dateLabel: String = stringResource(R.string.common_date_label),
-    timeLabel: String = stringResource(R.string.common_time_label),
-    dateIcon: Painter = painterResource(R.drawable.ic_date_range),
-    timeIcon: Painter = painterResource(R.drawable.ic_schedule),
-    date: LocalDate,
-    time: LocalTime,
-    onDateChange: () -> Unit,
-    onTimeChange: () -> Unit
-) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        DateTimeItem(
-            label = dateLabel,
-            icon = dateIcon,
-            value = date.format(dateFormatter),
-            onClick = onDateChange
-        )
-        DateTimeItem(
-            label = timeLabel,
-            icon = timeIcon,
-            value = time.format(timeFormatter),
-            onClick = onTimeChange
-        )
-    }
-}
-
-@Composable
-private fun DateTimeItem(
-    modifier: Modifier = Modifier,
-    label: String,
-    icon: Painter,
-    value: String,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            modifier = Modifier
-                .size(24.dp)
-                .alpha(alpha = 0.8f),
-            painter = icon,
-            contentDescription = label
-        )
-        Text(
-            modifier = Modifier
-                .weight(1.0f)
-                .padding(horizontal = 8.dp),
-            text = label,
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
-            style = MaterialTheme.typography.bodyLarge,
-        )
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyLarge
-        )
-    }
-}
-
-@Composable
-private fun PhotosSection(
-    modifier: Modifier = Modifier,
-    photos: List<Uri>,
-    onPhotoChange: (PhotoAction) -> Unit
-) {
-    val photoPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { onPhotoChange(PhotoAction.Add(it)) }
-    }
-
-    Section(
-        modifier = modifier.fillMaxWidth(),
-        title = stringResource(R.string.editMoodScreen_photos_label)
-    ) {
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            photos.forEachIndexed { index, imageUri ->
-                EditMoodScreenPhotoThumbnail(
-                    imageUri = imageUri,
-                    onRemove = { onPhotoChange(PhotoAction.Remove(index)) }
-                )
-            }
-
-            if (photos.size <= 2) {
-                EditMoodScreenAddPhotoButton(
-                    photoPicker = photoPicker
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun EditMoodScreenPhotoThumbnail(
-    imageUri: Uri,
-    onRemove: () -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .size(100.dp)
-            .aspectRatio(1f)
-    ) {
-        AsyncImage(
-            model = imageUri,
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(6.dp)
-                .clip(MaterialTheme.shapes.medium),
-            contentScale = ContentScale.Crop
-        )
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(
-                    color = MaterialTheme.colorScheme.surface
-                )
-                .clickable(onClick = onRemove),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_close),
-                contentDescription = stringResource(R.string.editMoodScreen_removePhoto_label),
-                modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-    }
-}
-
-@Composable
-fun EditMoodScreenAddPhotoButton(
-    modifier: Modifier = Modifier,
-    photoPicker: ManagedActivityResultLauncher<String, Uri?>
-) {
-    OutlinedCard(
-        modifier = modifier
-            .size(100.dp)
-            .padding(6.dp)
-            .aspectRatio(1f),
-        onClick = { photoPicker.launch("image/*") }
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_add),
-                contentDescription = stringResource(R.string.editMoodScreen_addPhoto_label),
-                modifier = Modifier.size(32.dp)
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun EditMoodScreenTopAppBar(
-    modifier: Modifier = Modifier,
-    newMood: Boolean,
-    isLoading: Boolean,
-    onNavigateUp: () -> Unit
-) {
-    TopAppBar(
-        modifier = modifier,
-        title = {
-            Text(
-                if (newMood) {
-                    stringResource(R.string.editMoodScreen_addMood_label)
-                } else {
-                    stringResource(R.string.editMoodScreen_editMood_label)
-                }
-            )
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = onNavigateUp,
-                enabled = !isLoading
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = stringResource(R.string.common_navigateUp_contentDescription)
-                )
-            }
-        }
-    )
-}
-

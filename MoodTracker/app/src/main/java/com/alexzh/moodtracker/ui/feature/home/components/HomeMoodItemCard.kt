@@ -1,13 +1,9 @@
 package com.alexzh.moodtracker.ui.feature.home.components
 
-import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,16 +15,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import androidx.core.net.toUri
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
+import com.alexzh.moodtracker.ui.designsystem.media.PhotoThumbnailGrid
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
@@ -69,10 +64,10 @@ fun MoodItemCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Image(
+                MoodIcon(
                     modifier = Modifier.size(36.dp),
-                    painter = painterResource(moodItem.mood.getIcon(iconShape)),
-                    contentDescription = stringResource(moodItem.mood.label),
+                    mood =  moodItem.mood,
+                    iconShape = iconShape
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -115,38 +110,42 @@ fun MoodItemCard(
             }
 
             if (moodItem.photos.isNotEmpty()) {
-                PhotoThumbnails(images = moodItem.photos)
+                PhotoThumbnailGrid(
+                    photos = moodItem.photos,
+                    thumbnailSize = 40.dp,
+                )
             }
         }
     }
 }
 
+@PreviewLightDark
 @Composable
-private fun PhotoThumbnails(
-    images: List<Uri>,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        images.forEach { imageUri ->
-            AsyncImage(
-                model = imageUri,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(40.dp)
-                    .aspectRatio(1f)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
-        }
+fun MoodItemCardPreview_Action_Note_Photos() {
+    AppTheme {
+        MoodItemCard(
+            moodItem = MoodItem(
+                id = 1L,
+                mood = LocalizedMood.GOOD,
+                date = LocalDateTime.of(2023, 1, 1, 19, 0),
+                note = "I had a productive day",
+                actions = listOf(
+                    ActionItem(id = 1L, name = "Work")
+                ),
+                photos = listOf(
+                    "content://media/external/images/media/1".toUri(),
+                    "content://media/external/images/media/2".toUri()
+                )
+            ),
+            iconShape = IconShape.CIRCLE,
+            onClick = {}
+        )
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun MoodItemCardPreview_Action_Note() {
+fun MoodItemCardPreview_Action_Note_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -164,9 +163,9 @@ fun MoodItemCardPreview_Action_Note() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun MoodItemCardPreview_MultipleActions() {
+fun MoodItemCardPreview_MultipleActions_Notes_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -185,9 +184,9 @@ fun MoodItemCardPreview_MultipleActions() {
     }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-fun MoodItemCardPreview_Note() {
+fun MoodItemCardPreview_NoAction_Note_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
