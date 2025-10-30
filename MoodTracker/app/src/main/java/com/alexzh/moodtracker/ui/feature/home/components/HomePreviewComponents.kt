@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +27,7 @@ import java.time.LocalDateTime
 fun MoodPreviewHeader(
     moodItem: MoodItem,
     iconShape: IconShape,
-    windowWidthSizeClass: WindowWidthSizeClass,
+    isLayoutExpanded: Boolean,
     onNavigateToEditMood: (Long) -> Unit,
     onClose: () -> Unit,
     onDelete: () -> Unit,
@@ -60,7 +59,13 @@ fun MoodPreviewHeader(
             }
         }
 
-        if (windowWidthSizeClass == WindowWidthSizeClass.Compact || windowWidthSizeClass == WindowWidthSizeClass.Medium) {
+        if (isLayoutExpanded) {
+            IconButton(
+                onClick = onClose,
+                painter = painterResource(R.drawable.ic_close),
+                contentDescription = stringResource(R.string.homeScreenPreview_close_contentDescription)
+            )
+        } else {
             Row {
                 IconButton(
                     onClick = { onNavigateToEditMood(moodItem.id) },
@@ -73,42 +78,13 @@ fun MoodPreviewHeader(
                     contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
                 )
             }
-        } else {
-            IconButton(
-                onClick = onClose,
-                painter = painterResource(R.drawable.ic_close),
-                contentDescription = stringResource(R.string.homeScreenPreview_close_contentDescription)
-            )
         }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_MoodPreviewHeader_Compact_CircleIconShape() {
-    val moodItem =MoodItem(
-        id = 1L,
-        mood = LocalizedMood.GOOD,
-        date = LocalDateTime.of(2025, 1, 15, 14, 30),
-        note = "",
-        actions = emptyList()
-    )
-
-    AppTheme {
-        MoodPreviewHeader(
-            moodItem = moodItem,
-            iconShape = IconShape.CIRCLE,
-            windowWidthSizeClass = WindowWidthSizeClass.Compact,
-            onNavigateToEditMood = {},
-            onClose = {},
-            onDelete = {}
-        )
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun Preview_MoodPreviewHeader_Medium_RoundedSquareIconShape() {
+private fun Preview_MoodPreviewHeader_NonExpandedLayout_RoundedSquareIconShape() {
     val moodItem =MoodItem(
         id = 1L,
         mood = LocalizedMood.HAPPY,
@@ -121,7 +97,7 @@ private fun Preview_MoodPreviewHeader_Medium_RoundedSquareIconShape() {
         MoodPreviewHeader(
             moodItem = moodItem,
             iconShape = IconShape.ROUNDED_SQUARE,
-            windowWidthSizeClass = WindowWidthSizeClass.Medium,
+            isLayoutExpanded = false,
             onNavigateToEditMood = {},
             onClose = {},
             onDelete = {}
@@ -142,7 +118,7 @@ private fun Preview_MoodPreviewHeader_Expanded_CircleIconShape() {
                 actions = emptyList()
             ),
             iconShape = IconShape.CIRCLE,
-            windowWidthSizeClass = WindowWidthSizeClass.Expanded,
+            isLayoutExpanded = true,
             onNavigateToEditMood = {},
             onClose = {},
             onDelete = {}
