@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.home
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.horizontalScroll
@@ -39,8 +40,6 @@ import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -52,12 +51,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices.PHONE
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowSizeClass
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
@@ -125,9 +128,11 @@ fun HomeScreenContent(
     onDeleteMood: () -> Unit,
     onNavigateToStatistics: () -> Unit
 ) {
-    val context = LocalContext.current
-    val windowSizeClass = calculateWindowSizeClass(context as android.app.Activity)
-    val windowWidthSizeClass = windowSizeClass.widthSizeClass
+    var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
+    val onShowDeleteConfirmationDialog = { showDeleteConfirmationDialog = true }
+    val onHideDeleteConfirmationDialog = { showDeleteConfirmationDialog = false }
+
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>(
         scaffoldDirective = calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth(currentWindowAdaptiveInfo()),
         adaptStrategies = ListDetailPaneScaffoldDefaults.adaptStrategies(),
@@ -141,33 +146,39 @@ fun HomeScreenContent(
         }
     }
 
-    when(windowWidthSizeClass) {
-        WindowWidthSizeClass.Compact -> {
-            if (uiState.selectedMoodItem != null) {
-                MoodPreviewScreenContent(
-                    moodItem = uiState.selectedMoodItem,
-                    iconShape = uiState.iconShape,
+    if (showDeleteConfirmationDialog) {
+        DeleteConfirmationDialog(
+            title = stringResource(R.string.common_deleteDialogTitle_label),
+            text = stringResource(R.string.common_deleteDialogText_label),
+            onDismiss = { onHideDeleteConfirmationDialog() },
+            onConfirm = {
+                onHideDeleteConfirmationDialog()
+                onDeleteMood()
+            }
+        )
+    }
+
+    when {
+        windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND) -> {
+            AppNavigationSuiteScaffold(
+                selectedItem = AppNavigationItems.HOME,
+                onNavigateToHome = { },
+                onNavigateToStatistics = onNavigateToStatistics
+            ) {
+                HomeScreenContentExpanded(
+                    uiState = uiState,
+                    navigator = navigator,
                     onNavigateToEditMood = onNavigateToEditMood,
-                    onNavigateUp = onClearSelection,
-                    onDelete = onDeleteMood
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToAddMood = onNavigateToAddMood,
+                    onChangeSelectedDate = onChangeSelectedDate,
+                    onSelectMoodItem = onSelectMoodItem,
+                    onClearSelection = onClearSelection,
+                    onShowDeleteConfirmationDialog = onShowDeleteConfirmationDialog
                 )
-            } else {
-                AppNavigationSuiteScaffold(
-                    selectedItem = AppNavigationItems.HOME,
-                    onNavigateToHome = { },
-                    onNavigateToStatistics = onNavigateToStatistics
-                ) {
-                    HomeScreenContentCompactMedium(
-                        uiState = uiState,
-                        onNavigateToSettings = onNavigateToSettings,
-                        onNavigateToAddMood = onNavigateToAddMood,
-                        onChangeSelectedDate = onChangeSelectedDate,
-                        onSelectMoodItem = onSelectMoodItem
-                    )
-                }
             }
         }
-        WindowWidthSizeClass.Medium -> {
+        windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND) -> {
             if (uiState.selectedMoodItem != null) {
                 val bottomSheetState = rememberModalBottomSheetState()
                 val coroutineScope = rememberCoroutineScope()
@@ -176,10 +187,10 @@ fun HomeScreenContent(
                     onDismissRequest = onClearSelection,
                     sheetState = bottomSheetState
                 ) {
-                    MoodPreviewContent(
+                    MoodPreviewContentMediumExpanded(
                         moodItem = uiState.selectedMoodItem,
                         iconShape = uiState.iconShape,
-                        windowWidthSizeClass = windowWidthSizeClass,
+                        isLayoutExpanded = false,
                         onClose = onClearSelection,
                         onNavigateToEditMood = { moodId ->
                             coroutineScope.launch {
@@ -187,7 +198,7 @@ fun HomeScreenContent(
                                 onNavigateToEditMood(moodId)
                             }
                         },
-                        onDelete = onDeleteMood
+                        onShowDeleteConfirmationDialog = onShowDeleteConfirmationDialog
                     )
                 }
             }
@@ -207,23 +218,28 @@ fun HomeScreenContent(
             }
         }
         else -> {
-            AppNavigationSuiteScaffold(
-                selectedItem = AppNavigationItems.HOME,
-                onNavigateToHome = { },
-                onNavigateToStatistics = onNavigateToStatistics
-            ) {
-                HomeScreenContentExpanded(
-                    uiState = uiState,
-                    windowWidthSizeClass = windowWidthSizeClass,
-                    navigator = navigator,
+            if (uiState.selectedMoodItem != null) {
+                MoodPreviewScreenContentCompact(
+                    moodItem = uiState.selectedMoodItem,
+                    iconShape = uiState.iconShape,
                     onNavigateToEditMood = onNavigateToEditMood,
-                    onNavigateToSettings = onNavigateToSettings,
-                    onNavigateToAddMood = onNavigateToAddMood,
-                    onChangeSelectedDate = onChangeSelectedDate,
-                    onSelectMoodItem = onSelectMoodItem,
-                    onClearSelection = onClearSelection,
-                    onDeleteMood = onDeleteMood
+                    onNavigateUp = onClearSelection,
+                    onShowDeleteConfirmationDialog = onShowDeleteConfirmationDialog
                 )
+            } else {
+                AppNavigationSuiteScaffold(
+                    selectedItem = AppNavigationItems.HOME,
+                    onNavigateToHome = { },
+                    onNavigateToStatistics = onNavigateToStatistics
+                ) {
+                    HomeScreenContentCompactMedium(
+                        uiState = uiState,
+                        onNavigateToSettings = onNavigateToSettings,
+                        onNavigateToAddMood = onNavigateToAddMood,
+                        onChangeSelectedDate = onChangeSelectedDate,
+                        onSelectMoodItem = onSelectMoodItem
+                    )
+                }
             }
         }
     }
@@ -290,7 +306,6 @@ private fun HomeScreenContentCompactMedium(
 @Composable
 private fun HomeScreenContentExpanded(
     uiState: HomeScreenUiState,
-    windowWidthSizeClass: WindowWidthSizeClass,
     navigator: androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator<Long>,
     onNavigateToEditMood: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
@@ -298,7 +313,7 @@ private fun HomeScreenContentExpanded(
     onChangeSelectedDate: (LocalDate) -> Unit,
     onSelectMoodItem: (Long) -> Unit,
     onClearSelection: () -> Unit,
-    onDeleteMood: () -> Unit
+    onShowDeleteConfirmationDialog: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -326,16 +341,10 @@ private fun HomeScreenContentExpanded(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                 .fillMaxSize()
+                .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            val daysCount = when (windowWidthSizeClass) {
-                WindowWidthSizeClass.Compact -> 7
-                WindowWidthSizeClass.Medium -> 10
-                WindowWidthSizeClass.Expanded -> 14
-                else -> 14
-            }
-
+            val daysCount = 14
             val dateRangeSelectorState = rememberDateRangeSelectorState(
                 selectedDate = uiState.selectedDate,
                 daysCount = daysCount,
@@ -364,13 +373,14 @@ private fun HomeScreenContentExpanded(
                                 .padding(end = 16.dp),
                             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                         ) {
-                            MoodPreviewContent(
+                            MoodPreviewContentMediumExpanded(
                                 moodItem = uiState.selectedMoodItem,
                                 iconShape = uiState.iconShape,
-                                windowWidthSizeClass = windowWidthSizeClass,
+                                isLayoutExpanded = true,
+                                containerPadding = PaddingValues(all = 16.dp),
                                 onNavigateToEditMood = onNavigateToEditMood,
                                 onClose = onClearSelection,
-                                onDelete = onDeleteMood
+                                onShowDeleteConfirmationDialog = onShowDeleteConfirmationDialog
                             )
                         }
                     }
@@ -440,22 +450,15 @@ private fun MoodItemsGrid(
 }
 
 @Composable
-private fun MoodPreviewContent(
+private fun MoodPreviewContentMediumExpanded(
     moodItem: MoodItem,
     iconShape: IconShape,
-    windowWidthSizeClass: WindowWidthSizeClass,
+    isLayoutExpanded: Boolean,
+    containerPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     onNavigateToEditMood: (Long) -> Unit,
     onClose: () -> Unit,
-    onDelete: () -> Unit,
+    onShowDeleteConfirmationDialog: () -> Unit,
 ) {
-    var showDeleteDialog by remember { mutableStateOf(false) }
-
-    val containerPadding = if (windowWidthSizeClass == WindowWidthSizeClass.Compact || windowWidthSizeClass == WindowWidthSizeClass.Medium) {
-        PaddingValues(horizontal = 16.dp)
-    } else {
-        PaddingValues(all = 16.dp)
-    }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -465,10 +468,10 @@ private fun MoodPreviewContent(
         MoodPreviewHeader(
             moodItem = moodItem,
             iconShape = iconShape,
-            windowWidthSizeClass = windowWidthSizeClass,
+            isLayoutExpanded = isLayoutExpanded,
             onClose = onClose,
             onNavigateToEditMood = onNavigateToEditMood,
-            onDelete = { showDeleteDialog = true }
+            onDelete = onShowDeleteConfirmationDialog
         )
 
         if (moodItem.actions.isNotEmpty()) {
@@ -494,7 +497,7 @@ private fun MoodPreviewContent(
             }
         }
 
-        if (windowWidthSizeClass == WindowWidthSizeClass.Expanded) {
+        if (isLayoutExpanded) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -508,7 +511,7 @@ private fun MoodPreviewContent(
                 )
 
                 PrimaryIconButton(
-                    onClick = onDelete,
+                    onClick = onShowDeleteConfirmationDialog,
                     painter = painterResource(R.drawable.ic_delete),
                     contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
                 )
@@ -516,30 +519,18 @@ private fun MoodPreviewContent(
         }
     }
 
-    if (showDeleteDialog) {
-        DeleteConfirmationDialog(
-            title = stringResource(R.string.common_deleteDialogTitle_label),
-            text = stringResource(R.string.common_deleteDialogText_label),
-            onDismiss = { showDeleteDialog = false },
-            onConfirm = {
-                showDeleteDialog = false
-                onDelete()
-            }
-        )
-    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MoodPreviewScreenContent(
+private fun MoodPreviewScreenContentCompact(
     moodItem: MoodItem,
     iconShape: IconShape,
     onNavigateToEditMood: (Long) -> Unit,
     onNavigateUp: () -> Unit,
-    onDelete: () -> Unit
+    onShowDeleteConfirmationDialog: () -> Unit
 ) {
-    var showDeleteDialog by remember { mutableStateOf(false) }
-
     BackHandler(onBack = onNavigateUp)
 
     Scaffold(
@@ -582,7 +573,7 @@ private fun MoodPreviewScreenContent(
                         contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
                     )
                     IconButton(
-                        onClick = { showDeleteDialog = true },
+                        onClick = onShowDeleteConfirmationDialog,
                         painter = painterResource(R.drawable.ic_delete),
                         contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
                     )
@@ -614,18 +605,6 @@ private fun MoodPreviewScreenContent(
             }
         }
     }
-
-    if (showDeleteDialog) {
-        DeleteConfirmationDialog(
-            title = stringResource(R.string.common_deleteDialogTitle_label),
-            text = stringResource(R.string.common_deleteDialogText_label),
-            onDismiss = { showDeleteDialog = false },
-            onConfirm = {
-                showDeleteDialog = false
-                onDelete()
-            }
-        )
-    }
 }
 
 @Composable
@@ -651,17 +630,14 @@ private fun MoodPreviewPhotos(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "Phone - Light", device = PHONE, showBackground = true)
+@Preview(name = "Phone - Dark", device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
+@Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-private fun Preview_HomeScreen_Loading() {
-    val selectedDate = LocalDate.of(2025, 1, 1)
-    val currentDate = LocalDate.of(2025, 1, 5)
-    val uiState = HomeScreenUiState(
-        isLoading = true,
-        selectedDate = selectedDate,
-        currentDate = currentDate
-    )
-
+private fun Preview_HomeScreen(
+    @PreviewParameter(HomeScreenUiStateProvider ::class) uiState: HomeScreenUiState
+) {
     AppTheme {
         HomeScreenContent(
             uiState = uiState,
@@ -677,83 +653,51 @@ private fun Preview_HomeScreen_Loading() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun Preview_HomeScreen_Empty() {
-    val selectedDate = LocalDate.of(2025, 1, 1)
-    val currentDate = LocalDate.of(2025, 1, 5)
-    val uiState = HomeScreenUiState(
-        selectedDate = selectedDate,
-        currentDate = currentDate
-    )
-
-    AppTheme {
-        HomeScreenContent(
-            uiState = uiState,
-            onNavigateToEditMood = { },
-            onNavigateToSettings = { },
-            onNavigateToAddMood = { },
-            onChangeSelectedDate = { },
-            onSelectMoodItem = { },
-            onClearSelection = { },
-            onDeleteMood = { },
-            onNavigateToStatistics = { }
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview_HomeScreen_Success() {
-    val selectedDate = LocalDate.of(2025, 1, 1)
-    val currentDate = LocalDate.of(2025, 1, 5)
-    val moodItems = listOf(
-        MoodItem(
-            id = 1,
-            mood = LocalizedMood.HAPPY,
-            date = currentDate.atTime(19, 0),
-            note = "Had a great day at work!",
-            actions = listOf(
-                ActionItem(1, "Running"),
-                ActionItem(2, "Meditation"),
-                ActionItem(3, "Reading")
-            )
-        ),
-        MoodItem(
-            id = 2,
-            mood = LocalizedMood.OK,
-            date = currentDate.atTime(15, 45),
-            note = "",
-            actions = emptyList()
-        ),
-        MoodItem(
-            id = 3,
-            mood = LocalizedMood.SAD,
-            date = currentDate.atTime(11, 30),
-            note = "",
-            actions = listOf(
-                ActionItem(4, "Journaling"),
-                ActionItem(5, "Music")
+class HomeScreenUiStateProvider : PreviewParameterProvider<HomeScreenUiState> {
+    override val values: Sequence<HomeScreenUiState>
+        get() = sequenceOf(
+            HomeScreenUiState(
+                isLoading = true,
+                selectedDate = LocalDate.of(2025, 1, 1),
+                currentDate = LocalDate.of(2025, 1, 5)
+            ),
+            HomeScreenUiState(
+                selectedDate = LocalDate.of(2025, 1, 1),
+                currentDate = LocalDate.of(2025, 1, 5)
+            ),
+            HomeScreenUiState(
+                moodItems = listOf(
+                    MoodItem(
+                        id = 1,
+                        mood = LocalizedMood.HAPPY,
+                        date = LocalDate.of(2025, 1, 5).atTime(19, 0),
+                        note = "Had a great day at work!",
+                        actions = listOf(
+                            ActionItem(1, "Running"),
+                            ActionItem(2, "Meditation"),
+                            ActionItem(3, "Reading")
+                        )
+                    ),
+                    MoodItem(
+                        id = 2,
+                        mood = LocalizedMood.OK,
+                        date = LocalDate.of(2025, 1, 5).atTime(15, 45),
+                        note = "",
+                        actions = emptyList()
+                    ),
+                    MoodItem(
+                        id = 3,
+                        mood = LocalizedMood.SAD,
+                        date = LocalDate.of(2025, 1, 5).atTime(11, 30),
+                        note = "",
+                        actions = listOf(
+                            ActionItem(4, "Journaling"),
+                            ActionItem(5, "Music")
+                        )
+                    ),
+                ),
+                selectedDate = LocalDate.of(2025, 1, 1),
+                currentDate = LocalDate.of(2025, 1, 5)
             )
         )
-    )
-    val uiState = HomeScreenUiState(
-        moodItems = moodItems,
-        selectedDate = selectedDate,
-        currentDate = currentDate
-    )
-
-    AppTheme {
-        HomeScreenContent(
-            uiState = uiState,
-            onNavigateToEditMood = { },
-            onNavigateToSettings = { },
-            onNavigateToAddMood = { },
-            onChangeSelectedDate = { },
-            onSelectMoodItem = { },
-            onClearSelection = { },
-            onDeleteMood = { },
-            onNavigateToStatistics = { }
-        )
-    }
 }

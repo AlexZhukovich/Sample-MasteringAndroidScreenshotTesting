@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.settings
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices.PHONE
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.moodtracker.R
@@ -18,6 +22,7 @@ import com.alexzh.moodtracker.ui.designsystem.settings.SettingsNavigationItem
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSectionTitle
 import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSwitchItem
 import com.alexzh.moodtracker.ui.model.LocalizedIconShape
+import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun SettingsScreen(
@@ -98,5 +103,30 @@ fun SettingsScreenContent(
                 value = uiState.appVersion
             )
         }
+    }
+}
+
+@Preview(name = "Phone - Light", device = PHONE, showBackground = true)
+@Preview(name = "Phone - Dark", device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
+@Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun Preview_SettingsScreenContent() {
+    val uiState = SettingsScreenUiState(
+        isLoading = false,
+        isDynamicColorsEnabled = false,
+        iconShape = LocalizedIconShape.ROUNDED_SQUARE,
+        appVersion = "1.0.0"
+    )
+
+    AppTheme {
+        SettingsScreenContent(
+            uiState = uiState,
+            onDynamicColorsChange = { },
+            onIconShapeChange = { },
+            onNavigateUp = { },
+            onNavigateToManageActions = { },
+            onNavigateToThirdPartyLicenses = { }
+        )
     }
 }

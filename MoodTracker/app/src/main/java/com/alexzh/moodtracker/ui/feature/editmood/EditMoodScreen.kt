@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.editmood
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,9 +19,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,12 +29,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices.PHONE
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowSizeClass
 import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
 import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
@@ -44,9 +51,11 @@ import com.alexzh.moodtracker.ui.feature.editmood.components.DateTimeSection
 import com.alexzh.moodtracker.ui.feature.editmood.components.MoodSection
 import com.alexzh.moodtracker.ui.feature.editmood.components.NoteSection
 import com.alexzh.moodtracker.ui.feature.editmood.components.PhotosSection
+import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.UiEvent
+import com.alexzh.moodtracker.ui.theme.AppTheme
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -94,8 +103,7 @@ fun EditMoodScreenContent(
     onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val context = LocalContext.current
-    val windowSizeClass = calculateWindowSizeClass(context as android.app.Activity)
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val focusManager = LocalFocusManager.current
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val isDatePickerOpen = remember { mutableStateOf(false) }
@@ -141,9 +149,9 @@ fun EditMoodScreenContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            when (windowSizeClass.widthSizeClass) {
-                WindowWidthSizeClass.Compact -> {
-                    EditMoodScreenCompactContent(
+            when {
+                windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND) -> {
+                    EditMoodScreenExpandedContent(
                         uiState = uiState,
                         onMoodChange = onMoodChange,
                         onActionChange = onActionChange,
@@ -158,7 +166,7 @@ fun EditMoodScreenContent(
                     )
                 }
                 else -> {
-                    EditMoodScreenExpandedContent(
+                    EditMoodScreenCompactContent(
                         uiState = uiState,
                         onMoodChange = onMoodChange,
                         onActionChange = onActionChange,
@@ -343,4 +351,75 @@ private fun EditMoodScreenExpandedContent(
             )
         }
     }
+}
+
+@Preview(name = "Phone - Light", device = PHONE, showBackground = true)
+@Preview(name = "Phone - Dark", device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
+@Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun Preview_EditMoodScreenContent(
+    @PreviewParameter(EditMoodScreenUiStateProvider::class) uiState: EditMoodScreenUiState
+) {
+    AppTheme {
+        EditMoodScreenContent(
+            uiState = uiState,
+            onMoodChange = { _ -> },
+            onNoteChange = { _ -> },
+            onActionChange = { _ -> },
+            onDateChange = { _ -> },
+            onTimeChange = { _ -> },
+            onPhotoChange = { _ -> },
+            onSave = { },
+            onNavigateToActionCategories = { },
+            onNavigateUp = { }
+        )
+    }
+}
+
+private val sampleCategories = mapOf(
+    ActionCategoryItem(id = 1L, name = "Physical Activity") to listOf(
+        ActionItem(id = 1L, name = "Running"),
+        ActionItem(id = 2L, name = "Cycling"),
+        ActionItem(id = 3L, name = "Swimming")
+    ),
+    ActionCategoryItem(id = 2L, name = "Work") to listOf(
+        ActionItem(id = 4L, name = "Meeting"),
+        ActionItem(id = 5L, name = "Commuting")
+    )
+)
+
+class EditMoodScreenUiStateProvider : PreviewParameterProvider<EditMoodScreenUiState> {
+    override val values: Sequence<EditMoodScreenUiState>
+        get() = sequenceOf(
+            EditMoodScreenUiState(
+                isNewMood = true,
+                moodItems = SelectableMoodItems(
+                    selectedMood = null
+                ),
+                actionCategoryItems = SelectableActionCategories(
+                    userActivityCategory = sampleCategories
+                ),
+                selectedDate = LocalDate.of(2025, 1, 1),
+                selectedTime = LocalTime.of(12, 15),
+                iconShape = IconShape.CIRCLE
+            ),
+            EditMoodScreenUiState(
+                isNewMood = false,
+                moodItems = SelectableMoodItems(
+                    selectedMood = LocalizedMood.HAPPY
+                ),
+                actionCategoryItems = SelectableActionCategories(
+                    userActivityCategory = sampleCategories,
+                    selectedUserActivityIds = listOf(1L, 4L)
+                ),
+                selectedDate = LocalDate.of(2025, 1, 1),
+                selectedTime = LocalTime.of(12, 15),
+                note = "I had a great day",
+                iconShape = IconShape.ROUNDED_SQUARE,
+                photos = listOf(
+                    "content://media/external/images/media/1".toUri(),
+                )
+            )
+        )
 }
