@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.statistics
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,14 +47,16 @@ import java.time.LocalDate
 @Composable
 fun StatisticsScreen(
     viewModel: StatisticsScreenViewModel,
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToSettings: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     StatisticsScreenContent(
         uiState = uiState.value,
         onNavigateToHome = onNavigateToHome,
         onPreviousMonth = { viewModel.onEvent(StatisticsScreenEvent.OnPreviousMonth) },
-        onNextMonth = { viewModel.onEvent(StatisticsScreenEvent.OnNextMonth) }
+        onNextMonth = { viewModel.onEvent(StatisticsScreenEvent.OnNextMonth) },
+        onNavigateToSettings = onNavigateToSettings
     )
 }
 
@@ -63,14 +66,18 @@ fun StatisticsScreenContent(
     uiState: StatisticsScreenUiState,
     onNavigateToHome: () -> Unit,
     onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit
+    onNextMonth: () -> Unit,
+    onNavigateToSettings: () -> Unit
 ) {
+    BackHandler(onBack = onNavigateToHome)
+
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val isCompactLayout = windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND).not()
     AppNavigationSuiteScaffold(
         selectedItem = AppNavigationItems.STATISTICS,
         onNavigateToHome = onNavigateToHome,
-        onNavigateToStatistics = { }
+        onNavigateToStatistics = { },
+        onNavigateToSettings = onNavigateToSettings
     ) {
         Scaffold(
             topBar = {
@@ -237,7 +244,8 @@ private fun Preview_StatisticsScreenContent(
             uiState = uiState,
             onNavigateToHome = { },
             onPreviousMonth = { },
-            onNextMonth = { }
+            onNextMonth = { },
+            onNavigateToSettings = { }
         )
     }
 }

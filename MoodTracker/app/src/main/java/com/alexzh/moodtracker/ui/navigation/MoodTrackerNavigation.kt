@@ -11,9 +11,9 @@ import com.alexzh.moodtracker.ui.feature.editmood.editMoodScreen
 import com.alexzh.moodtracker.ui.feature.home.HomeScreenDestination
 import com.alexzh.moodtracker.ui.feature.home.homeScreen
 import com.alexzh.moodtracker.ui.feature.home.navigateToHome
-import com.alexzh.moodtracker.ui.feature.settings.SettingsScreenDestination
 import com.alexzh.moodtracker.ui.feature.settings.licence.SettingsLicensesScreenDestination
 import com.alexzh.moodtracker.ui.feature.settings.licence.settingsLicensesScreen
+import com.alexzh.moodtracker.ui.feature.settings.navigateToSettings
 import com.alexzh.moodtracker.ui.feature.settings.settingsScreen
 import com.alexzh.moodtracker.ui.feature.statistics.navigateToStatistics
 import com.alexzh.moodtracker.ui.feature.statistics.statisticsScreen
@@ -29,24 +29,26 @@ fun MoodTrackerNavigation(
     ) {
         homeScreen(
             onNavigateToEditMood = { moodId -> navController.navigate(EditMoodScreenDestination(moodId)) },
-            onNavigateToSettings = { navController.navigate(SettingsScreenDestination) },
             onNavigateToAddMood = { navController.navigate(EditMoodScreenDestination()) },
-            onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
+            onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) },
+            onNavigateToSettings = { navController.navigateToSettings(HomeScreenDestination) },
         )
         editMoodScreen(
             onNavigateToActionCategories = { navController.navigate(ActionCategoriesScreenDestination) },
             onNavigateUp = { navController.navigateUp() }
         )
         statisticsScreen(
-            onNavigateToHome = { navController.navigateToHome() }
+            onNavigateToHome = { navController.navigateToHome() },
+            onNavigateToSettings = { navController.navigateToSettings(HomeScreenDestination) }
         )
         actionCategoriesScreen(
             onNavigateUp = { navController.navigateUp() }
         )
         settingsScreen(
-            onNavigateUp = { navController.navigateUp() },
             onNavigateToManageActions = { navController.navigate(ActionCategoriesScreenDestination) },
-            onNavigateToThirdPartyLicenses = { navController.navigate(SettingsLicensesScreenDestination) }
+            onNavigateToThirdPartyLicenses = { navController.navigate(SettingsLicensesScreenDestination) },
+            onNavigateToHome = { navController.navigateToHome() },
+            onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
         )
         settingsLicensesScreen(
             onNavigateUp = { navController.navigateUp() }

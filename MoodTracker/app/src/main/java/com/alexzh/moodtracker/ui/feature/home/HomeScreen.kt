@@ -37,6 +37,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
+import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
@@ -63,8 +64,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarAction
 import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.designsystem.button.PrimaryIconButton
 import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
@@ -92,22 +91,22 @@ import java.time.format.DateTimeFormatter
 fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
     onNavigateToEditMood: (Long) -> Unit,
-    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
-    onNavigateToStatistics: () -> Unit
+    onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreenContent(
         uiState = uiState,
         onNavigateToEditMood = onNavigateToEditMood,
-        onNavigateToSettings = onNavigateToSettings,
         onNavigateToAddMood = onNavigateToAddMood,
         onChangeSelectedDate = { viewModel.onEvent(HomeScreenEvent.OnChangeData(it)) },
         onSelectMoodItem = { viewModel.onEvent(HomeScreenEvent.OnSelectMoodItem(it)) },
         onClearSelection = { viewModel.onEvent(HomeScreenEvent.OnClearSelection) },
         onDeleteMood = { viewModel.onEvent(HomeScreenEvent.OnDeleteMood) },
-        onNavigateToStatistics = onNavigateToStatistics
+        onNavigateToStatistics = onNavigateToStatistics,
+        onNavigateToSettings = onNavigateToSettings,
     )
 }
 
@@ -120,13 +119,13 @@ fun HomeScreen(
 fun HomeScreenContent(
     uiState: HomeScreenUiState,
     onNavigateToEditMood: (Long) -> Unit,
-    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
     onSelectMoodItem: (Long) -> Unit,
     onClearSelection: () -> Unit,
     onDeleteMood: () -> Unit,
-    onNavigateToStatistics: () -> Unit
+    onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit,
 ) {
     var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
     val onShowDeleteConfirmationDialog = { showDeleteConfirmationDialog = true }
@@ -163,13 +162,13 @@ fun HomeScreenContent(
             AppNavigationSuiteScaffold(
                 selectedItem = AppNavigationItems.HOME,
                 onNavigateToHome = { },
-                onNavigateToStatistics = onNavigateToStatistics
+                onNavigateToStatistics = onNavigateToStatistics,
+                onNavigateToSettings = onNavigateToSettings
             ) {
                 HomeScreenContentExpanded(
                     uiState = uiState,
                     navigator = navigator,
                     onNavigateToEditMood = onNavigateToEditMood,
-                    onNavigateToSettings = onNavigateToSettings,
                     onNavigateToAddMood = onNavigateToAddMood,
                     onChangeSelectedDate = onChangeSelectedDate,
                     onSelectMoodItem = onSelectMoodItem,
@@ -206,11 +205,11 @@ fun HomeScreenContent(
             AppNavigationSuiteScaffold(
                 selectedItem = AppNavigationItems.HOME,
                 onNavigateToHome = { },
-                onNavigateToStatistics = onNavigateToStatistics
+                onNavigateToStatistics = onNavigateToStatistics,
+                onNavigateToSettings = onNavigateToSettings
             ) {
                 HomeScreenContentCompactMedium(
                     uiState = uiState,
-                    onNavigateToSettings = onNavigateToSettings,
                     onNavigateToAddMood = onNavigateToAddMood,
                     onChangeSelectedDate = onChangeSelectedDate,
                     onSelectMoodItem = onSelectMoodItem
@@ -230,11 +229,11 @@ fun HomeScreenContent(
                 AppNavigationSuiteScaffold(
                     selectedItem = AppNavigationItems.HOME,
                     onNavigateToHome = { },
-                    onNavigateToStatistics = onNavigateToStatistics
+                    onNavigateToStatistics = onNavigateToStatistics,
+                    onNavigateToSettings = onNavigateToSettings,
                 ) {
                     HomeScreenContentCompactMedium(
                         uiState = uiState,
-                        onNavigateToSettings = onNavigateToSettings,
                         onNavigateToAddMood = onNavigateToAddMood,
                         onChangeSelectedDate = onChangeSelectedDate,
                         onSelectMoodItem = onSelectMoodItem
@@ -249,24 +248,11 @@ fun HomeScreenContent(
 @Composable
 private fun HomeScreenContentCompactMedium(
     uiState: HomeScreenUiState,
-    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
     onSelectMoodItem: (Long) -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = stringResource(R.string.homeScreen_title),
-                actions = {
-                    TopAppBarAction(
-                        icon = painterResource(R.drawable.ic_settings),
-                        onClick = onNavigateToSettings,
-                        contentDescription = stringResource(R.string.navigation_settings_label)
-                    )
-                }
-            )
-        },
         floatingActionButton = {
             FloatingActionButton(onClick = onNavigateToAddMood) {
                 Icon(
@@ -306,9 +292,8 @@ private fun HomeScreenContentCompactMedium(
 @Composable
 private fun HomeScreenContentExpanded(
     uiState: HomeScreenUiState,
-    navigator: androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator<Long>,
+    navigator: ThreePaneScaffoldNavigator<Long>,
     onNavigateToEditMood: (Long) -> Unit,
-    onNavigateToSettings: () -> Unit,
     onNavigateToAddMood: () -> Unit,
     onChangeSelectedDate: (LocalDate) -> Unit,
     onSelectMoodItem: (Long) -> Unit,
@@ -316,18 +301,6 @@ private fun HomeScreenContentExpanded(
     onShowDeleteConfirmationDialog: () -> Unit
 ) {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = stringResource(R.string.homeScreen_title),
-                actions = {
-                    TopAppBarAction(
-                        icon = painterResource(R.drawable.ic_settings),
-                        onClick = onNavigateToSettings,
-                        contentDescription = stringResource(R.string.navigation_settings_label)
-                    )
-                }
-            )
-        },
         floatingActionButton = {
             if (uiState.selectedMoodItem == null) {
                 FloatingActionButton(onClick = onNavigateToAddMood) {
@@ -642,13 +615,13 @@ private fun Preview_HomeScreen(
         HomeScreenContent(
             uiState = uiState,
             onNavigateToEditMood = { },
-            onNavigateToSettings = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
             onSelectMoodItem = { },
             onClearSelection = { },
             onDeleteMood = { },
-            onNavigateToStatistics = { }
+            onNavigateToStatistics = { },
+            onNavigateToSettings = { },
         )
     }
 }
