@@ -12,6 +12,7 @@ fun AppNavigationSuiteScaffold(
     selectedItem: AppNavigationItems,
     onNavigateToHome: () -> Unit,
     onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit,
     content: @Composable () -> Unit
 ) {
     NavigationSuiteScaffold(
@@ -20,6 +21,7 @@ fun AppNavigationSuiteScaffold(
                 val onClick = when (item) {
                     AppNavigationItems.HOME -> onNavigateToHome
                     AppNavigationItems.STATISTICS -> onNavigateToStatistics
+                    AppNavigationItems.SETTINGS -> onNavigateToSettings
                 }
 
                 item(

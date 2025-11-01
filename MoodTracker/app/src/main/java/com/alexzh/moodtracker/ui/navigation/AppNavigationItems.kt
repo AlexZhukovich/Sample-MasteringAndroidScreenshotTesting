@@ -15,5 +15,9 @@ enum class AppNavigationItems(
     STATISTICS(
         title = R.string.navigation_statistics_label,
         icon = R.drawable.ic_monitoring
+    ),
+    SETTINGS(
+        title = R.string.navigation_settings_label,
+        icon = R.drawable.ic_settings
     )
 }

@@ -10,12 +10,14 @@ import org.koin.compose.koinInject
 object StatisticsScreenDestination
 
 fun NavGraphBuilder.statisticsScreen(
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToSettings: () -> Unit
 ) {
     composable<StatisticsScreenDestination> {
         StatisticsScreen(
             viewModel = koinInject(),
-            onNavigateToHome = onNavigateToHome
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToSettings = onNavigateToSettings
         )
     }
 }
