@@ -1,7 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.statistics
 
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.chart.ChartDataItem
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ChartDataItem
 import java.time.LocalDate
 
 data class StatisticsScreenUiState(

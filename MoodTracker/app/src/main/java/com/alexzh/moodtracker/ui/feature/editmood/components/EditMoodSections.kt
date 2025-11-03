@@ -3,6 +3,7 @@ package com.alexzh.moodtracker.ui.feature.editmood.components
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -41,18 +42,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.button.IconButton
-import com.alexzh.moodtracker.ui.designsystem.chip.Chip
-import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
-import com.alexzh.moodtracker.ui.designsystem.media.PhotoThumbnailGrid
-import com.alexzh.moodtracker.ui.designsystem.section.CardSection
-import com.alexzh.moodtracker.ui.designsystem.section.Section
 import com.alexzh.moodtracker.ui.feature.editmood.PhotoAction
 import com.alexzh.moodtracker.ui.feature.editmood.SelectableActionCategories
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
-import com.alexzh.moodtracker.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -63,6 +57,13 @@ import kotlin.collections.component1
 import kotlin.collections.component2
 import kotlin.collections.forEach
 import androidx.core.net.toUri
+import com.alexzh.designsystem.component.button.IconButton
+import com.alexzh.designsystem.component.chip.Chip
+import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
+import com.alexzh.designsystem.component.section.CardSection
+import com.alexzh.designsystem.component.section.Section
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.R as DesignSystemR
 
 @Composable
 fun MoodSection(
@@ -121,10 +122,10 @@ private fun SelectableMoodItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        MoodIcon(
+        Image(
             modifier = Modifier.size(42.dp),
-            mood =  mood,
-            iconShape = iconShape
+            painter = painterResource(mood.getIcon(iconShape)),
+            contentDescription = stringResource(mood.label)
         )
         Text(
             text = stringResource(mood.label),
@@ -148,7 +149,7 @@ fun ActionCategoriesSection(
         actions = {
             IconButton(
                 onClick = onNavigateToActionCategories,
-                painter = painterResource(R.drawable.ic_edit),
+                painter = painterResource(DesignSystemR.drawable.ic_edit),
                 contentDescription = stringResource(R.string.editMoodScreen_manageActions_label)
             )
         }
@@ -236,10 +237,10 @@ fun DateTimeSection(
     modifier: Modifier = Modifier,
     dateFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault()),
     timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()),
-    dateLabel: String = stringResource(R.string.common_date_label),
-    timeLabel: String = stringResource(R.string.common_time_label),
-    dateIcon: Painter = painterResource(R.drawable.ic_date_range),
-    timeIcon: Painter = painterResource(R.drawable.ic_schedule),
+    dateLabel: String = stringResource(R.string.editMoodScreen_date_label),
+    timeLabel: String = stringResource(R.string.editMoodScreen_time_label),
+    dateIcon: Painter = painterResource(DesignSystemR.drawable.ic_date_range),
+    timeIcon: Painter = painterResource(DesignSystemR.drawable.ic_schedule),
     date: LocalDate,
     time: LocalTime,
     onDateChange: () -> Unit,
@@ -321,8 +322,8 @@ fun PhotosSection(
             thumbnailSize = 80.dp,
             editable = true,
             onRemove = { index -> onPhotoChange(PhotoAction.Remove(index)) },
-            maxPhotos = 3,
-            photoPicker = photoPicker
+            onAddPhoto = { photoPicker.launch("image/*") },
+            maxPhotos = 3
         )
     }
 }

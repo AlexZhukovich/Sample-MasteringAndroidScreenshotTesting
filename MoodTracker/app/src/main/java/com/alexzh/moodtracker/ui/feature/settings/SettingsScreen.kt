@@ -15,17 +15,17 @@ import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.alexzh.designsystem.component.bars.TopAppBar
+import com.alexzh.designsystem.component.settings.SettingsDropdownItem
+import com.alexzh.designsystem.component.settings.SettingsInfoItem
+import com.alexzh.designsystem.component.settings.SettingsNavigationItem
+import com.alexzh.designsystem.component.settings.SettingsSectionTitle
+import com.alexzh.designsystem.component.settings.SettingsSwitchItem
+import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
-import com.alexzh.moodtracker.ui.designsystem.settings.SettingsDropdownItem
-import com.alexzh.moodtracker.ui.designsystem.settings.SettingsInfoItem
-import com.alexzh.moodtracker.ui.designsystem.settings.SettingsNavigationItem
-import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSectionTitle
-import com.alexzh.moodtracker.ui.designsystem.settings.SettingsSwitchItem
 import com.alexzh.moodtracker.ui.model.LocalizedIconShape
 import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
 import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
-import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun SettingsScreen(

@@ -15,11 +15,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.alexzh.designsystem.component.button.IconButton
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.R as DesignSystemR
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.ui.designsystem.button.IconButton
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
-import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun ActionItemCard(
@@ -47,12 +48,12 @@ fun ActionItemCard(
             Row {
                 IconButton(
                     onClick = onEditAction,
-                    painter = painterResource(R.drawable.ic_edit),
+                    painter = painterResource(DesignSystemR.drawable.ic_edit),
                     contentDescription = stringResource(R.string.actionCategoryDetailsScreen_editAction_contentDescription)
                 )
                 IconButton(
                     onClick = onDeleteAction,
-                    painter = painterResource(R.drawable.ic_delete),
+                    painter = painterResource(DesignSystemR.drawable.ic_delete),
                     contentDescription = stringResource(R.string.actionCategoryDetailsScreen_deleteAction_contentDescription)
                 )
             }
@@ -99,12 +100,12 @@ fun ActionCategoryCard(
             )
             IconButton(
                 onClick = { onEditCategory(category) },
-                painter = painterResource(R.drawable.ic_edit),
+                painter = painterResource(DesignSystemR.drawable.ic_edit),
                 contentDescription = stringResource(R.string.actionCategoriesScreen_editCategory_contentDescription)
             )
             IconButton(
                 onClick = { onDeleteCategory(category) },
-                painter = painterResource(R.drawable.ic_delete),
+                painter = painterResource(DesignSystemR.drawable.ic_delete),
                 contentDescription = stringResource(R.string.actionCategoriesScreen_deleteCategory_contentDescription)
             )
         }

@@ -28,20 +28,20 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
+import com.alexzh.designsystem.component.bars.TopAppBar
+import com.alexzh.designsystem.component.empty.EmptyState
+import com.alexzh.designsystem.component.section.CardSection
+import com.alexzh.designsystem.component.selector.PeriodSelector
+import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
-import com.alexzh.moodtracker.ui.designsystem.chart.ActionImpactData
-import com.alexzh.moodtracker.ui.designsystem.chart.ActionToHappinessChart
-import com.alexzh.moodtracker.ui.designsystem.chart.AverageDailyMoodChart
-import com.alexzh.moodtracker.ui.designsystem.chart.ChartDataItem
-import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
-import com.alexzh.moodtracker.ui.designsystem.section.CardSection
-import com.alexzh.moodtracker.ui.designsystem.selector.PeriodSelector
 import com.alexzh.moodtracker.ui.feature.statistics.components.StatisticsEmptyStateAnimatedIcon
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ActionImpactData
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ActionToHappinessChart
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.AverageDailyMoodChart
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ChartDataItem
 import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
 import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
-import com.alexzh.moodtracker.ui.theme.AppTheme
 import java.time.LocalDate
 
 @Composable
@@ -88,8 +88,8 @@ fun StatisticsScreenContent(
                             label = uiState.selectedDateRange.title,
                             onPrevious = onPreviousMonth,
                             onNext = onNextMonth,
-                            previousContentDescription = stringResource(R.string.common_previousMonth_contentDescription),
-                            nextEnabledContentDescription = stringResource(R.string.common_nextMonth_contentDescription)
+                            previousContentDescription = stringResource(R.string.statisticsScreen_dateRangeSelector_previousMonth_contentDescription),
+                            nextEnabledContentDescription = stringResource(R.string.statisticsScreen_dateRangeSelector_nextMonth_contentDescription)
                         )
                     }
                 )

@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.home.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,19 +16,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
+import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
-import com.alexzh.moodtracker.ui.designsystem.media.PhotoThumbnailGrid
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
-import com.alexzh.moodtracker.ui.theme.AppTheme
 import java.time.LocalDateTime
 
 @Composable
@@ -64,10 +65,10 @@ fun MoodItemCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                MoodIcon(
+                Image(
                     modifier = Modifier.size(36.dp),
-                    mood =  moodItem.mood,
-                    iconShape = iconShape
+                    painter = painterResource(moodItem.mood.getIcon(iconShape)),
+                    contentDescription = stringResource(moodItem.mood.label)
                 )
                 Column(
                     modifier = Modifier.fillMaxWidth(),

@@ -11,11 +11,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.alexzh.designsystem.component.dialog.FormDialog
+import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.ui.designsystem.dialog.FormDialog
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
-import com.alexzh.moodtracker.ui.theme.AppTheme
 
 @Composable
 fun AddActionDialog(
@@ -28,7 +28,6 @@ fun AddActionDialog(
         title = stringResource(R.string.actionCategoryDetailsScreen_addActionDialog_title),
         onDismiss = onDismiss,
         onConfirm = { onSave(actionName.trim()) },
-        confirmButtonText = stringResource(R.string.common_save_label),
         confirmButtonEnabled = actionName.trim().isNotEmpty()
     ) {
         OutlinedTextField(
@@ -53,7 +52,6 @@ fun EditActionDialog(
         title = stringResource(R.string.actionCategoryDetailsScreen_editActionDialog_title),
         onDismiss = onDismiss,
         onConfirm = { onSave(action.id, actionName.trim()) },
-        confirmButtonText = stringResource(R.string.common_save_label),
         confirmButtonEnabled = actionName.trim().isNotEmpty() && actionName.trim() != action.name
     ) {
         OutlinedTextField(
@@ -77,7 +75,6 @@ fun AddCategoryDialog(
         title = stringResource(R.string.actionCategoriesScreen_addCategoryDialog_title),
         onDismiss = onDismiss,
         onConfirm = { onSave(categoryName.trim()) },
-        confirmButtonText = stringResource(R.string.common_save_label),
         confirmButtonEnabled = categoryName.trim().isNotEmpty()
     ) {
         OutlinedTextField(
@@ -102,7 +99,6 @@ fun EditCategoryDialog(
         title = stringResource(R.string.actionCategoriesScreen_editCategoryDialog_title),
         onDismiss = onDismiss,
         onConfirm = { onSave(categoryName.trim()) },
-        confirmButtonText = stringResource(R.string.common_save_label),
         confirmButtonEnabled = categoryName.trim().isNotEmpty() && categoryName.trim() != category.name
     ) {
         OutlinedTextField(

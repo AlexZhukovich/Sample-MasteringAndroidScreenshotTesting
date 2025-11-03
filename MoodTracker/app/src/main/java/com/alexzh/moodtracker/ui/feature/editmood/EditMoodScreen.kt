@@ -40,12 +40,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
+import com.alexzh.designsystem.component.bars.TopAppBarWithBackButton
+import com.alexzh.designsystem.component.button.PrimaryButton
+import com.alexzh.designsystem.component.dialog.DatePickerDialog
+import com.alexzh.designsystem.component.dialog.TimePickerDialog
+import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
-import com.alexzh.moodtracker.ui.designsystem.button.PrimaryButton
-import com.alexzh.moodtracker.ui.designsystem.dialog.DatePickerDialog
-import com.alexzh.moodtracker.ui.designsystem.dialog.TimePickerDialog
 import com.alexzh.moodtracker.ui.feature.editmood.components.ActionCategoriesSection
 import com.alexzh.moodtracker.ui.feature.editmood.components.DateTimeSection
 import com.alexzh.moodtracker.ui.feature.editmood.components.MoodSection
@@ -55,7 +56,6 @@ import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.UiEvent
-import com.alexzh.moodtracker.ui.theme.AppTheme
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -139,8 +139,8 @@ fun EditMoodScreenContent(
                         R.string.editMoodScreen_addMood_label
                     } else R.string.editMoodScreen_editMood_label
                 ),
-                onNavigateUp = onNavigateUp,
-                backButtonEnabled = !uiState.isLoading,
+                onBack = onNavigateUp,
+                backButtonEnabled = !uiState.isLoading
             )
         }
     ) { innerPadding ->

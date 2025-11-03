@@ -40,11 +40,13 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.alexzh.designsystem.component.bars.TopAppBar
+import com.alexzh.designsystem.component.bars.TopAppBarWithBackButton
+import com.alexzh.designsystem.component.dialog.DeleteConfirmationDialog
+import com.alexzh.designsystem.component.empty.EmptyState
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.R as DesignSystemR
 import com.alexzh.moodtracker.R
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBar
-import com.alexzh.moodtracker.ui.designsystem.bars.TopAppBarWithBackButton
-import com.alexzh.moodtracker.ui.designsystem.dialog.DeleteConfirmationDialog
-import com.alexzh.moodtracker.ui.designsystem.empty.EmptyState
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryCard
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionItemCard
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.AddActionDialog
@@ -53,7 +55,6 @@ import com.alexzh.moodtracker.ui.feature.actioncategories.components.EditActionD
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.EditCategoryDialog
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
-import com.alexzh.moodtracker.ui.theme.AppTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -228,13 +229,13 @@ private fun ActionCategoriesListPane(
         topBar = {
             TopAppBarWithBackButton(
                 title = stringResource(R.string.actionCategoriesScreen_title),
-                onNavigateUp = onNavigateUp
+                onBack = onNavigateUp
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddCategory) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_add),
+                    painter = painterResource(DesignSystemR.drawable.ic_add),
                     contentDescription = stringResource(R.string.actionCategoriesScreen_addCategoryButton_label)
                 )
             }
@@ -318,7 +319,7 @@ private fun ActionCategoryDetailsPane(
             if (!isExpandedLayout) {
                 TopAppBarWithBackButton(
                     title = categoryDetails.category.name,
-                    onNavigateUp = onNavigateUp
+                    onBack = onNavigateUp
                 )
             } else {
                 TopAppBar(title = categoryDetails.category.name)
@@ -327,7 +328,7 @@ private fun ActionCategoryDetailsPane(
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddActionDialog = true }) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_add),
+                    painter = painterResource(DesignSystemR.drawable.ic_add),
                     contentDescription = stringResource(R.string.actionCategoryDetailsScreen_addActionButton_label)
                 )
             }

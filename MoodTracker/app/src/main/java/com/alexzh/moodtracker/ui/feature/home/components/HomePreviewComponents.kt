@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.home.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,13 +15,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.alexzh.designsystem.component.button.IconButton
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.R as DesignSystemR
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.designsystem.button.IconButton
-import com.alexzh.moodtracker.ui.designsystem.icon.MoodIcon
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
-import com.alexzh.moodtracker.ui.theme.AppTheme
 import java.time.LocalDateTime
 
 @Composable
@@ -41,10 +42,10 @@ fun MoodPreviewHeader(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            MoodIcon(
+            Image(
                 modifier = Modifier.size(48.dp),
-                mood = moodItem.mood,
-                iconShape = iconShape
+                painter = painterResource(moodItem.mood.getIcon(iconShape)),
+                contentDescription = stringResource(moodItem.mood.label)
             )
             Column {
                 Text(
@@ -62,19 +63,19 @@ fun MoodPreviewHeader(
         if (isLayoutExpanded) {
             IconButton(
                 onClick = onClose,
-                painter = painterResource(R.drawable.ic_close),
+                painter = painterResource(DesignSystemR.drawable.ic_close),
                 contentDescription = stringResource(R.string.homeScreenPreview_close_contentDescription)
             )
         } else {
             Row {
                 IconButton(
                     onClick = { onNavigateToEditMood(moodItem.id) },
-                    painter = painterResource(R.drawable.ic_edit),
+                    painter = painterResource(DesignSystemR.drawable.ic_edit),
                     contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
                 )
                 IconButton(
                     onClick = onDelete,
-                    painter = painterResource(R.drawable.ic_delete),
+                    painter = painterResource(DesignSystemR.drawable.ic_delete),
                     contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
                 )
             }

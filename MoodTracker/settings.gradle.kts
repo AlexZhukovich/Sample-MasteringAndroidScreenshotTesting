@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MoodTracker"
 include(":app")
- 
+include(":design-system")

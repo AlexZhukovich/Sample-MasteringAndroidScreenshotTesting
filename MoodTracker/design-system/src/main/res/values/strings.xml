@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_ok_label">OK</string>
+    <string name="dialog_cancel_label">Cancel</string>
+    <string name="dialog_delete_label">Delete</string>
+    <string name="dialog_save_label">Save</string>
+
+    <string name="topAppBar_backButton_contentDescription">Back</string>
+
+    <string name="dateRangeSelector_lastDays_label">Last %d Days</string>
+    <string name="dateRangeSelector_previousPeriod_contentDescription">Navigate to previous period</string>
+    <string name="dateRangeSelector_nextPeriodEnabled_contentDescription">Navigate to next period</string>
+    <string name="dateRangeSelector_nextPeriodDisabled_contentDescription">Next period not available</string>
+    <string name="dateRangeSelector_openDatePicker_contentDescription">Open date picker</string>
+    <string name="dateRangeSelector_todayButton_label">Today</string>
+    <string name="dateRangeSelector_selectedDate_contentDescription">Select date %1$s</string>
+    <string name="dateRangeSelector_futureDateNotSelectable_contentDescription">Future date %1$s, not selectable</string>
+
+    <string name="emptyState_title">Nothing to show!</string>
+
+    <string name="photoThumbnailGrid_addPhoto_label">Add a photo</string>
+    <string name="photoThumbnailGrid_removePhoto_label">Remove photo</string>
+</resources>

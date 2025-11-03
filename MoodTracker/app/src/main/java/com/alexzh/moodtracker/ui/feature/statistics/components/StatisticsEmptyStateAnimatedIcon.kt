@@ -22,8 +22,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.alexzh.moodtracker.ui.designsystem.chart.ChartColors
-import com.alexzh.moodtracker.ui.theme.AppTheme
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ChartColors
 
 @Composable
 fun StatisticsEmptyStateAnimatedIcon(

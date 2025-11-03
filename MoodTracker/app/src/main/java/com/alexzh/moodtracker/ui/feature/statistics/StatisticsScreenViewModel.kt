@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.domain.datasource.MoodRecordDataSource
 import com.alexzh.moodtracker.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.domain.provider.DateProvider
-import com.alexzh.moodtracker.ui.designsystem.chart.ChartDataItem
+import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ChartDataItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
