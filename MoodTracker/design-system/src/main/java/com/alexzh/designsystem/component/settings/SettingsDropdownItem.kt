@@ -19,11 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.alexzh.designsystem.R
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.ArrowDropDownIcon
 
 @Composable
 fun <T> SettingsDropdownItem(
@@ -82,7 +81,7 @@ fun <T> SettingsDropdownItem(
                 )
 
                 Icon(
-                    painter = painterResource(R.drawable.ic_arrow_drop_down),
+                    imageVector = ArrowDropDownIcon,
                     contentDescription = null,
                     tint = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant
                     else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f)

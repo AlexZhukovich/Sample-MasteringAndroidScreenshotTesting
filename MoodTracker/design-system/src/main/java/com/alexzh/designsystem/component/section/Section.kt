@@ -16,13 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.alexzh.designsystem.R
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.EditIcon
 
 @Composable
 fun Section(
@@ -107,7 +106,7 @@ private fun Preview_Section_WithActions() {
             actions = {
                 IconButton(
                     onClick = {},
-                    painter = painterResource(R.drawable.ic_edit),
+                    icon = EditIcon,
                     contentDescription = "Edit"
                 )
             }

@@ -4,7 +4,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 
 @Composable
@@ -29,7 +28,7 @@ fun AppNavigationSuiteScaffold(
                     onClick = onClick,
                     icon = {
                         Icon(
-                            painter = painterResource(item.icon),
+                            imageVector = item.icon,
                             contentDescription = stringResource(item.title)
                         )
                     },

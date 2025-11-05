@@ -33,13 +33,23 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.alexzh.designsystem.component.button.IconButton
+import com.alexzh.designsystem.component.chip.Chip
+import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
+import com.alexzh.designsystem.component.section.CardSection
+import com.alexzh.designsystem.component.section.Section
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.DateRangeIcon
+import com.alexzh.designsystem.icon.EditIcon
+import com.alexzh.designsystem.icon.ScheduleIcon
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.feature.editmood.PhotoAction
@@ -53,17 +63,6 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.forEach
-import androidx.core.net.toUri
-import com.alexzh.designsystem.component.button.IconButton
-import com.alexzh.designsystem.component.chip.Chip
-import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
-import com.alexzh.designsystem.component.section.CardSection
-import com.alexzh.designsystem.component.section.Section
-import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.designsystem.R as DesignSystemR
 
 @Composable
 fun MoodSection(
@@ -149,7 +148,7 @@ fun ActionCategoriesSection(
         actions = {
             IconButton(
                 onClick = onNavigateToActionCategories,
-                painter = painterResource(DesignSystemR.drawable.ic_edit),
+                icon = EditIcon,
                 contentDescription = stringResource(R.string.editMoodScreen_manageActions_label)
             )
         }
@@ -239,8 +238,8 @@ fun DateTimeSection(
     timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()),
     dateLabel: String = stringResource(R.string.editMoodScreen_date_label),
     timeLabel: String = stringResource(R.string.editMoodScreen_time_label),
-    dateIcon: Painter = painterResource(DesignSystemR.drawable.ic_date_range),
-    timeIcon: Painter = painterResource(DesignSystemR.drawable.ic_schedule),
+    dateIcon: ImageVector = DateRangeIcon,
+    timeIcon: ImageVector = ScheduleIcon,
     date: LocalDate,
     time: LocalTime,
     onDateChange: () -> Unit,
@@ -269,7 +268,7 @@ fun DateTimeSection(
 private fun DateTimeItem(
     modifier: Modifier = Modifier,
     label: String,
-    icon: Painter,
+    icon: ImageVector,
     value: String,
     onClick: () -> Unit
 ) {
@@ -283,7 +282,7 @@ private fun DateTimeItem(
             modifier = Modifier
                 .size(24.dp)
                 .alpha(alpha = 0.8f),
-            painter = icon,
+            imageVector = icon,
             contentDescription = label
         )
         Text(

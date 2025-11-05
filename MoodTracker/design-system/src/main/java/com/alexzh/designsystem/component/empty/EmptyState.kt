@@ -14,13 +14,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.R
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.MonitoringIcon
 
 @Composable
 fun BoxScope.EmptyState(
@@ -61,7 +61,7 @@ private fun Preview_EmptyState_WithIcon() {
                 icon = {
                     Icon(
                         modifier = Modifier.size(64.dp),
-                        painter = painterResource(R.drawable.ic_monitoring),
+                        imageVector = MonitoringIcon,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )

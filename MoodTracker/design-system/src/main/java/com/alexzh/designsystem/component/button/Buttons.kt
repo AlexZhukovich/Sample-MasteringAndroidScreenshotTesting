@@ -10,12 +10,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.alexzh.designsystem.R
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.AddIcon
+import com.alexzh.designsystem.icon.SettingsIcon
 
 @Composable
 fun PrimaryButton(
@@ -38,7 +38,7 @@ fun PrimaryButton(
 fun PrimaryIconButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    painter: Painter,
+    icon: ImageVector,
     contentDescription: String? = null
 ) {
     IconButton(
@@ -51,7 +51,7 @@ fun PrimaryIconButton(
         shape = MaterialTheme.shapes.medium
     ) {
         Icon(
-            painter = painter,
+            imageVector = icon,
             contentDescription = contentDescription
         )
     }
@@ -61,7 +61,7 @@ fun PrimaryIconButton(
 fun IconButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    painter: Painter,
+    icon: ImageVector,
     contentDescription: String? = null,
     enabled: Boolean = true
 ) {
@@ -71,7 +71,7 @@ fun IconButton(
         enabled = enabled
     ) {
         Icon(
-            painter = painter,
+            imageVector = icon,
             contentDescription = contentDescription
         )
     }
@@ -97,12 +97,12 @@ fun ButtonsPreview() {
             Text("Icon buttons")
             PrimaryIconButton(
                 onClick = {},
-                painter = painterResource(R.drawable.ic_add),
+                icon = AddIcon,
                 contentDescription = null
             )
             IconButton(
                 onClick = {},
-                painter = painterResource(R.drawable.ic_add),
+                icon = SettingsIcon,
                 contentDescription = null
             )
         }

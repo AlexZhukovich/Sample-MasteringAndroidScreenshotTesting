@@ -28,9 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -44,6 +43,7 @@ import com.alexzh.designsystem.component.dialog.DatePickerDialog
 import com.alexzh.designsystem.component.selector.PeriodSelector
 import com.alexzh.designsystem.core.modifier.circleLayout
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.DateRangeIcon
 import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -55,6 +55,7 @@ fun DateRangeSelector(
     state: DateRangeSelectorState,
     animationConfig: DateRangeSelectorAnimationConfig = DateRangeSelectorAnimationConfig(),
     todayButtonLabel: String = stringResource(R.string.dateRangeSelector_todayButton_label),
+    selectDateIcon: ImageVector = DateRangeIcon,
     selectDateDialogConfirmButtonLabel: String = stringResource(R.string.dialog_ok_label),
     selectDateDialogDismissButtonLabel: String = stringResource(R.string.dialog_cancel_label),
     lastDaysLabel: String = stringResource(R.string.dateRangeSelector_lastDays_label, state.dateRange.size),
@@ -82,7 +83,7 @@ fun DateRangeSelector(
         onDateSelected = { date, displayedRange -> state.onDateSelected(date, displayedRange) },
         onPeriodChanged = { direction -> state.onPeriodChanged(direction, coroutineScope) },
         todayButtonLabel = todayButtonLabel,
-        selectDateIcon = painterResource(R.drawable.ic_date_range),
+        selectDateIcon = selectDateIcon,
         selectDateDialogConfirmButtonLabel = selectDateDialogConfirmButtonLabel,
         selectDateDialogDismissButtonLabel = selectDateDialogDismissButtonLabel,
         lastDaysLabel = lastDaysLabel,
@@ -119,7 +120,7 @@ private fun DateRangeSelectorHeader(
     modifier: Modifier = Modifier,
     selectedRangeTitle: String,
     todayButtonLabel: String,
-    selectDateIcon: Painter,
+    selectDateIcon: ImageVector,
     onPreviousPeriod: () -> Unit,
     onNextPeriod: () -> Unit,
     onShowDatePicker: () -> Unit,
@@ -162,7 +163,7 @@ private fun DateRangeSelectorHeader(
                     contentDescription = openDatePickerContentDescription
                 },
                 onClick = onShowDatePicker,
-                painter = selectDateIcon,
+                icon = selectDateIcon,
                 contentDescription = null
             )
         }
@@ -178,7 +179,7 @@ private fun DateRangeSelectorContent(
     onDateSelected: (LocalDate, List<LocalDate>) -> Unit,
     onPeriodChanged: (PeriodChangeDirection) -> Unit,
     todayButtonLabel: String,
-    selectDateIcon: Painter,
+    selectDateIcon: ImageVector,
     selectDateDialogConfirmButtonLabel: String,
     selectDateDialogDismissButtonLabel: String,
     lastDaysLabel: String,

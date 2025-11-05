@@ -1,6 +1,7 @@
 package com.alexzh.moodtracker.ui.feature.actioncategories
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,14 +16,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
-import androidx.activity.compose.BackHandler
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldDefaults
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +31,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
@@ -45,7 +44,7 @@ import com.alexzh.designsystem.component.bars.TopAppBarWithBackButton
 import com.alexzh.designsystem.component.dialog.DeleteConfirmationDialog
 import com.alexzh.designsystem.component.empty.EmptyState
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.designsystem.R as DesignSystemR
+import com.alexzh.designsystem.icon.AddIcon
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryCard
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionItemCard
@@ -235,7 +234,7 @@ private fun ActionCategoriesListPane(
         floatingActionButton = {
             FloatingActionButton(onClick = onAddCategory) {
                 Icon(
-                    painter = painterResource(DesignSystemR.drawable.ic_add),
+                    imageVector = AddIcon,
                     contentDescription = stringResource(R.string.actionCategoriesScreen_addCategoryButton_label)
                 )
             }
@@ -328,7 +327,7 @@ private fun ActionCategoryDetailsPane(
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddActionDialog = true }) {
                 Icon(
-                    painter = painterResource(DesignSystemR.drawable.ic_add),
+                    imageVector = AddIcon,
                     contentDescription = stringResource(R.string.actionCategoryDetailsScreen_addActionButton_label)
                 )
             }

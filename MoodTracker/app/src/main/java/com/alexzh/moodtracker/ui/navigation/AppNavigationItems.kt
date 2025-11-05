@@ -1,24 +1,26 @@
 package com.alexzh.moodtracker.ui.navigation
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.alexzh.designsystem.R as DesignSystemR
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.alexzh.designsystem.icon.HomeIcon
+import com.alexzh.designsystem.icon.MonitoringIcon
+import com.alexzh.designsystem.icon.SettingsIcon
 import com.alexzh.moodtracker.R
 
 enum class AppNavigationItems(
     @StringRes val title: Int,
-    @DrawableRes val icon: Int
+    val icon: ImageVector
 ) {
     HOME(
         title = R.string.navigation_home_label,
-        icon = DesignSystemR.drawable.ic_home
+        icon = HomeIcon
     ),
     STATISTICS(
         title = R.string.navigation_statistics_label,
-        icon = DesignSystemR.drawable.ic_monitoring
+        icon = MonitoringIcon
     ),
     SETTINGS(
         title = R.string.navigation_settings_label,
-        icon = DesignSystemR.drawable.ic_settings
+        icon = SettingsIcon
     )
 }

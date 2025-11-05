@@ -17,7 +17,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.designsystem.R as DesignSystemR
+import com.alexzh.designsystem.icon.CloseIcon
+import com.alexzh.designsystem.icon.DeleteIcon
+import com.alexzh.designsystem.icon.EditIcon
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.domain.model.IconShape
 import com.alexzh.moodtracker.ui.model.LocalizedMood
@@ -63,19 +65,19 @@ fun MoodPreviewHeader(
         if (isLayoutExpanded) {
             IconButton(
                 onClick = onClose,
-                painter = painterResource(DesignSystemR.drawable.ic_close),
+                icon = CloseIcon,
                 contentDescription = stringResource(R.string.homeScreenPreview_close_contentDescription)
             )
         } else {
             Row {
                 IconButton(
                     onClick = { onNavigateToEditMood(moodItem.id) },
-                    painter = painterResource(DesignSystemR.drawable.ic_edit),
+                    icon = EditIcon,
                     contentDescription = stringResource(R.string.homeScreenPreview_editMood_contentDescription)
                 )
                 IconButton(
                     onClick = onDelete,
-                    painter = painterResource(DesignSystemR.drawable.ic_delete),
+                    icon = DeleteIcon,
                     contentDescription = stringResource(R.string.homeScreenPreview_deleteMood_contentDescription)
                 )
             }

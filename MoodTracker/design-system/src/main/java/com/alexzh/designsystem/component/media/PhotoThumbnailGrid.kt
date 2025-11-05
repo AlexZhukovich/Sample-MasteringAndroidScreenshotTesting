@@ -18,16 +18,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.R
+import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.AddIcon
+import com.alexzh.designsystem.icon.CloseIcon
 
 @Composable
 fun PhotoThumbnailGrid(
@@ -37,11 +38,11 @@ fun PhotoThumbnailGrid(
     spacing: Dp = 8.dp,
     contentScale: ContentScale = ContentScale.Crop,
     editable: Boolean = false,
-    removeIcon: Painter = painterResource(R.drawable.ic_close),
+    removeIcon: ImageVector = CloseIcon,
     removeIconContentDescription: String = stringResource(R.string.photoThumbnailGrid_removePhoto_label),
     onRemove: ((Int) -> Unit)? = null,
     onAddPhoto: (() -> Unit)? = null,
-    addIcon: Painter = painterResource(R.drawable.ic_add),
+    addIcon: ImageVector = AddIcon,
     addIconContentDescription: String = stringResource(R.string.photoThumbnailGrid_addPhoto_label),
     maxPhotos: Int? = null
 ) {
@@ -82,7 +83,7 @@ private fun AddPhotoButton(
     modifier: Modifier = Modifier,
     size: Dp,
     iconSize: Dp = 32.dp,
-    icon: Painter,
+    icon: ImageVector,
     contentDescription: String
 ) {
     OutlinedCard(
@@ -97,7 +98,7 @@ private fun AddPhotoButton(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = icon,
+                imageVector = icon,
                 contentDescription = contentDescription,
                 modifier = Modifier.size(iconSize)
             )
@@ -113,7 +114,7 @@ private fun PhotoThumbnail(
     size: Dp,
     contentScale: ContentScale = ContentScale.Crop,
     onRemove: (() -> Unit)? = null,
-    removeIcon: Painter,
+    removeIcon: ImageVector,
     removeIconContentDescription: String
 ) {
     Box(
@@ -144,7 +145,7 @@ private fun PhotoThumbnail(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = removeIcon,
+                    imageVector = removeIcon,
                     contentDescription = removeIconContentDescription,
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colorScheme.onSurface

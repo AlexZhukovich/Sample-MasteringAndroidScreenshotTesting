@@ -7,17 +7,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.alexzh.designsystem.R
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.KeyboardArrowLeftIcon
+import com.alexzh.designsystem.icon.KeyboardArrowRightIcon
 
 @Composable
 fun PeriodSelector(
@@ -25,9 +25,9 @@ fun PeriodSelector(
     label: String,
     onPrevious: () -> Unit,
     onNext: () -> Unit,
-    previousIcon: Painter = painterResource(R.drawable.ic_keyboard_arrow_left),
+    previousIcon: ImageVector = KeyboardArrowLeftIcon,
     previousEnabled: Boolean = true,
-    nextIcon: Painter = painterResource(R.drawable.ic_keyboard_arrow_right),
+    nextIcon: ImageVector = KeyboardArrowRightIcon,
     nextEnabled: Boolean = true,
     previousContentDescription: String? = null,
     nextEnabledContentDescription: String? = null,
@@ -48,7 +48,7 @@ fun PeriodSelector(
                 Modifier
             },
             onClick = onPrevious,
-            painter = previousIcon,
+            icon = previousIcon,
             contentDescription = previousContentDescription,
             enabled = previousEnabled
         )
@@ -78,7 +78,7 @@ fun PeriodSelector(
                 else -> Modifier
             },
             onClick = onNext,
-            painter = nextIcon,
+            icon = nextIcon,
             contentDescription = when {
                 nextEnabled && nextEnabledContentDescription != null -> nextEnabledContentDescription
                 !nextEnabled && nextDisabledContentDescription != null -> nextDisabledContentDescription

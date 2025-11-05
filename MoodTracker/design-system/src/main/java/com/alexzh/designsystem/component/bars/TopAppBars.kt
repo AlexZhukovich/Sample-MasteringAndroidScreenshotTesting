@@ -9,15 +9,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.R
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.core.theme.AppTheme
-import kotlin.Unit
+import com.alexzh.designsystem.icon.ArrowBackIcon
+import com.alexzh.designsystem.icon.DeleteIcon
+import com.alexzh.designsystem.icon.EditIcon
+import com.alexzh.designsystem.icon.SettingsIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +42,7 @@ fun TopAppBarWithBackButton(
     title: String,
     onBack: () -> Unit,
     backButtonContentDescription: String = stringResource(R.string.topAppBar_backButton_contentDescription),
-    backButtonIcon: Painter = painterResource(R.drawable.ic_arrow_back),
+    backButtonIcon: ImageVector = ArrowBackIcon,
     backButtonEnabled: Boolean = true,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
@@ -50,7 +52,7 @@ fun TopAppBarWithBackButton(
         navigationIcon = {
             IconButton(
                 onClick = onBack,
-                painter = backButtonIcon,
+                icon = backButtonIcon,
                 contentDescription = backButtonContentDescription,
                 enabled = backButtonEnabled
             )
@@ -66,7 +68,7 @@ fun TopAppBarWithBackButton(
     titleContent: @Composable () -> Unit,
     onBack: () -> Unit,
     backButtonContentDescription: String = stringResource(R.string.topAppBar_backButton_contentDescription),
-    backButtonIcon: Painter = painterResource(R.drawable.ic_arrow_back),
+    backButtonIcon: ImageVector = ArrowBackIcon,
     backButtonEnabled: Boolean = true,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
@@ -76,7 +78,7 @@ fun TopAppBarWithBackButton(
         navigationIcon = {
             IconButton(
                 onClick = onBack,
-                painter = backButtonIcon,
+                icon = backButtonIcon,
                 contentDescription = backButtonContentDescription,
                 enabled = backButtonEnabled
             )
@@ -88,14 +90,14 @@ fun TopAppBarWithBackButton(
 @Composable
 fun TopAppBarAction(
     modifier: Modifier = Modifier,
-    icon: Painter,
+    icon: ImageVector,
     onClick: () -> Unit,
     contentDescription: String? = null
 ) {
     IconButton(
         modifier = modifier,
         onClick = onClick,
-        painter = icon,
+        icon = icon,
         contentDescription = contentDescription,
     )
 }
@@ -117,7 +119,7 @@ fun Preview_TopAppBars() {
                 title = "AppBar with actions",
                 actions = {
                     TopAppBarAction(
-                        icon = painterResource(R.drawable.ic_settings),
+                        icon = SettingsIcon,
                         onClick = {}
                     )
                 }
@@ -142,7 +144,7 @@ fun Preview_TopAppBars() {
                 backButtonContentDescription = "Back",
                 actions = {
                     TopAppBarAction(
-                        icon = painterResource(R.drawable.ic_settings),
+                        icon = SettingsIcon,
                         onClick = {},
                     )
                 }
@@ -158,11 +160,11 @@ fun Preview_TopAppBars() {
                 onBack = {},
                 actions = {
                     TopAppBarAction(
-                        icon = painterResource(R.drawable.ic_edit),
+                        icon = EditIcon,
                         onClick = {},
                     )
                     TopAppBarAction(
-                        icon = painterResource(R.drawable.ic_delete),
+                        icon = DeleteIcon,
                         onClick = {},
                     )
                 }
