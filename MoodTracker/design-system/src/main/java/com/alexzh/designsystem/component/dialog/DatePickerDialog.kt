@@ -49,28 +49,6 @@ fun DatePickerDialog(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDialog(
-    selectedDate: LocalDate,
-    confirmButtonLabel: String,
-    dismissButtonLabel: String,
-    onDateSelected: (LocalDate) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = selectedDate.toEpochDay() * MILLISECONDS_PER_DAY,
-        initialDisplayedMonthMillis = selectedDate.toEpochDay() * MILLISECONDS_PER_DAY,
-    )
-    DatePickerDialogContent(
-        state = datePickerState,
-        confirmButtonLabel = confirmButtonLabel,
-        dismissButtonLabel = dismissButtonLabel,
-        onDateSelected = onDateSelected,
-        onDismiss = onDismiss
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 private fun DatePickerDialogContent(
     state: DatePickerState,
     confirmButtonLabel: String,
