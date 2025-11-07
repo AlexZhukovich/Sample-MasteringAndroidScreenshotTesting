@@ -40,8 +40,11 @@ import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ActionImpac
 import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ActionToHappinessChart
 import com.alexzh.moodtracker.ui.feature.statistics.components.chart.AverageDailyMoodChart
 import com.alexzh.moodtracker.ui.feature.statistics.components.chart.ChartDataItem
-import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
-import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
+import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
+import com.alexzh.designsystem.component.navigation.BottomNavigationItem
+import com.alexzh.designsystem.icon.HomeIcon
+import com.alexzh.designsystem.icon.MonitoringIcon
+import com.alexzh.designsystem.icon.SettingsIcon
 import java.time.LocalDate
 
 @Composable
@@ -74,10 +77,12 @@ fun StatisticsScreenContent(
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val isCompactLayout = windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND).not()
     AppNavigationSuiteScaffold(
-        selectedItem = AppNavigationItems.STATISTICS,
-        onNavigateToHome = onNavigateToHome,
-        onNavigateToStatistics = { },
-        onNavigateToSettings = onNavigateToSettings
+        items = getNavigationItems(
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToStatistics = {},
+            onNavigateToSettings = onNavigateToSettings
+        ),
+        selectedItemIndex = 1
     ) {
         Scaffold(
             topBar = {
@@ -229,6 +234,31 @@ private fun ActionToHappinessSection(
             }
         }
     }
+}
+
+@Composable
+private fun getNavigationItems(
+    onNavigateToHome: () -> Unit,
+    onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit
+): List<BottomNavigationItem> {
+    return listOf(
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_home_label),
+            icon = HomeIcon,
+            onClick = onNavigateToHome
+        ),
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_statistics_label),
+            icon = MonitoringIcon,
+            onClick = onNavigateToStatistics
+        ),
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_settings_label),
+            icon = SettingsIcon,
+            onClick = onNavigateToSettings
+        )
+    )
 }
 
 @Preview(name = "Phone - Light", device = PHONE, showBackground = true)

@@ -19,9 +19,9 @@ fun NavGraphBuilder.homeScreen(
         HomeScreen(
             viewModel = koinViewModel<HomeScreenViewModel>(),
             onNavigateToEditMood = onNavigateToEditMood,
-            onNavigateToSettings = onNavigateToSettings,
+            onNavigateToAddMood = onNavigateToAddMood,
             onNavigateToStatistics = onNavigateToStatistics,
-            onNavigateToAddMood = onNavigateToAddMood
+            onNavigateToSettings = onNavigateToSettings
         )
     }
 }

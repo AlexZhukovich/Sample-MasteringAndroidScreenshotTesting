@@ -1,7 +1,6 @@
 package com.alexzh.moodtracker.ui.feature.settings
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,16 +15,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.designsystem.component.bars.TopAppBar
+import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
+import com.alexzh.designsystem.component.navigation.BottomNavigationItem
 import com.alexzh.designsystem.component.settings.SettingsDropdownItem
 import com.alexzh.designsystem.component.settings.SettingsInfoItem
 import com.alexzh.designsystem.component.settings.SettingsNavigationItem
 import com.alexzh.designsystem.component.settings.SettingsSectionTitle
 import com.alexzh.designsystem.component.settings.SettingsSwitchItem
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.icon.HomeIcon
+import com.alexzh.designsystem.icon.MonitoringIcon
+import com.alexzh.designsystem.icon.SettingsIcon
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.model.LocalizedIconShape
-import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
-import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
 
 @Composable
 fun SettingsScreen(
@@ -33,7 +35,7 @@ fun SettingsScreen(
     onNavigateToManageActions: () -> Unit,
     onNavigateToThirdPartyLicenses: () -> Unit,
     onNavigateToHome: () -> Unit,
-    onNavigateToStatistics: () -> Unit
+    onNavigateToStatistics: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -62,13 +64,13 @@ fun SettingsScreenContent(
     onNavigateToHome: () -> Unit,
     onNavigateToStatistics: () -> Unit
 ) {
-    BackHandler(onBack = onNavigateToHome)
-
     AppNavigationSuiteScaffold(
-        selectedItem = AppNavigationItems.SETTINGS,
-        onNavigateToHome = onNavigateToHome,
-        onNavigateToStatistics = onNavigateToStatistics,
-        onNavigateToSettings = { }
+        items = getNavigationItems(
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToStatistics = onNavigateToStatistics,
+            onNavigateToSettings = {}
+        ),
+        selectedItemIndex = 2
     ) {
         Scaffold(
             topBar = {
@@ -78,7 +80,8 @@ fun SettingsScreenContent(
             }
         ) { innerPadding ->
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
             ) {
@@ -118,6 +121,31 @@ fun SettingsScreenContent(
             }
         }
     }
+}
+
+@Composable
+private fun getNavigationItems(
+    onNavigateToHome: () -> Unit,
+    onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit
+): List<BottomNavigationItem> {
+    return listOf(
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_home_label),
+            icon = HomeIcon,
+            onClick = onNavigateToHome
+        ),
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_statistics_label),
+            icon = MonitoringIcon,
+            onClick = onNavigateToStatistics
+        ),
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_settings_label),
+            icon = SettingsIcon,
+            onClick = onNavigateToSettings
+        )
+    )
 }
 
 @Preview(name = "Phone - Light", device = PHONE, showBackground = true)

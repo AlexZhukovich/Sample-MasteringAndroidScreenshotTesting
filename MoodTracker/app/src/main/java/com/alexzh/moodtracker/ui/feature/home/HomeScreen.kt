@@ -82,8 +82,8 @@ import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewHeader
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
-import com.alexzh.moodtracker.ui.navigation.AppNavigationItems
-import com.alexzh.moodtracker.ui.navigation.AppNavigationSuiteScaffold
+import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
+import com.alexzh.designsystem.component.navigation.BottomNavigationItem
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -163,10 +163,12 @@ fun HomeScreenContent(
     when {
         windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND) -> {
             AppNavigationSuiteScaffold(
-                selectedItem = AppNavigationItems.HOME,
-                onNavigateToHome = { },
-                onNavigateToStatistics = onNavigateToStatistics,
-                onNavigateToSettings = onNavigateToSettings
+                items = getNavigationItems(
+                    onNavigateToHome = { },
+                    onNavigateToStatistics = onNavigateToStatistics,
+                    onNavigateToSettings = onNavigateToSettings
+                ),
+                selectedItemIndex = 0
             ) {
                 HomeScreenContentExpanded(
                     uiState = uiState,
@@ -206,10 +208,12 @@ fun HomeScreenContent(
             }
 
             AppNavigationSuiteScaffold(
-                selectedItem = AppNavigationItems.HOME,
-                onNavigateToHome = { },
-                onNavigateToStatistics = onNavigateToStatistics,
-                onNavigateToSettings = onNavigateToSettings
+                items = getNavigationItems(
+                    onNavigateToHome = { },
+                    onNavigateToStatistics = onNavigateToStatistics,
+                    onNavigateToSettings = onNavigateToSettings
+                ),
+                selectedItemIndex = 0
             ) {
                 HomeScreenContentCompactMedium(
                     uiState = uiState,
@@ -230,10 +234,12 @@ fun HomeScreenContent(
                 )
             } else {
                 AppNavigationSuiteScaffold(
-                    selectedItem = AppNavigationItems.HOME,
-                    onNavigateToHome = { },
-                    onNavigateToStatistics = onNavigateToStatistics,
-                    onNavigateToSettings = onNavigateToSettings,
+                    items = getNavigationItems(
+                        onNavigateToHome = { },
+                        onNavigateToStatistics = onNavigateToStatistics,
+                        onNavigateToSettings = onNavigateToSettings
+                    ),
+                    selectedItemIndex = 0
                 ) {
                     HomeScreenContentCompactMedium(
                         uiState = uiState,
@@ -598,6 +604,31 @@ private fun MoodPreviewPhotos(
             )
         }
     }
+}
+
+@Composable
+private fun getNavigationItems(
+    onNavigateToHome: () -> Unit,
+    onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit
+): List<BottomNavigationItem> {
+    return listOf(
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_home_label),
+            icon = com.alexzh.designsystem.icon.HomeIcon,
+            onClick = onNavigateToHome
+        ),
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_statistics_label),
+            icon = com.alexzh.designsystem.icon.MonitoringIcon,
+            onClick = onNavigateToStatistics
+        ),
+        BottomNavigationItem(
+            label = stringResource(R.string.navigation_settings_label),
+            icon = com.alexzh.designsystem.icon.SettingsIcon,
+            onClick = onNavigateToSettings
+        )
+    )
 }
 
 @Preview(name = "Phone - Light", device = PHONE, showBackground = true)
