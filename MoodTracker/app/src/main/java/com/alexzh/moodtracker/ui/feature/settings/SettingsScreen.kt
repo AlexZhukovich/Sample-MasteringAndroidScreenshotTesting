@@ -16,18 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.designsystem.component.bars.TopAppBar
 import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
-import com.alexzh.designsystem.component.navigation.BottomNavigationItem
 import com.alexzh.designsystem.component.settings.SettingsDropdownItem
 import com.alexzh.designsystem.component.settings.SettingsInfoItem
 import com.alexzh.designsystem.component.settings.SettingsNavigationItem
 import com.alexzh.designsystem.component.settings.SettingsSectionTitle
 import com.alexzh.designsystem.component.settings.SettingsSwitchItem
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.designsystem.icon.HomeIcon
-import com.alexzh.designsystem.icon.MonitoringIcon
-import com.alexzh.designsystem.icon.SettingsIcon
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.model.LocalizedIconShape
+import com.alexzh.moodtracker.ui.navigation.defaultBottomNavigationItems
 
 @Composable
 fun SettingsScreen(
@@ -65,7 +62,7 @@ fun SettingsScreenContent(
     onNavigateToStatistics: () -> Unit
 ) {
     AppNavigationSuiteScaffold(
-        items = getNavigationItems(
+        items = defaultBottomNavigationItems(
             onNavigateToHome = onNavigateToHome,
             onNavigateToStatistics = onNavigateToStatistics,
             onNavigateToSettings = {}
@@ -121,31 +118,6 @@ fun SettingsScreenContent(
             }
         }
     }
-}
-
-@Composable
-private fun getNavigationItems(
-    onNavigateToHome: () -> Unit,
-    onNavigateToStatistics: () -> Unit,
-    onNavigateToSettings: () -> Unit
-): List<BottomNavigationItem> {
-    return listOf(
-        BottomNavigationItem(
-            label = stringResource(R.string.navigation_home_label),
-            icon = HomeIcon,
-            onClick = onNavigateToHome
-        ),
-        BottomNavigationItem(
-            label = stringResource(R.string.navigation_statistics_label),
-            icon = MonitoringIcon,
-            onClick = onNavigateToStatistics
-        ),
-        BottomNavigationItem(
-            label = stringResource(R.string.navigation_settings_label),
-            icon = SettingsIcon,
-            onClick = onNavigateToSettings
-        )
-    )
 }
 
 @Preview(name = "Phone - Light", device = PHONE, showBackground = true)

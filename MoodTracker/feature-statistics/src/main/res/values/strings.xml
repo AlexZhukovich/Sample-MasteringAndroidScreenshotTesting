@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statisticsScreen_title">Statistics</string>
+    <string name="statisticsScreen_dateRangeSelector_nextMonth_contentDescription">Next month</string>
+    <string name="statisticsScreen_dateRangeSelector_previousMonth_contentDescription">Previous month</string>
+    <string name="statisticsScreen_emptyState_title">No data for this month</string>
+    <string name="statisticsScreen_emptyState_label">Switch to a different month or start tracking to see your patterns</string>
+    <string name="statisticsScreen_averageDailyMoodSection_label">Average Daily Mood</string>
+    <string name="statisticsScreen_actionImpactOverviewSection_label">Action Impact Overview</string>
+    <string name="statisticsScreen_positiveImpactActionsSection_label">Positive Impact Actions</string>
+    <string name="statisticsScreen_negativeImpactActionsSection_label">Negative Impact Actions</string>
+</resources>

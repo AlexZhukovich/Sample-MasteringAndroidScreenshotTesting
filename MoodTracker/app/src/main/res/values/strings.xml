@@ -27,16 +27,6 @@
     <string name="editMoodScreen_saving_label">Saving</string>
     <string name="editMoodScreen_saveButton_label">Save</string>
 
-    <string name="statisticsScreen_title">Statistics</string>
-    <string name="statisticsScreen_dateRangeSelector_nextMonth_contentDescription">Next month</string>
-    <string name="statisticsScreen_dateRangeSelector_previousMonth_contentDescription">Previous month</string>
-    <string name="statisticsScreen_emptyState_title">No data for this month</string>
-    <string name="statisticsScreen_emptyState_label">Switch to a different month or start tracking to see your patterns</string>
-    <string name="statisticsScreen_averageDailyMoodSection_label">Average Daily Mood</string>
-    <string name="statisticsScreen_actionImpactOverviewSection_label">Action Impact Overview</string>
-    <string name="statisticsScreen_positiveImpactActionsSection_label">Positive Impact Actions</string>
-    <string name="statisticsScreen_negativeImpactActionsSection_label">Negative Impact Actions</string>
-
     <string name="actionCategoriesScreen_title">Manage Actions</string>
     <string name="actionCategoriesScreen_addCategoryButton_label">Add Category</string>
     <string name="actionCategoriesScreen_emptyState_label">You haven\'t added any categories.</string>
@@ -74,12 +64,6 @@
     <string name="settingsScreen_aboutSection_title">About</string>
     <string name="settingsScreen_thirdPartyLicenses_title">Third Party Licenses</string>
     <string name="settingsScreen_version_title">Version</string>
-
-    <string name="mood_angry">Angry</string>
-    <string name="mood_sad">Sad</string>
-    <string name="mood_ok">OK</string>
-    <string name="mood_good">Good</string>
-    <string name="mood_happy">Happy</string>
 
     <!-- Widget -->
     <string name="widget_description">Mood tracking widget</string>

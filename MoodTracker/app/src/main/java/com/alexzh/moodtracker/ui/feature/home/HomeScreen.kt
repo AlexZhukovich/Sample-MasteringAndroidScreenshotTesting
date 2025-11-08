@@ -68,6 +68,7 @@ import com.alexzh.designsystem.component.button.PrimaryIconButton
 import com.alexzh.designsystem.component.dialog.DeleteConfirmationDialog
 import com.alexzh.designsystem.component.empty.EmptyState
 import com.alexzh.designsystem.component.media.AsyncImage
+import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
 import com.alexzh.designsystem.component.selector.daterangeselector.DateRangeSelector
 import com.alexzh.designsystem.component.selector.daterangeselector.rememberDateRangeSelectorState
 import com.alexzh.designsystem.core.theme.AppTheme
@@ -82,8 +83,7 @@ import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewHeader
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
 import com.alexzh.moodtracker.ui.model.MoodItem
-import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
-import com.alexzh.designsystem.component.navigation.BottomNavigationItem
+import com.alexzh.moodtracker.ui.navigation.defaultBottomNavigationItems
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -163,7 +163,7 @@ fun HomeScreenContent(
     when {
         windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND) -> {
             AppNavigationSuiteScaffold(
-                items = getNavigationItems(
+                items = defaultBottomNavigationItems(
                     onNavigateToHome = { },
                     onNavigateToStatistics = onNavigateToStatistics,
                     onNavigateToSettings = onNavigateToSettings
@@ -208,7 +208,7 @@ fun HomeScreenContent(
             }
 
             AppNavigationSuiteScaffold(
-                items = getNavigationItems(
+                items = defaultBottomNavigationItems(
                     onNavigateToHome = { },
                     onNavigateToStatistics = onNavigateToStatistics,
                     onNavigateToSettings = onNavigateToSettings
@@ -234,7 +234,7 @@ fun HomeScreenContent(
                 )
             } else {
                 AppNavigationSuiteScaffold(
-                    items = getNavigationItems(
+                    items = defaultBottomNavigationItems(
                         onNavigateToHome = { },
                         onNavigateToStatistics = onNavigateToStatistics,
                         onNavigateToSettings = onNavigateToSettings
@@ -604,31 +604,6 @@ private fun MoodPreviewPhotos(
             )
         }
     }
-}
-
-@Composable
-private fun getNavigationItems(
-    onNavigateToHome: () -> Unit,
-    onNavigateToStatistics: () -> Unit,
-    onNavigateToSettings: () -> Unit
-): List<BottomNavigationItem> {
-    return listOf(
-        BottomNavigationItem(
-            label = stringResource(R.string.navigation_home_label),
-            icon = com.alexzh.designsystem.icon.HomeIcon,
-            onClick = onNavigateToHome
-        ),
-        BottomNavigationItem(
-            label = stringResource(R.string.navigation_statistics_label),
-            icon = com.alexzh.designsystem.icon.MonitoringIcon,
-            onClick = onNavigateToStatistics
-        ),
-        BottomNavigationItem(
-            label = stringResource(R.string.navigation_settings_label),
-            icon = com.alexzh.designsystem.icon.SettingsIcon,
-            onClick = onNavigateToSettings
-        )
-    )
 }
 
 @Preview(name = "Phone - Light", device = PHONE, showBackground = true)
