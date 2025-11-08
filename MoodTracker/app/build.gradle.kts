@@ -44,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":design-system"))
 
     implementation(platform(libs.androidx.compose.bom))
@@ -54,10 +55,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.navigation.compose)

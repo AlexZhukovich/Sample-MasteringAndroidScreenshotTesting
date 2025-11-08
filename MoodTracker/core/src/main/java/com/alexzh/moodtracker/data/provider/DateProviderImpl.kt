@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.core
+package com.alexzh.moodtracker.data.provider
 
 import android.content.BroadcastReceiver
 import android.content.Context

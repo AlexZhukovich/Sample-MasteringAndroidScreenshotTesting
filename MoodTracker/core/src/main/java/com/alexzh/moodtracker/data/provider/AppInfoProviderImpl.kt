@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.core
+package com.alexzh.moodtracker.data.provider
 
 import android.content.Context
 import com.alexzh.moodtracker.domain.model.AppInfo
