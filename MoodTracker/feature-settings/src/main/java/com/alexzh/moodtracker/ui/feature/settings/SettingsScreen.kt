@@ -22,7 +22,7 @@ import com.alexzh.designsystem.component.settings.SettingsNavigationItem
 import com.alexzh.designsystem.component.settings.SettingsSectionTitle
 import com.alexzh.designsystem.component.settings.SettingsSwitchItem
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.feature.settings.R
 import com.alexzh.moodtracker.ui.model.LocalizedIconShape
 import com.alexzh.moodtracker.ui.navigation.defaultBottomNavigationItems
 

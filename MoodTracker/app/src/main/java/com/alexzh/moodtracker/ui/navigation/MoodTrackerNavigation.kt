@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.feature.actioncategories.ActionCategoriesScreenDestination
 import com.alexzh.moodtracker.ui.feature.actioncategories.actionCategoriesScreen
 import com.alexzh.moodtracker.ui.feature.editmood.EditMoodScreenDestination
@@ -51,6 +52,7 @@ fun MoodTrackerNavigation(
             onNavigateToStatistics = { navController.navigateToStatistics(HomeScreenDestination) }
         )
         settingsLicensesScreen(
+            librariesResourceId = R.raw.aboutlibraries,
             onNavigateUp = { navController.navigateUp() }
         )
     }

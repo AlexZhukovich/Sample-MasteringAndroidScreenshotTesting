@@ -1,7 +1,7 @@
 package com.alexzh.moodtracker.ui.model
 
 import androidx.annotation.StringRes
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.feature.settings.R
 import kotlinx.serialization.Serializable
 
 @Serializable
