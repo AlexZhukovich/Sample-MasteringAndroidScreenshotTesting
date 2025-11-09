@@ -5,7 +5,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
-import com.alexzh.moodtracker.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 
 @Serializable
 data class EditMoodScreenDestination(

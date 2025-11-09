@@ -21,9 +21,9 @@ import com.alexzh.designsystem.icon.CloseIcon
 import com.alexzh.designsystem.icon.DeleteIcon
 import com.alexzh.designsystem.icon.EditIcon
 import com.alexzh.moodtracker.home.R
-import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.model.MoodItem
-import com.alexzh.moodtracker.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import java.time.LocalDateTime
 
 @Composable

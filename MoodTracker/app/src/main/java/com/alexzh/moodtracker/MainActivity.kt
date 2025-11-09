@@ -10,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.ui.navigation.MoodTrackerNavigation
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {

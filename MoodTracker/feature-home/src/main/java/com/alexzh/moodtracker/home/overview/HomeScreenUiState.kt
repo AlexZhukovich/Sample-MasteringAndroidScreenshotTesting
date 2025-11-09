@@ -1,6 +1,6 @@
 package com.alexzh.moodtracker.home.overview
 
-import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.model.MoodItem
 import java.time.LocalDate
 

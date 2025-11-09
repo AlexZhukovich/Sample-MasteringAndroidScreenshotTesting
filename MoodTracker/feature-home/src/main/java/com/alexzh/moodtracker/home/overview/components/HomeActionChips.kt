@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.component.chip.Chip
 import com.alexzh.designsystem.component.chip.ChipSize
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.ActionItem
 import kotlin.collections.forEach
 
 @OptIn(ExperimentalLayoutApi::class)

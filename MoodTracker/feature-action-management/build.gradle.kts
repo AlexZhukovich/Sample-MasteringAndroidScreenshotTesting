@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.alexzh.moodtracker.feature.actionmanagement"
+    namespace = "com.alexzh.moodtracker.actionmanagement"
     compileSdk = 36
 
     defaultConfig {

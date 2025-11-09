@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.model.MoodItem
-import com.alexzh.moodtracker.ui.model.ActionItem
-import com.alexzh.moodtracker.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import java.time.LocalDateTime
 
 @Composable

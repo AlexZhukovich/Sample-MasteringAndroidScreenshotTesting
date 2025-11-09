@@ -1,8 +1,8 @@
 package com.alexzh.moodtracker.home.edit.mood
 
 import android.net.Uri
-import com.alexzh.moodtracker.ui.model.ActionItem
-import com.alexzh.moodtracker.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import java.time.LocalDate
 import java.time.LocalTime
 

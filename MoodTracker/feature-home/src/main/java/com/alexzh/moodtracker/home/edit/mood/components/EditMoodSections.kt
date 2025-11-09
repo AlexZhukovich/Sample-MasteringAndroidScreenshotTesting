@@ -52,12 +52,12 @@ import com.alexzh.designsystem.icon.DateRangeIcon
 import com.alexzh.designsystem.icon.EditIcon
 import com.alexzh.designsystem.icon.ScheduleIcon
 import com.alexzh.moodtracker.home.R
-import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.edit.mood.PhotoAction
 import com.alexzh.moodtracker.home.edit.mood.SelectableActionCategories
-import com.alexzh.moodtracker.ui.model.ActionCategoryItem
-import com.alexzh.moodtracker.ui.model.ActionItem
-import com.alexzh.moodtracker.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
+import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
