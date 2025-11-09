@@ -45,7 +45,7 @@ import com.alexzh.designsystem.component.dialog.DeleteConfirmationDialog
 import com.alexzh.designsystem.component.empty.EmptyState
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.AddIcon
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.feature.actionmanagement.R
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionCategoryCard
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.ActionItemCard
 import com.alexzh.moodtracker.ui.feature.actioncategories.components.AddActionDialog

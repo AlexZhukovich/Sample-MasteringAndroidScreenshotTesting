@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.alexzh.designsystem.component.dialog.FormDialog
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.feature.actionmanagement.R
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 
