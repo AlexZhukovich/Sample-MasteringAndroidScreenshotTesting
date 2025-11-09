@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.home.components
+package com.alexzh.moodtracker.home.overview.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,10 +20,10 @@ import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.CloseIcon
 import com.alexzh.designsystem.icon.DeleteIcon
 import com.alexzh.designsystem.icon.EditIcon
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.home.model.MoodItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
-import com.alexzh.moodtracker.ui.model.MoodItem
 import java.time.LocalDateTime
 
 @Composable
@@ -88,7 +88,7 @@ fun MoodPreviewHeader(
 @PreviewLightDark
 @Composable
 private fun Preview_MoodPreviewHeader_NonExpandedLayout_RoundedSquareIconShape() {
-    val moodItem =MoodItem(
+    val moodItem = MoodItem(
         id = 1L,
         mood = LocalizedMood.HAPPY,
         date = LocalDateTime.of(2025, 1, 15, 10, 0),

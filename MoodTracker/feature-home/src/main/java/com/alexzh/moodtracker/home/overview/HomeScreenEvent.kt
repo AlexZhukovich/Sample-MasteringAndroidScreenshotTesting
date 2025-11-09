@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.home
+package com.alexzh.moodtracker.home.overview
 
 import java.time.LocalDate
 

@@ -1,7 +1,7 @@
-package com.alexzh.moodtracker.ui.feature.home
+package com.alexzh.moodtracker.home.overview
 
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.model.MoodItem
+import com.alexzh.moodtracker.home.model.MoodItem
 import java.time.LocalDate
 
 data class HomeScreenUiState(

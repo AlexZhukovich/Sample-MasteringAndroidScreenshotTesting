@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.home.components
+package com.alexzh.moodtracker.home.overview.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi

@@ -7,11 +7,11 @@ import androidx.navigation.compose.rememberNavController
 import com.alexzh.moodtracker.R
 import com.alexzh.moodtracker.ui.feature.actioncategories.ActionCategoriesScreenDestination
 import com.alexzh.moodtracker.ui.feature.actioncategories.actionCategoriesScreen
-import com.alexzh.moodtracker.ui.feature.editmood.EditMoodScreenDestination
-import com.alexzh.moodtracker.ui.feature.editmood.editMoodScreen
-import com.alexzh.moodtracker.ui.feature.home.HomeScreenDestination
-import com.alexzh.moodtracker.ui.feature.home.homeScreen
-import com.alexzh.moodtracker.ui.feature.home.navigateToHome
+import com.alexzh.moodtracker.home.edit.mood.EditMoodScreenDestination
+import com.alexzh.moodtracker.home.edit.mood.editMoodScreen
+import com.alexzh.moodtracker.home.overview.HomeScreenDestination
+import com.alexzh.moodtracker.home.overview.homeScreen
+import com.alexzh.moodtracker.home.overview.navigateToHome
 import com.alexzh.moodtracker.ui.feature.settings.licence.SettingsLicensesScreenDestination
 import com.alexzh.moodtracker.ui.feature.settings.licence.settingsLicensesScreen
 import com.alexzh.moodtracker.ui.feature.settings.navigateToSettings

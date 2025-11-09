@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.home
+package com.alexzh.moodtracker.home.overview
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.net.Uri
@@ -75,14 +75,14 @@ import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.AddIcon
 import com.alexzh.designsystem.icon.DeleteIcon
 import com.alexzh.designsystem.icon.EditIcon
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.feature.home.components.MoodActionChips
-import com.alexzh.moodtracker.ui.feature.home.components.MoodItemCard
-import com.alexzh.moodtracker.ui.feature.home.components.MoodPreviewHeader
+import com.alexzh.moodtracker.home.model.MoodItem
+import com.alexzh.moodtracker.home.overview.components.MoodActionChips
+import com.alexzh.moodtracker.home.overview.components.MoodItemCard
+import com.alexzh.moodtracker.home.overview.components.MoodPreviewHeader
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
-import com.alexzh.moodtracker.ui.model.MoodItem
 import com.alexzh.moodtracker.ui.navigation.defaultBottomNavigationItems
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel

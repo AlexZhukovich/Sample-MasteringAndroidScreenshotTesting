@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.home.components
+package com.alexzh.moodtracker.home.overview.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -26,9 +26,9 @@ import androidx.core.net.toUri
 import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.domain.model.IconShape
+import com.alexzh.moodtracker.home.model.MoodItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
-import com.alexzh.moodtracker.ui.model.MoodItem
 import java.time.LocalDateTime
 
 @Composable

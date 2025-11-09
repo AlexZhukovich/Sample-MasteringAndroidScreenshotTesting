@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.editmood
+package com.alexzh.moodtracker.home.edit.mood
 
 import android.net.Uri
 import com.alexzh.moodtracker.domain.model.IconShape

@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.editmood
+package com.alexzh.moodtracker.home.edit.mood
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
@@ -45,13 +45,13 @@ import com.alexzh.designsystem.component.button.PrimaryButton
 import com.alexzh.designsystem.component.dialog.DatePickerDialog
 import com.alexzh.designsystem.component.dialog.TimePickerDialog
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.feature.editmood.components.ActionCategoriesSection
-import com.alexzh.moodtracker.ui.feature.editmood.components.DateTimeSection
-import com.alexzh.moodtracker.ui.feature.editmood.components.MoodSection
-import com.alexzh.moodtracker.ui.feature.editmood.components.NoteSection
-import com.alexzh.moodtracker.ui.feature.editmood.components.PhotosSection
+import com.alexzh.moodtracker.home.edit.mood.components.ActionCategoriesSection
+import com.alexzh.moodtracker.home.edit.mood.components.DateTimeSection
+import com.alexzh.moodtracker.home.edit.mood.components.MoodSection
+import com.alexzh.moodtracker.home.edit.mood.components.NoteSection
+import com.alexzh.moodtracker.home.edit.mood.components.PhotosSection
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood

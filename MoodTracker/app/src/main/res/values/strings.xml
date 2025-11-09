@@ -1,32 +1,6 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
-    <string name="navigation_home_label">Home</string>
-    <string name="navigation_statistics_label">Statistics</string>
-    <string name="navigation_settings_label">Settings</string>
-
-    <string name="homeScreen_title">Mood Tracker</string>
-    <string name="homeScreen_addMoodButton_label">Add mood</string>
-    <string name="homeScreen_emptyState_title">No mood entries found</string>
-    <string name="homeScreen_emptyState_label">No entries found for %1$s</string>
-    <string name="homeScreen_deleteDialogTitle_label">Confirm Deletion</string>
-    <string name="homeScreen_deleteDialogText_label">Once you confirm, it will be deleted and cannot be recovered</string>
-    <string name="homeScreenPreview_editMood_contentDescription">Edit mood</string>
-    <string name="homeScreenPreview_deleteMood_contentDescription">Delete mood</string>
-    <string name="homeScreenPreview_close_contentDescription">Close</string>
-
-    <string name="editMoodScreen_addMood_label">Add Mood</string>
-    <string name="editMoodScreen_editMood_label">Edit Mood</string>
-    <string name="editMoodScreen_manageActions_label">Manage Actions</string>
-    <string name="editMoodScreen_moodSection_label">How do you feel?</string>
-    <string name="editMoodScreen_actionCategoriesSection_label">Did you do any activity?</string>
-    <string name="editMoodScreen_noteSection_label">Add a note</string>
-    <string name="editMoodScreen_photos_label">Photos (select up to 3 photos)</string>
-    <string name="editMoodScreen_date_label">Date</string>
-    <string name="editMoodScreen_time_label">Time</string>
-    <string name="editMoodScreen_saving_label">Saving</string>
-    <string name="editMoodScreen_saveButton_label">Save</string>
-
     <!-- Widget -->
     <string name="widget_description">Mood tracking widget</string>
 </resources>

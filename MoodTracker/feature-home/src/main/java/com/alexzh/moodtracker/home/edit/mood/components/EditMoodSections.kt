@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.ui.feature.editmood.components
+package com.alexzh.moodtracker.home.edit.mood.components
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -50,10 +51,10 @@ import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.DateRangeIcon
 import com.alexzh.designsystem.icon.EditIcon
 import com.alexzh.designsystem.icon.ScheduleIcon
-import com.alexzh.moodtracker.R
+import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.domain.model.IconShape
-import com.alexzh.moodtracker.ui.feature.editmood.PhotoAction
-import com.alexzh.moodtracker.ui.feature.editmood.SelectableActionCategories
+import com.alexzh.moodtracker.home.edit.mood.PhotoAction
+import com.alexzh.moodtracker.home.edit.mood.SelectableActionCategories
 import com.alexzh.moodtracker.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.ui.model.ActionItem
 import com.alexzh.moodtracker.ui.model.LocalizedMood
@@ -388,7 +389,7 @@ private fun Preview_NoteSection() {
             bringIntoViewRequester = remember { BringIntoViewRequester() },
             focusManager = object : FocusManager {
                 override fun clearFocus(force: Boolean) {}
-                override fun moveFocus(focusDirection: androidx.compose.ui.focus.FocusDirection): Boolean = false
+                override fun moveFocus(focusDirection: FocusDirection): Boolean = false
             }
         )
     }
