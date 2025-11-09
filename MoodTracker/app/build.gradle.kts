@@ -44,19 +44,22 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":common-ui"))
+    implementation(project(":design-system"))
+    implementation(project(":feature-action-management"))
+    implementation(project(":feature-home"))
+    implementation(project(":feature-settings"))
+    implementation(project(":feature-statistics"))
 
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.androidx.navigation.compose)

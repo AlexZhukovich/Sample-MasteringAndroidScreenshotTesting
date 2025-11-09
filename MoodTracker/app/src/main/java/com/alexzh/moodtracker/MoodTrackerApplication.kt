@@ -1,14 +1,13 @@
 package com.alexzh.moodtracker
 
 import android.app.Application
-import com.alexzh.moodtracker.data.initialization.DataInitializer
+import com.alexzh.moodtracker.core.data.initialization.DataInitializer
 import com.alexzh.moodtracker.di.appModule
-import com.alexzh.moodtracker.di.dataModule
-import com.alexzh.moodtracker.ui.feature.actioncategories.actionCategoriesModule
-import com.alexzh.moodtracker.ui.feature.editmood.editMoodModule
-import com.alexzh.moodtracker.ui.feature.home.homeModule
-import com.alexzh.moodtracker.ui.feature.settings.settingsModule
-import com.alexzh.moodtracker.ui.feature.statistics.statisticsModule
+import com.alexzh.moodtracker.core.di.dataModule
+import com.alexzh.moodtracker.actionmanagement.actionManagementModule
+import com.alexzh.moodtracker.home.homeModule
+import com.alexzh.moodtracker.settings.settingsModule
+import com.alexzh.moodtracker.statistics.statisticsModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,9 +28,8 @@ class MoodTrackerApplication : Application() {
                 appModule,
                 dataModule,
                 homeModule,
-                editMoodModule,
                 statisticsModule,
-                actionCategoriesModule,
+                actionManagementModule,
                 settingsModule
             )
         }

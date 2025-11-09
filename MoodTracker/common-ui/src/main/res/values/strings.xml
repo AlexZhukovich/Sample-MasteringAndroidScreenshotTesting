@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="navigation_home_label">Home</string>
+    <string name="navigation_statistics_label">Statistics</string>
+    <string name="navigation_settings_label">Settings</string>
+
+    <!-- Mood -->
+    <string name="mood_angry">Angry</string>
+    <string name="mood_sad">Sad</string>
+    <string name="mood_ok">OK</string>
+    <string name="mood_good">Good</string>
+    <string name="mood_happy">Happy</string>
+</resources>
