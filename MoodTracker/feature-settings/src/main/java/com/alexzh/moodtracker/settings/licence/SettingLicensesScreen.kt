@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.alexzh.designsystem.component.bars.TopAppBarWithBackButton
 import com.alexzh.moodtracker.settings.R
-import com.mikepenz.aboutlibraries.ui.compose.android.rememberLibraries
+import com.mikepenz.aboutlibraries.ui.compose.android.produceLibraries
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 
 @Composable
@@ -37,7 +37,7 @@ fun SettingLicensesScreenContent(
             )
         }
     ) { innerPadding ->
-        val libraries by rememberLibraries(librariesResourceId)
+        val libraries by produceLibraries(librariesResourceId)
         LibrariesContainer(
             modifier = Modifier.fillMaxSize()
                 .padding(innerPadding),
