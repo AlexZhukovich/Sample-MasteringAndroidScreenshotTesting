@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,8 +30,7 @@ fun Section(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        modifier = modifier
     ) {
         Row(
             modifier = Modifier
@@ -63,8 +61,10 @@ fun CardSection(
         modifier = modifier
     ) {
         Column(
-            modifier = modifier.fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -79,7 +79,6 @@ fun CardSection(
                         )
                 )
             }
-            Spacer(modifier = Modifier.height(4.dp))
             content()
         }
     }

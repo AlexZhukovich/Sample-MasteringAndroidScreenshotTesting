@@ -77,8 +77,8 @@ val surfaceContainerHighestDark = Color(0xFF3C3E3A)
 /**
  * Chart colors (70% opacity)
  */
-val chartColorZeroLight = backgroundLight.copy(alpha = 0.2f)
-val chartColorZeroDark = backgroundDark.copy(alpha = 0.2f)
+val chartColorZeroLight = surfaceVariantLight.copy(alpha = 0.6f)
+val chartColorZeroDark = surfaceVariantDark.copy(alpha = 0.6f)
 val chartColorLowValuesLight = Color(0xB3EF5350)
 val chartColorLowValuesDark = Color(0xB3E57373)
 val chartColorMediumValuesLight = Color(0xB3FFDF9C)

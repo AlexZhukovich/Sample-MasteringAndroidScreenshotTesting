@@ -19,9 +19,11 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -34,11 +36,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -53,13 +56,13 @@ import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.DateRangeIcon
 import com.alexzh.designsystem.icon.EditIcon
 import com.alexzh.designsystem.icon.ScheduleIcon
-import com.alexzh.moodtracker.home.R
-import com.alexzh.moodtracker.core.domain.model.IconShape
-import com.alexzh.moodtracker.home.edit.mood.PhotoAction
-import com.alexzh.moodtracker.home.edit.mood.SelectableActionCategories
 import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.common.ui.model.ActionItem
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
+import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.home.R
+import com.alexzh.moodtracker.home.edit.mood.PhotoAction
+import com.alexzh.moodtracker.home.edit.mood.SelectableActionCategories
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -79,19 +82,23 @@ fun MoodSection(
         modifier = modifier,
         title = stringResource(R.string.editMoodScreen_moodSection_label)
     ) {
-        FlowRow(
+        ElevatedCard(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-            maxItemsInEachRow = 5
         ) {
-            items.forEach { mood ->
-                SelectableMoodItem(
-                    modifier = Modifier.weight(1f),
-                    mood = mood,
-                    iconShape = iconShape,
-                    isSelected = selectedMood == mood,
-                    onSelected = { onMoodSelected(mood) }
-                )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                maxItemsInEachRow = 5
+            ) {
+                items.forEach { mood ->
+                    SelectableMoodItem(
+                        modifier = Modifier.weight(1f),
+                        mood = mood,
+                        iconShape = iconShape,
+                        isSelected = selectedMood == mood,
+                        onSelected = { onMoodSelected(mood) }
+                    )
+                }
             }
         }
     }
@@ -108,7 +115,7 @@ private fun SelectableMoodItem(
     val interactionSource = remember { MutableInteractionSource() }
     val backgroundColor = when (isSelected) {
         true -> MaterialTheme.colorScheme.secondaryContainer
-        false -> MaterialTheme.colorScheme.background
+        false -> Color.Transparent
     }
 
     val moodLabel = stringResource(mood.label)
@@ -118,12 +125,12 @@ private fun SelectableMoodItem(
             .semantics { contentDescription = moodLabel }
             .clip(MaterialTheme.shapes.medium)
             .background(backgroundColor)
-            .padding(vertical = 6.dp)
             .clickable(
                 onClick = { onSelected() },
                 interactionSource = interactionSource,
                 indication = ripple(bounded = true),
-            ),
+            )
+            .padding(vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -159,13 +166,15 @@ fun ActionCategoriesSection(
             )
         }
     ) {
-        items.userActivityCategory.forEach { (category, actions) ->
-            ActionCategoryCard(
-                title = category.name,
-                actions = actions,
-                selectedActionIds = items.selectedUserActivityIds,
-                onActionChange = onActionChange
-            )
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            items.userActivityCategory.forEach { (category, actions) ->
+                ActionCategoryCard(
+                    title = category.name,
+                    actions = actions,
+                    selectedActionIds = items.selectedUserActivityIds,
+                    onActionChange = onActionChange
+                )
+            }
         }
     }
 }
@@ -185,7 +194,6 @@ private fun ActionCategoryCard(
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             actions.forEach {
                 Chip(
@@ -233,6 +241,11 @@ fun NoteSection(
             keyboardActions = KeyboardActions(onDone = {
                 focusManager.clearFocus()
             }),
+            shape = MaterialTheme.shapes.medium,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface
+            ),
             placeholder = {
                 Text(stringResource(R.string.editMoodScreen_noteSection_inputLabel))
             }
@@ -279,7 +292,8 @@ private fun DateTimeItem(
     label: String,
     icon: ImageVector,
     value: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    contentAlpha: Float = 0.8f
 ) {
     Row(
         modifier = modifier
@@ -290,7 +304,7 @@ private fun DateTimeItem(
         Icon(
             modifier = Modifier
                 .size(24.dp)
-                .alpha(alpha = 0.8f),
+                .alpha(alpha = contentAlpha),
             imageVector = icon,
             contentDescription = label
         )
@@ -299,11 +313,12 @@ private fun DateTimeItem(
                 .weight(1.0f)
                 .padding(horizontal = 8.dp),
             text = label,
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = contentAlpha),
             style = MaterialTheme.typography.bodyLarge,
         )
         Text(
             text = value,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = contentAlpha),
             style = MaterialTheme.typography.bodyLarge
         )
     }
