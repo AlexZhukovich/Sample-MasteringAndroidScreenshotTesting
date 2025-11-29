@@ -2,10 +2,13 @@ package com.alexzh.moodtracker.actionmanagement
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -41,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alexzh.designsystem.component.bars.TopAppBar
 import com.alexzh.designsystem.component.bars.TopAppBarWithBackButton
+import com.alexzh.designsystem.component.button.PrimaryButton
 import com.alexzh.designsystem.component.dialog.DeleteConfirmationDialog
 import com.alexzh.designsystem.component.empty.EmptyState
 import com.alexzh.designsystem.core.theme.AppTheme
@@ -144,6 +148,7 @@ fun ActionCategoriesScreenContent(
     }
 
     ListDetailPaneScaffold(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         directive = navigator.scaffoldDirective,
         value = navigator.scaffoldValue,
         listPane = {
@@ -231,11 +236,13 @@ private fun ActionCategoriesListPane(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddCategory) {
-                Icon(
-                    imageVector = AddIcon,
-                    contentDescription = stringResource(R.string.actionCategoriesScreen_addCategoryButton_label)
-                )
+            if (!isExpandedLayout) {
+                FloatingActionButton(onClick = onAddCategory) {
+                    Icon(
+                        imageVector = AddIcon,
+                        contentDescription = stringResource(R.string.actionCategoriesScreen_addCategoryButton_label)
+                    )
+                }
             }
         }
     ) { innerPadding ->
@@ -251,14 +258,37 @@ private fun ActionCategoriesListPane(
                 categories.isEmpty() -> EmptyState(
                     text = stringResource(R.string.actionCategoriesScreen_emptyState_label)
                 )
-                else -> ActionCategoriesList(
-                    categories = categories,
-                    selectedCategoryId = selectedCategoryId,
-                    isExpandedLayout = isExpandedLayout,
-                    onActionCategoryClick = onCategoryClick,
-                    onEditCategory = onEditCategory,
-                    onDeleteCategory = onDeleteCategory
-                )
+                else -> {
+                    if (isExpandedLayout) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            ActionCategoriesList(
+                                modifier = Modifier.weight(1f),
+                                categories = categories,
+                                selectedCategoryId = selectedCategoryId,
+                                isExpandedLayout = isExpandedLayout,
+                                onActionCategoryClick = onCategoryClick,
+                                onEditCategory = onEditCategory,
+                                onDeleteCategory = onDeleteCategory
+                            )
+
+                            PrimaryButton(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                                onClick = onAddCategory,
+                                text = stringResource(R.string.actionCategoriesScreen_addCategoryButton_label)
+                            )
+                        }
+                    } else {
+                        ActionCategoriesList(
+                            categories = categories,
+                            selectedCategoryId = selectedCategoryId,
+                            isExpandedLayout = isExpandedLayout,
+                            onActionCategoryClick = onCategoryClick,
+                            onEditCategory = onEditCategory,
+                            onDeleteCategory = onDeleteCategory
+                        )
+                    }
+                }
             }
         }
     }
@@ -366,7 +396,7 @@ private fun ActionCategoriesList(
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(categories) { category ->

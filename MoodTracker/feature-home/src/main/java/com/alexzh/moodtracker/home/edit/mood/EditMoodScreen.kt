@@ -45,17 +45,17 @@ import com.alexzh.designsystem.component.button.PrimaryButton
 import com.alexzh.designsystem.component.dialog.DatePickerDialog
 import com.alexzh.designsystem.component.dialog.TimePickerDialog
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.home.R
+import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
+import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.UiEvent
 import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.home.edit.mood.components.ActionCategoriesSection
 import com.alexzh.moodtracker.home.edit.mood.components.DateTimeSection
 import com.alexzh.moodtracker.home.edit.mood.components.MoodSection
 import com.alexzh.moodtracker.home.edit.mood.components.NoteSection
 import com.alexzh.moodtracker.home.edit.mood.components.PhotosSection
-import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
-import com.alexzh.moodtracker.common.ui.model.ActionItem
-import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.common.ui.model.UiEvent
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -250,16 +250,16 @@ private fun EditMoodScreenCompactContent(
             bringIntoViewRequester = bringIntoViewRequester,
             focusManager = focusManager
         )
+        PhotosSection(
+            photos = uiState.photos,
+            onPhotoChange = onPhotoChange
+        )
         DateTimeSection(
             modifier = Modifier.padding(vertical = 8.dp),
             date = uiState.selectedDate,
             time = uiState.selectedTime,
             onDateChange = onDatePickerOpen,
             onTimeChange = onTimePickerOpen
-        )
-        PhotosSection(
-            photos = uiState.photos,
-            onPhotoChange = onPhotoChange
         )
         PrimaryButton(
             modifier = Modifier.fillMaxWidth(),
@@ -299,7 +299,7 @@ private fun EditMoodScreenExpandedContent(
                 .weight(1.0f)
                 .fillMaxHeight()
                 .verticalScroll(leftPaneScrollState),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             MoodSection(
                 items = LocalizedMood.entries.toList(),
@@ -307,24 +307,21 @@ private fun EditMoodScreenExpandedContent(
                 iconShape = uiState.iconShape,
                 onMoodSelected = onMoodChange
             )
-
             NoteSection(
                 note = uiState.note,
                 onNoteChange = onNoteChange,
                 bringIntoViewRequester = bringIntoViewRequester,
                 focusManager = focusManager
             )
-
+            PhotosSection(
+                photos = uiState.photos,
+                onPhotoChange = onPhotoChange
+            )
             DateTimeSection(
                 date = uiState.selectedDate,
                 time = uiState.selectedTime,
                 onDateChange = onDatePickerOpen,
                 onTimeChange = onTimePickerOpen
-            )
-
-            PhotosSection(
-                photos = uiState.photos,
-                onPhotoChange = onPhotoChange
             )
         }
 
@@ -344,7 +341,7 @@ private fun EditMoodScreenExpandedContent(
             PrimaryButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(top = 8.dp),
                 onClick = onSave,
                 enabled = uiState.canSave,
                 text = stringResource(R.string.editMoodScreen_saveButton_label)

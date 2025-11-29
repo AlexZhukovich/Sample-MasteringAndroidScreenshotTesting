@@ -1,11 +1,11 @@
 package com.alexzh.moodtracker.actionmanagement.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +29,7 @@ fun ActionItemCard(
     onDeleteAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
+    ElevatedCard(
         modifier = modifier.fillMaxWidth()
     ) {
         Row(
@@ -70,20 +70,17 @@ fun ActionCategoryCard(
     onEditCategory: (ActionCategoryItem) -> Unit,
     onDeleteCategory: (ActionCategoryItem) -> Unit
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .then(
-                if (isSelected) {
-                    Modifier.border(
-                        width = 2.dp,
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = MaterialTheme.shapes.medium
-                    )
-                } else {
-                    Modifier
-                }
-            ),
+    val colors = if (isSelected) {
+        CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
+    } else {
+        CardDefaults.elevatedCardColors()
+    }
+
+    ElevatedCard(
+        modifier = modifier.fillMaxWidth(),
+        colors = colors,
         onClick = { onActionCategoryClick(category.id) }
     ) {
         Row(
