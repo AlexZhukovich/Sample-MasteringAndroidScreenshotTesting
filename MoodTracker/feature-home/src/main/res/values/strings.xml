@@ -15,7 +15,8 @@
     <string name="editMoodScreen_manageActions_label">Manage Actions</string>
     <string name="editMoodScreen_moodSection_label">How do you feel?</string>
     <string name="editMoodScreen_actionCategoriesSection_label">Did you do any activity?</string>
-    <string name="editMoodScreen_noteSection_label">Add a note</string>
+    <string name="editMoodScreen_noteSection_label">Note</string>
+    <string name="editMoodScreen_noteSection_inputLabel">Add a note</string>
     <string name="editMoodScreen_photos_label">Photos (select up to 3 photos)</string>
     <string name="editMoodScreen_date_label">Date</string>
     <string name="editMoodScreen_time_label">Time</string>

@@ -21,9 +21,9 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -75,15 +75,15 @@ import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.AddIcon
 import com.alexzh.designsystem.icon.DeleteIcon
 import com.alexzh.designsystem.icon.EditIcon
-import com.alexzh.moodtracker.home.R
+import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
 import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.home.model.MoodItem
 import com.alexzh.moodtracker.home.overview.components.MoodActionChips
 import com.alexzh.moodtracker.home.overview.components.MoodItemCard
 import com.alexzh.moodtracker.home.overview.components.MoodPreviewHeader
-import com.alexzh.moodtracker.common.ui.model.ActionItem
-import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
@@ -349,7 +349,7 @@ private fun HomeScreenContentExpanded(
                 },
                 detailPane = {
                     if (uiState.selectedMoodItem != null) {
-                        Card(
+                        ElevatedCard(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(end = 16.dp),

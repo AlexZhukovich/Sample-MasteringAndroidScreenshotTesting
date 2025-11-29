@@ -30,17 +30,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import com.alexzh.designsystem.component.bars.TopAppBar
 import com.alexzh.designsystem.component.empty.EmptyState
+import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
 import com.alexzh.designsystem.component.section.CardSection
 import com.alexzh.designsystem.component.selector.PeriodSelector
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
+import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.statistics.components.StatisticsEmptyStateAnimatedIcon
 import com.alexzh.moodtracker.statistics.components.chart.ActionImpactData
 import com.alexzh.moodtracker.statistics.components.chart.ActionToHappinessChart
 import com.alexzh.moodtracker.statistics.components.chart.AverageDailyMoodChart
 import com.alexzh.moodtracker.statistics.components.chart.ChartDataItem
-import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
 import java.time.LocalDate
 
 @Composable

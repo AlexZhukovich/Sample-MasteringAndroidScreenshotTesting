@@ -34,6 +34,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -106,11 +108,14 @@ private fun SelectableMoodItem(
     val interactionSource = remember { MutableInteractionSource() }
     val backgroundColor = when (isSelected) {
         true -> MaterialTheme.colorScheme.secondaryContainer
-        false -> MaterialTheme.colorScheme.surface
+        false -> MaterialTheme.colorScheme.background
     }
+
+    val moodLabel = stringResource(mood.label)
 
     Column(
         modifier = modifier
+            .semantics { contentDescription = moodLabel }
             .clip(MaterialTheme.shapes.medium)
             .background(backgroundColor)
             .padding(vertical = 6.dp)
@@ -125,7 +130,7 @@ private fun SelectableMoodItem(
         Image(
             modifier = Modifier.size(42.dp),
             painter = painterResource(mood.getIcon(iconShape)),
-            contentDescription = stringResource(mood.label)
+            contentDescription = null
         )
         Text(
             text = stringResource(mood.label),
@@ -227,7 +232,10 @@ fun NoteSection(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {
                 focusManager.clearFocus()
-            })
+            }),
+            placeholder = {
+                Text(stringResource(R.string.editMoodScreen_noteSection_inputLabel))
+            }
         )
     }
 }

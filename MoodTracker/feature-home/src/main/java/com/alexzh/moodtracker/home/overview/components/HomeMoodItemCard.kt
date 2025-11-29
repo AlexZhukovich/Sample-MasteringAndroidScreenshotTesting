@@ -1,16 +1,14 @@
 package com.alexzh.moodtracker.home.overview.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,10 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
 import com.alexzh.designsystem.core.theme.AppTheme
-import com.alexzh.moodtracker.core.domain.model.IconShape
-import com.alexzh.moodtracker.home.model.MoodItem
 import com.alexzh.moodtracker.common.ui.model.ActionItem
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
+import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.home.model.MoodItem
 import java.time.LocalDateTime
 
 @Composable
@@ -39,22 +37,19 @@ fun MoodItemCard(
     modifier: Modifier = Modifier,
     isSelected: Boolean = false
 ) {
-    val cardModifier = if (isSelected) {
-        modifier
-            .fillMaxWidth()
-            .border(
-                width = 2.dp,
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(12.dp)
-            )
+    val colors = if (isSelected) {
+        CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     } else {
-        modifier.fillMaxWidth()
+        CardDefaults.elevatedCardColors()
     }
 
-    Card(
-        modifier = cardModifier,
+    ElevatedCard(
+        modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-        onClick = onClick
+        onClick = onClick,
+        colors = colors
     ) {
         Column(
             modifier = Modifier.padding(16.dp),

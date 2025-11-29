@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,11 +55,11 @@ fun Section(
 fun CardSection(
     modifier: Modifier = Modifier,
     title: String,
-    titleColor: Color = MaterialTheme.colorScheme.onBackground,
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
     capitalizeTitle: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Card(
+    ElevatedCard(
         modifier = modifier
     ) {
         Column(
