@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.alexzh.moodtracker.visualtest.composepreview"
+    namespace = "com.alexzh.moodtracker.screenshottests.composepreview"
     compileSdk = 36
 
     defaultConfig {

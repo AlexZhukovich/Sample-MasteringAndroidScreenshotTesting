@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.visualtest.composepreview
+package com.alexzh.moodtracker.screenshottests.composepreview
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
