@@ -17,6 +17,8 @@ aboutLibraries = "13.1.0"
 glance = "1.1.1"
 window = "1.5.1"
 coil = "3.3.0"
+androidTestify = "4.0.0"
+androidTestRules = "1.7.0"
 composePreviewScreenshotTesting = "0.0.1-alpha12"
 
 [libraries]
@@ -52,6 +54,8 @@ androidx-compose-material3-adaptive-navigation = { module = "androidx.compose.ma
 androidx-compose-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite" }
 androidx-window = { module = "androidx.window:window", version.ref = "window" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+android-testify-compose = { group = "dev.testify", name = "testify-compose", version.ref = "androidTestify" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidTestRules" }
 screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "composePreviewScreenshotTesting" }
 
 [plugins]
@@ -62,4 +66,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutLibraries" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-testify = { id = "dev.testify", version.ref = "androidTestify" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "composePreviewScreenshotTesting" }
