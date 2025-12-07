@@ -6,8 +6,8 @@ junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.0"
-composeBom = "2025.11.01"
+activityCompose = "1.12.1"
+composeBom = "2025.12.00"
 room = "2.8.4"
 ksp = "2.3.1"
 koin = "4.1.1"
@@ -19,7 +19,10 @@ window = "1.5.1"
 coil = "3.3.0"
 androidTestify = "4.0.0"
 androidTestRules = "1.7.0"
+android-ui-testing-utils = "2.8.0"
+androidTestCore = "1.7.0"
 composePreviewScreenshotTesting = "0.0.1-alpha12"
+dropshots = "0.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,7 +59,9 @@ androidx-window = { module = "androidx.window:window", version.ref = "window" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 android-testify-compose = { group = "dev.testify", name = "testify-compose", version.ref = "androidTestify" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidTestRules" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
 screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "composePreviewScreenshotTesting" }
+android-ui-testing-utils = { module = "com.github.sergio-sastre.AndroidUiTestingUtils:utils", version.ref = "android-ui-testing-utils" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -68,3 +73,4 @@ aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.re
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-testify = { id = "dev.testify", version.ref = "androidTestify" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "composePreviewScreenshotTesting" }
+dropshots = { id = "com.dropbox.dropshots", version.ref = "dropshots" }
