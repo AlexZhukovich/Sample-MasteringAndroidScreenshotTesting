@@ -26,6 +26,7 @@ dropshots = "0.5.1"
 paparazzi = "2.0.0-alpha02"
 roborazzi = "1.52.0"
 robolectric = "4.16"
+shot = "6.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +70,7 @@ roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", versi
 roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+shot = { module = "com.karumi:shot", version.ref = "shot" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
