@@ -23,6 +23,7 @@ android-ui-testing-utils = "2.8.0"
 androidTestCore = "1.7.0"
 composePreviewScreenshotTesting = "0.0.1-alpha12"
 dropshots = "0.5.1"
+paparazzi = "2.0.0-alpha02"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -74,3 +75,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 android-testify = { id = "dev.testify", version.ref = "androidTestify" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "composePreviewScreenshotTesting" }
 dropshots = { id = "com.dropbox.dropshots", version.ref = "dropshots" }
+paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
