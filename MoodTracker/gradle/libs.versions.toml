@@ -24,6 +24,8 @@ androidTestCore = "1.7.0"
 composePreviewScreenshotTesting = "0.0.1-alpha12"
 dropshots = "0.5.1"
 paparazzi = "2.0.0-alpha02"
+roborazzi = "1.52.0"
+robolectric = "4.16"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,6 +65,10 @@ androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }
 screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "composePreviewScreenshotTesting" }
 android-ui-testing-utils = { module = "com.github.sergio-sastre.AndroidUiTestingUtils:utils", version.ref = "android-ui-testing-utils" }
+roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -76,3 +82,4 @@ android-testify = { id = "dev.testify", version.ref = "androidTestify" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "composePreviewScreenshotTesting" }
 dropshots = { id = "com.dropbox.dropshots", version.ref = "dropshots" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "paparazzi" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
