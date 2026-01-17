@@ -356,7 +356,7 @@ private fun DateIndicator(
 
 @PreviewLightDark
 @Composable
-private fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
+fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
     val state = rememberDateRangeSelectorState(
         currentDate = date,
@@ -365,13 +365,15 @@ private fun Preview_DateRangeSelector_SelectedDayIsTheSameAsCurrentDay() {
     )
 
     AppTheme {
-        DateRangeSelector(state = state)
+        Surface {
+            DateRangeSelector(state = state)
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
+fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
     val state = rememberDateRangeSelectorState(
         currentDate = date,
@@ -380,13 +382,15 @@ private fun Preview_DateRangeSelector_SelectedDayIsDifferentFromCurrentDay() {
     )
 
     AppTheme {
-        DateRangeSelector(state = state)
+        Surface {
+            DateRangeSelector(state = state)
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_DateRangeSelector_SelectedDayIsTenDaysBeforeCurrentDay() {
+fun Preview_DateRangeSelector_SelectedDayIsTenDaysBeforeCurrentDay() {
     val date = LocalDate.of(2025, 1, 15)
     val state = rememberDateRangeSelectorState(
         currentDate = date,
@@ -395,6 +399,8 @@ private fun Preview_DateRangeSelector_SelectedDayIsTenDaysBeforeCurrentDay() {
     )
 
     AppTheme {
-        DateRangeSelector(state = state)
+        Surface {
+            DateRangeSelector(state = state)
+        }
     }
 }

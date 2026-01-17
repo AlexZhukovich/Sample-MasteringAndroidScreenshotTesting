@@ -17,11 +17,9 @@ fun TimePickerDialog(
     confirmButtonLabel: String = stringResource(R.string.dialog_ok_label),
     dismissButtonLabel: String = stringResource(R.string.dialog_cancel_label),
     onTimeSelected: (LocalTime) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    is24Hour: Boolean = DateFormat.is24HourFormat(LocalContext.current)
 ) {
-    val context = LocalContext.current
-    val is24Hour = DateFormat.is24HourFormat(context)
-    
     val timePickerState = rememberTimePickerState(
         initialHour = selectedTime.hour,
         initialMinute = selectedTime.minute,
@@ -53,12 +51,26 @@ fun TimePickerDialog(
 
 @PreviewLightDark
 @Composable
-private fun TimePickerDialogPreview() {
+fun Preview_TimePickerDialog_12hFormat() {
     AppTheme {
         TimePickerDialog(
-            selectedTime = LocalTime.now(),
+            selectedTime = LocalTime.of(16, 15),
             onTimeSelected = {},
-            onDismiss = {}
+            onDismiss = {},
+            is24Hour = false
+        )
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun Preview_TimePickerDialog_24hFormat() {
+    AppTheme {
+        TimePickerDialog(
+            selectedTime = LocalTime.of(16, 15),
+            onTimeSelected = {},
+            onDismiss = {},
+            is24Hour = true
         )
     }
 }

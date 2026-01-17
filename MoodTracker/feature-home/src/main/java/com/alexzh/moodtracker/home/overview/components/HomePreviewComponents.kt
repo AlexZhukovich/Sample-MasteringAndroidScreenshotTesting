@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -87,7 +88,7 @@ fun MoodPreviewHeader(
 
 @PreviewLightDark
 @Composable
-private fun Preview_MoodPreviewHeader_NonExpandedLayout_RoundedSquareIconShape() {
+fun Preview_MoodPreviewHeader_NonExpandedLayout_RoundedSquareIconShape() {
     val moodItem = MoodItem(
         id = 1L,
         mood = LocalizedMood.HAPPY,
@@ -97,34 +98,38 @@ private fun Preview_MoodPreviewHeader_NonExpandedLayout_RoundedSquareIconShape()
     )
 
     AppTheme {
-        MoodPreviewHeader(
-            moodItem = moodItem,
-            iconShape = IconShape.ROUNDED_SQUARE,
-            isLayoutExpanded = false,
-            onNavigateToEditMood = {},
-            onClose = {},
-            onDelete = {}
-        )
+        Surface {
+            MoodPreviewHeader(
+                moodItem = moodItem,
+                iconShape = IconShape.ROUNDED_SQUARE,
+                isLayoutExpanded = false,
+                onNavigateToEditMood = {},
+                onClose = {},
+                onDelete = {}
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_MoodPreviewHeader_Expanded_CircleIconShape() {
+fun Preview_MoodPreviewHeader_Expanded_CircleIconShape() {
     AppTheme {
-        MoodPreviewHeader(
-            moodItem = MoodItem(
-                id = 1L,
-                mood = LocalizedMood.OK,
-                date = LocalDateTime.of(2025, 1, 15, 18, 45),
-                note = "",
-                actions = emptyList()
-            ),
-            iconShape = IconShape.CIRCLE,
-            isLayoutExpanded = true,
-            onNavigateToEditMood = {},
-            onClose = {},
-            onDelete = {}
-        )
+        Surface {
+            MoodPreviewHeader(
+                moodItem = MoodItem(
+                    id = 1L,
+                    mood = LocalizedMood.OK,
+                    date = LocalDateTime.of(2025, 1, 15, 18, 45),
+                    note = "",
+                    actions = emptyList()
+                ),
+                iconShape = IconShape.CIRCLE,
+                isLayoutExpanded = true,
+                onNavigateToEditMood = {},
+                onClose = {},
+                onDelete = {}
+            )
+        }
     }
 }

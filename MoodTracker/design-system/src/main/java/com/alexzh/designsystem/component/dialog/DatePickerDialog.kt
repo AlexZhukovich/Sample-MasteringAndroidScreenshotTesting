@@ -84,7 +84,7 @@ private fun DatePickerDialogContent(
 
 @PreviewLightDark
 @Composable
-private fun Preview_DatePickerDialog_DifferentCurrentAndSelectedDates() {
+fun Preview_DatePickerDialog_DifferentCurrentAndSelectedDates() {
     AppTheme {
         DatePickerDialog(
             selectedDate = LocalDate.of(2025, 1, 1),
@@ -97,7 +97,7 @@ private fun Preview_DatePickerDialog_DifferentCurrentAndSelectedDates() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_DatePickerDialog_SameCurrentAndSelectedDates() {
+fun Preview_DatePickerDialog_SameCurrentAndSelectedDates() {
     AppTheme {
         DatePickerDialog(
             selectedDate = LocalDate.of(2025, 1, 5),

@@ -111,7 +111,7 @@ fun ActionCategoryCard(
 
 @PreviewLightDark
 @Composable
-private fun ActionItemCardPreview() {
+fun Preview_ActionItemCard() {
     val action = ActionItem(
         id = 1L,
         name = "Running"
@@ -128,7 +128,7 @@ private fun ActionItemCardPreview() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_ActionCategoryCard_Unselected() {
+fun Preview_ActionCategoryCard_Unselected() {
     val category = ActionCategoryItem(
         id = 1L,
         name = "Exercise"
@@ -147,7 +147,7 @@ private fun Preview_ActionCategoryCard_Unselected() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_ActionCategoryCard_Selected() {
+fun Preview_ActionCategoryCard_Selected() {
     val category = ActionCategoryItem(
         id = 1L,
         name = "Exercise"

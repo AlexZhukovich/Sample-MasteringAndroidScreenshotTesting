@@ -157,7 +157,7 @@ private fun PhotoThumbnail(
 
 @PreviewLightDark
 @Composable
-private fun Preview_PhotoThumbnailGrid_MaxPhotos() {
+fun Preview_PhotoThumbnailGrid_MaxPhotos() {
     AppTheme {
         PhotoThumbnailGrid(
             photos = listOf(
@@ -174,7 +174,7 @@ private fun Preview_PhotoThumbnailGrid_MaxPhotos() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_PhotoThumbnailGrid_Editable_OnePhoto() {
+fun Preview_PhotoThumbnailGrid_Editable_OnePhoto() {
     AppTheme {
         PhotoThumbnailGrid(
             photos = listOf(

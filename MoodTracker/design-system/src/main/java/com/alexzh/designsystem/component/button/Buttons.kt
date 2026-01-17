@@ -2,6 +2,7 @@ package com.alexzh.designsystem.component.button
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -79,32 +80,34 @@ fun IconButton(
 
 @PreviewLightDark
 @Composable
-fun ButtonsPreview() {
+fun Preview_Buttons() {
     AppTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text("Enabled & Disabled primary buttons")
-            PrimaryButton(
-                onClick = {},
-                text = "Enabled Primary Button"
-            )
-            PrimaryButton(
-                onClick = {},
-                text = "Disabled Primary Button",
-                enabled = false
-            )
-            Text("Icon buttons")
-            PrimaryIconButton(
-                onClick = {},
-                icon = AddIcon,
-                contentDescription = null
-            )
-            IconButton(
-                onClick = {},
-                icon = SettingsIcon,
-                contentDescription = null
-            )
+        Surface {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Text("Enabled & Disabled primary buttons")
+                PrimaryButton(
+                    onClick = {},
+                    text = "Enabled Primary Button"
+                )
+                PrimaryButton(
+                    onClick = {},
+                    text = "Disabled Primary Button",
+                    enabled = false
+                )
+                Text("Icon buttons")
+                PrimaryIconButton(
+                    onClick = {},
+                    icon = AddIcon,
+                    contentDescription = null
+                )
+                IconButton(
+                    onClick = {},
+                    icon = SettingsIcon,
+                    contentDescription = null
+                )
+            }
         }
     }
 }

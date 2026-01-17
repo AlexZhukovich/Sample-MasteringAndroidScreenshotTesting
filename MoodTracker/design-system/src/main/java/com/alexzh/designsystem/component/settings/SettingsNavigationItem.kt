@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -49,12 +50,14 @@ fun SettingsNavigationItem(
 @Composable
 fun Preview_SettingsNavigationItem_Enabled() {
     AppTheme {
-        SettingsNavigationItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Navigation Item Title",
-            description = "Navigation Item Description",
-            onClick = { }
-        )
+        Surface {
+            SettingsNavigationItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Navigation Item Title",
+                description = "Navigation Item Description",
+                onClick = { }
+            )
+        }
     }
 }
 
@@ -62,11 +65,13 @@ fun Preview_SettingsNavigationItem_Enabled() {
 @Composable
 fun Preview_SettingsNavigationItem_Disabled() {
     AppTheme {
-        SettingsNavigationItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Navigation Item Title",
-            onClick = { },
-            enabled = false
-        )
+        Surface {
+            SettingsNavigationItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Navigation Item Title",
+                onClick = { },
+                enabled = false
+            )
+        }
     }
 }

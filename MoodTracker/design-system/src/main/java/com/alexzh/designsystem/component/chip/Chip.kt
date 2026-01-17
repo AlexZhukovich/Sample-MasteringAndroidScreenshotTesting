@@ -85,45 +85,47 @@ enum class ChipSize {
 @Composable
 fun Preview_Chip() {
     AppTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text("Non-clickable")
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Chip(text = "Meditation", size = ChipSize.Small)
-                Chip(text = "Exercise", size = ChipSize.Medium)
-            }
+        Surface {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text("Non-clickable")
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Chip(text = "Meditation", size = ChipSize.Small)
+                    Chip(text = "Exercise", size = ChipSize.Medium)
+                }
 
-            Text("Clickable - unselected")
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Chip(
-                    text = "Running",
-                    selected = false,
-                    onClick = { },
-                    size = ChipSize.Small
-                )
-                Chip(
-                    text = "Yoga",
-                    selected = false,
-                    onClick = { },
-                    size = ChipSize.Medium
-                )
-            }
+                Text("Clickable - unselected")
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Chip(
+                        text = "Running",
+                        selected = false,
+                        onClick = { },
+                        size = ChipSize.Small
+                    )
+                    Chip(
+                        text = "Yoga",
+                        selected = false,
+                        onClick = { },
+                        size = ChipSize.Medium
+                    )
+                }
 
-            Text("Clickable - selected")
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Chip(
-                    text = "Walking",
-                    selected = true,
-                    onClick = { },
-                    size = ChipSize.Small
-                )
-                Chip(
-                    text = "Reading",
-                    selected = true,
-                    onClick = { },
-                    size = ChipSize.Medium
-                )
+                Text("Clickable - selected")
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Chip(
+                        text = "Walking",
+                        selected = true,
+                        onClick = { },
+                        size = ChipSize.Small
+                    )
+                    Chip(
+                        text = "Reading",
+                        selected = true,
+                        onClick = { },
+                        size = ChipSize.Medium
+                    )
+                }
             }
         }
     }

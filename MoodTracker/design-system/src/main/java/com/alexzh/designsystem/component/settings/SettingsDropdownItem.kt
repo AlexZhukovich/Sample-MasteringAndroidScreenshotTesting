@@ -11,6 +11,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -113,48 +114,54 @@ fun <T> SettingsDropdownItem(
 
 @PreviewLightDark
 @Composable
-private fun Preview_SettingsDropdownItem_Enabled() {
+fun Preview_SettingsDropdownItem_Enabled() {
     AppTheme {
-        SettingsDropdownItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Icon Shape",
-            description = "Choose the style for mood icons",
-            options = listOf("Circle", "Rounded Square"),
-            selectedOption = "Circle",
-            optionLabel = { it },
-            onOptionSelected = { }
-        )
+        Surface {
+            SettingsDropdownItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Icon Shape",
+                description = "Choose the style for mood icons",
+                options = listOf("Circle", "Rounded Square"),
+                selectedOption = "Circle",
+                optionLabel = { it },
+                onOptionSelected = { }
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_SettingsDropdownItem_NoDescription() {
+fun Preview_SettingsDropdownItem_NoDescription() {
     AppTheme {
-        SettingsDropdownItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Icon Shape",
-            options = listOf("Circle", "Rounded Square"),
-            selectedOption = "Rounded Square",
-            optionLabel = { it },
-            onOptionSelected = { }
-        )
+        Surface {
+            SettingsDropdownItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Icon Shape",
+                options = listOf("Circle", "Rounded Square"),
+                selectedOption = "Rounded Square",
+                optionLabel = { it },
+                onOptionSelected = { }
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_SettingsDropdownItem_Disabled() {
+fun Preview_SettingsDropdownItem_Disabled() {
     AppTheme {
-        SettingsDropdownItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Icon Shape",
-            description = "Choose the style for mood icons",
-            options = listOf("Circle", "Rounded Square"),
-            selectedOption = "Circle",
-            optionLabel = { it },
-            onOptionSelected = { },
-            enabled = false
-        )
+        Surface {
+            SettingsDropdownItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Icon Shape",
+                description = "Choose the style for mood icons",
+                options = listOf("Circle", "Rounded Square"),
+                selectedOption = "Circle",
+                optionLabel = { it },
+                onOptionSelected = { },
+                enabled = false
+            )
+        }
     }
 }
