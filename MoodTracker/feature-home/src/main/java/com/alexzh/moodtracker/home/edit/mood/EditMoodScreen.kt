@@ -350,8 +350,8 @@ private fun EditMoodScreenExpandedContent(
     }
 }
 
-@Preview(device = PHONE, showBackground = true)
-@Preview(device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = PHONE, heightDp = 920, showBackground = true)
+@Preview(device = PHONE, heightDp = 920, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Preview(device = PIXEL_TABLET, showBackground = true)
 @Preview(device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable

@@ -27,6 +27,7 @@ paparazzi = "2.0.0-alpha02"
 roborazzi = "1.52.0"
 robolectric = "4.16"
 shot = "6.1.0"
+composable-preview-scanner = "0.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -71,6 +72,7 @@ roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }
+composable-preview-scanner-android = { module = "io.github.sergio-sastre.ComposablePreviewScanner:android", version.ref = "composable-preview-scanner" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -183,7 +183,8 @@ fun Preview_VerticalBarChart(
         ChartDataItem("5", 1.7f),
         ChartDataItem("6", 3.5f),
         ChartDataItem("7", 4.25f),
-        ChartDataItem("8", 3.75f)
+        ChartDataItem("8", 3.75f),
+        ChartDataItem("9", 2.5f)
     )
 
     AppTheme {

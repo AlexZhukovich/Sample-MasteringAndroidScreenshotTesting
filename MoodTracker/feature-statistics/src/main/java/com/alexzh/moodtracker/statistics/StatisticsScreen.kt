@@ -337,7 +337,13 @@ class StatisticsScreenUiStateProvider : PreviewParameterProvider<StatisticsScree
                     endDate = LocalDate.of(2025, 8, 31)
                 ),
                 averageDailyMoodChartData = AverageDailyMoodChartData(
-                    data = sampleAverageDailyMoodData.take(15),
+                    data = sampleAverageDailyMoodData.mapIndexed { index, item ->
+                        if (index > 5) {
+                            ChartDataItem(item.label, value = 0f)
+                        } else {
+                            item
+                        }
+                    },
                     scrollPosition = 0
                 ),
                 iconShape = IconShape.ROUNDED_SQUARE

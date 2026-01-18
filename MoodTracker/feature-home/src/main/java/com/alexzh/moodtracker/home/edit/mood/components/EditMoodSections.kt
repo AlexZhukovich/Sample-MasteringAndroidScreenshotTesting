@@ -377,7 +377,7 @@ fun Preview_MoodSection_Unselected_RoundedSquareIconShape() {
         Surface {
             MoodSection(
                 items = LocalizedMood.entries.toList(),
-                selectedMood = LocalizedMood.GOOD,
+                selectedMood = null,
                 iconShape = IconShape.ROUNDED_SQUARE,
                 onMoodSelected = {}
             )

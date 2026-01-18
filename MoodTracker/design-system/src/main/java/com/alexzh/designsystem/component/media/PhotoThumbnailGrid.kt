@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -159,16 +160,18 @@ private fun PhotoThumbnail(
 @Composable
 fun Preview_PhotoThumbnailGrid_MaxPhotos() {
     AppTheme {
-        PhotoThumbnailGrid(
-            photos = listOf(
-                "content://media/external/images/media/1".toUri(),
-                "content://media/external/images/media/2".toUri(),
-                "content://media/external/images/media/3".toUri()
-            ),
-            thumbnailSize = 80.dp,
-            editable = false,
-            maxPhotos = 3
-        )
+        Surface {
+            PhotoThumbnailGrid(
+                photos = listOf(
+                    "content://media/external/images/media/1".toUri(),
+                    "content://media/external/images/media/2".toUri(),
+                    "content://media/external/images/media/3".toUri()
+                ),
+                thumbnailSize = 80.dp,
+                editable = false,
+                maxPhotos = 3
+            )
+        }
     }
 }
 
@@ -176,15 +179,17 @@ fun Preview_PhotoThumbnailGrid_MaxPhotos() {
 @Composable
 fun Preview_PhotoThumbnailGrid_Editable_OnePhoto() {
     AppTheme {
-        PhotoThumbnailGrid(
-            photos = listOf(
-                "content://media/external/images/media/1".toUri()
-            ),
-            thumbnailSize = 80.dp,
-            editable = true,
-            onRemove = {},
-            onAddPhoto = {},
-            maxPhotos = 3
-        )
+        Surface {
+            PhotoThumbnailGrid(
+                photos = listOf(
+                    "content://media/external/images/media/1".toUri()
+                ),
+                thumbnailSize = 80.dp,
+                editable = true,
+                onRemove = {},
+                onAddPhoto = {},
+                maxPhotos = 3
+            )
+        }
     }
 }
