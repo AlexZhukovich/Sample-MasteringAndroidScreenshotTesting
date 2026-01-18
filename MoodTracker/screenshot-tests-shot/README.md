@@ -2,6 +2,10 @@
 
 This module uses [Shot](https://github.com/pedrovgs/Shot), a screenshot testing library developed that captures screenshots on a real device or emulator and compares them against baseline images.
 
+> All test cases in this module were verified and executed on:
+> - **Emulator**: Pixel 4
+> - **API Level**: 29
+
 ## Module Dependencies
 
 The following feature modules are included for testing:
