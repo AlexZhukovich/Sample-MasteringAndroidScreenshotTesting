@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -171,7 +172,7 @@ fun AverageDailyMoodChart(
 
 @PreviewLightDark
 @Composable
-private fun Preview_VerticalBarChart(
+fun Preview_VerticalBarChart(
     @PreviewParameter(IconShapeProviderProvider::class) iconShape: IconShape
 ) {
     val data = listOf(
@@ -182,17 +183,20 @@ private fun Preview_VerticalBarChart(
         ChartDataItem("5", 1.7f),
         ChartDataItem("6", 3.5f),
         ChartDataItem("7", 4.25f),
-        ChartDataItem("8", 3.75f)
+        ChartDataItem("8", 3.75f),
+        ChartDataItem("9", 2.5f)
     )
 
     AppTheme {
-        AverageDailyMoodChart(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp),
-            data = data,
-            iconShape = iconShape
-        )
+        Surface {
+            AverageDailyMoodChart(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
+                data = data,
+                iconShape = iconShape
+            )
+        }
     }
 }
 

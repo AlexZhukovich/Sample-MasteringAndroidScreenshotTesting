@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -21,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.statistics.components.chart.ChartColors
@@ -159,15 +160,17 @@ fun StatisticsEmptyStateAnimatedIcon(
     }
 }
 
-@Preview(showBackground = true, name = "Chart Animation")
+@PreviewLightDark
 @Composable
 fun Preview_StatisticsEmptyStateAnimatedIcon() {
     AppTheme {
-        Box(
-            modifier = Modifier.size(300.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            StatisticsEmptyStateAnimatedIcon()
+        Surface {
+            Box(
+                modifier = Modifier.size(300.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                StatisticsEmptyStateAnimatedIcon()
+            }
         }
     }
 }

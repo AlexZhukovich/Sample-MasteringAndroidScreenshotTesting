@@ -7,7 +7,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.alexzh.designsystem.R
+import com.alexzh.designsystem.core.theme.AppTheme
 
 @Composable
 fun DeleteConfirmationDialog(
@@ -45,4 +47,17 @@ fun DeleteConfirmationDialog(
             }
         }
     )
+}
+
+@PreviewLightDark
+@Composable
+fun Preview_DeleteConfirmationDialog() {
+    AppTheme {
+        DeleteConfirmationDialog(
+            title = "Delete Item",
+            text = "Are you sure you want to delete the item? This action cannot be undone.",
+            onDismiss = {},
+            onConfirm = {}
+        )
+    }
 }

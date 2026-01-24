@@ -9,6 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 dependencyResolutionManagement {
@@ -16,6 +17,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
@@ -28,3 +30,10 @@ include(":feature-action-management")
 include(":feature-home")
 include(":feature-settings")
 include(":feature-statistics")
+include(":screenshot-tests-android-testify")
+include(":screenshot-tests-compose-preview")
+include(":screenshot-tests-dropshots")
+include(":screenshot-tests-paparazzi")
+include(":screenshot-tests-roborazzi")
+include(":screenshot-tests-shot")
+include(":screenshot-tests-compose-preview-scanner")

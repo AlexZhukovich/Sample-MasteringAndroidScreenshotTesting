@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -110,8 +111,10 @@ fun Preview_ActivityToHappinessChart() {
     )
 
     AppTheme {
-        ActionToHappinessChart(
-            data = data
-        )
+        Surface {
+            ActionToHappinessChart(
+                data = data
+            )
+        }
     }
 }

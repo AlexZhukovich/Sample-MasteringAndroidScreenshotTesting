@@ -350,12 +350,12 @@ private fun EditMoodScreenExpandedContent(
     }
 }
 
-@Preview(name = "Phone - Light", device = PHONE, showBackground = true)
-@Preview(name = "Phone - Dark", device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
-@Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = PHONE, heightDp = 920, showBackground = true)
+@Preview(device = PHONE, heightDp = 920, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = PIXEL_TABLET, showBackground = true)
+@Preview(device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-private fun Preview_EditMoodScreenContent(
+fun Preview_EditMoodScreenContent(
     @PreviewParameter(EditMoodScreenUiStateProvider::class) uiState: EditMoodScreenUiState
 ) {
     AppTheme {

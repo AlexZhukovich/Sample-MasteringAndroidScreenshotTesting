@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,35 +55,39 @@ fun BoxScope.EmptyState(
 
 @PreviewLightDark
 @Composable
-private fun Preview_EmptyState_WithIcon() {
+fun Preview_EmptyState_WithIcon() {
     AppTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
-            EmptyState(
-                icon = {
-                    Icon(
-                        modifier = Modifier.size(64.dp),
-                        imageVector = MonitoringIcon,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                },
-                title = "No moods entries found",
-                text = "Start tracking your mood by adding your first entry"
-            )
+        Surface {
+            Box(modifier = Modifier.fillMaxSize()) {
+                EmptyState(
+                    icon = {
+                        Icon(
+                            modifier = Modifier.size(64.dp),
+                            imageVector = MonitoringIcon,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    title = "No moods entries found",
+                    text = "Start tracking your mood by adding your first entry"
+                )
+            }
         }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_EmptyState_WithoutIcon() {
+fun Preview_EmptyState_WithoutIcon() {
     AppTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
-            EmptyState(
-                icon = null,
-                title = "No data for this month",
-                text = "Switch to a different month or start tracking your mood"
-            )
+        Surface {
+            Box(modifier = Modifier.fillMaxSize()) {
+                EmptyState(
+                    icon = null,
+                    title = "No data for this month",
+                    text = "Switch to a different month or start tracking your mood"
+                )
+            }
         }
     }
 }

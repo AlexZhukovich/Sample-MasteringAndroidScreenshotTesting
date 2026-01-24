@@ -113,7 +113,7 @@ fun EditCategoryDialog(
 
 @PreviewLightDark
 @Composable
-private fun Preview_AddActionDialog() {
+fun Preview_AddActionDialog() {
     AppTheme {
         AddActionDialog(
             onDismiss = {},
@@ -124,7 +124,7 @@ private fun Preview_AddActionDialog() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_EditActionDialog() {
+fun Preview_EditActionDialog() {
     AppTheme {
         EditActionDialog(
             action = ActionItem(id = 1L, name = "Running"),
@@ -136,7 +136,7 @@ private fun Preview_EditActionDialog() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_AddCategoryDialog() {
+fun Preview_AddCategoryDialog() {
     AppTheme {
         AddCategoryDialog(
             onDismiss = {},
@@ -147,7 +147,7 @@ private fun Preview_AddCategoryDialog() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_EditCategoryDialog() {
+fun Preview_EditCategoryDialog() {
     AppTheme {
         EditCategoryDialog(
             category = ActionCategoryItem(id = 1L, name = "Exercise"),

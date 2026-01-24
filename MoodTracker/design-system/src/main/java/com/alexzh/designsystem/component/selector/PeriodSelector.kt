@@ -3,6 +3,7 @@ package com.alexzh.designsystem.component.selector
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -92,28 +93,32 @@ fun PeriodSelector(
 
 @PreviewLightDark
 @Composable
-private fun Preview_PeriodSelector_PreviousAndNextEnabled() {
+fun Preview_PeriodSelector_PreviousAndNextEnabled() {
     AppTheme {
-        PeriodSelector(
-            label = "January 2025",
-            onPrevious = {},
-            onNext = {},
-            previousEnabled = true,
-            nextEnabled = true
-        )
+        Surface {
+            PeriodSelector(
+                label = "January 2025",
+                onPrevious = {},
+                onNext = {},
+                previousEnabled = true,
+                nextEnabled = true
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_PeriodSelector_PreviousAndNextDisabled() {
+fun Preview_PeriodSelector_PreviousAndNextDisabled() {
     AppTheme {
-        PeriodSelector(
-            label = "Current Month",
-            onPrevious = {},
-            onNext = {},
-            previousEnabled = false,
-            nextEnabled = false
-        )
+        Surface {
+            PeriodSelector(
+                label = "Current Month",
+                onPrevious = {},
+                onNext = {},
+                previousEnabled = false,
+                nextEnabled = false
+            )
+        }
     }
 }

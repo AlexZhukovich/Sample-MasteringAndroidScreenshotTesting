@@ -15,7 +15,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +58,6 @@ fun StatisticsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
 fun StatisticsScreenContent(
     uiState: StatisticsScreenUiState,
@@ -232,12 +230,12 @@ private fun ActionToHappinessSection(
     }
 }
 
-@Preview(name = "Phone - Light", device = PHONE, showBackground = true)
-@Preview(name = "Phone - Dark", device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
-@Preview(name = "Tablet - Light", device = PIXEL_TABLET, showBackground = true)
-@Preview(name = "Tablet - Dark", device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = PHONE, showBackground = true)
+@Preview(device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = PIXEL_TABLET, showBackground = true)
+@Preview(device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-private fun Preview_StatisticsScreenContent(
+fun Preview_StatisticsScreenContent(
     @PreviewParameter(StatisticsScreenUiStateProvider::class) uiState: StatisticsScreenUiState
 ) {
     AppTheme {
@@ -339,7 +337,13 @@ class StatisticsScreenUiStateProvider : PreviewParameterProvider<StatisticsScree
                     endDate = LocalDate.of(2025, 8, 31)
                 ),
                 averageDailyMoodChartData = AverageDailyMoodChartData(
-                    data = sampleAverageDailyMoodData.take(15),
+                    data = sampleAverageDailyMoodData.mapIndexed { index, item ->
+                        if (index > 5) {
+                            ChartDataItem(item.label, value = 0f)
+                        } else {
+                            item
+                        }
+                    },
                     scrollPosition = 0
                 ),
                 iconShape = IconShape.ROUNDED_SQUARE

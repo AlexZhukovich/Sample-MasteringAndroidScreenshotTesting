@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -86,38 +87,42 @@ fun CardSection(
 
 @PreviewLightDark
 @Composable
-private fun Preview_Section_WithoutActions() {
+fun Preview_Section_WithoutActions() {
     AppTheme {
-        Section(
-            title = "Section Title"
-        ) {
-            Text("Content...")
-        }
-    }
-}
-
-@PreviewLightDark
-@Composable
-private fun Preview_Section_WithActions() {
-    AppTheme {
-        Section(
-            title = "Section Title",
-            actions = {
-                IconButton(
-                    onClick = {},
-                    icon = EditIcon,
-                    contentDescription = "Edit"
-                )
+        Surface {
+            Section(
+                title = "Section Title"
+            ) {
+                Text("Content...")
             }
-        ) {
-            Text("Content...")
         }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_CardSection() {
+fun Preview_Section_WithActions() {
+    AppTheme {
+        Surface {
+            Section(
+                title = "Section Title",
+                actions = {
+                    IconButton(
+                        onClick = {},
+                        icon = EditIcon,
+                        contentDescription = "Edit"
+                    )
+                }
+            ) {
+                Text("Content...")
+            }
+        }
+    }
+}
+
+@PreviewLightDark
+@Composable
+fun Preview_CardSection() {
     AppTheme {
         CardSection(
             title = "Card Title"
@@ -129,7 +134,7 @@ private fun Preview_CardSection() {
 
 @PreviewLightDark
 @Composable
-private fun Preview_CardSection_CapitalizedTitle() {
+fun Preview_CardSection_CapitalizedTitle() {
     AppTheme {
         CardSection(
             title = "Card Title",

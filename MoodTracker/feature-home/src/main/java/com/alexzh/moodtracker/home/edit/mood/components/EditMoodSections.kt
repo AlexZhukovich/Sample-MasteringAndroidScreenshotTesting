@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -330,11 +332,13 @@ fun PhotosSection(
     photos: List<Uri>,
     onPhotoChange: (PhotoAction) -> Unit
 ) {
-    val photoPicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { onPhotoChange(PhotoAction.Add(it)) }
-    }
+    val photoPicker = if (LocalInspectionMode.current.not()) {
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent()
+        ) { uri: Uri? ->
+            uri?.let { onPhotoChange(PhotoAction.Add(it)) }
+        }
+    } else null
 
     Section(
         modifier = modifier.fillMaxWidth(),
@@ -345,7 +349,7 @@ fun PhotosSection(
             thumbnailSize = 80.dp,
             editable = true,
             onRemove = { index -> onPhotoChange(PhotoAction.Remove(index)) },
-            onAddPhoto = { photoPicker.launch("image/*") },
+            onAddPhoto = { photoPicker?.launch("image/*") },
             maxPhotos = 3
         )
     }
@@ -353,106 +357,120 @@ fun PhotosSection(
 
 @PreviewLightDark
 @Composable
-private fun Preview_MoodSection_Selected_CircleIconShape() {
+fun Preview_MoodSection_Selected_CircleIconShape() {
     AppTheme {
-        MoodSection(
-            items = LocalizedMood.entries.toList(),
-            selectedMood = LocalizedMood.GOOD,
-            iconShape = IconShape.CIRCLE,
-            onMoodSelected = {}
-        )
+        Surface {
+            MoodSection(
+                items = LocalizedMood.entries.toList(),
+                selectedMood = LocalizedMood.GOOD,
+                iconShape = IconShape.CIRCLE,
+                onMoodSelected = {}
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_MoodSection_Unselected_RoundedSquareIconShape() {
+fun Preview_MoodSection_Unselected_RoundedSquareIconShape() {
     AppTheme {
-        MoodSection(
-            items = LocalizedMood.entries.toList(),
-            selectedMood = LocalizedMood.GOOD,
-            iconShape = IconShape.ROUNDED_SQUARE,
-            onMoodSelected = {}
-        )
+        Surface {
+            MoodSection(
+                items = LocalizedMood.entries.toList(),
+                selectedMood = null,
+                iconShape = IconShape.ROUNDED_SQUARE,
+                onMoodSelected = {}
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_ActionCategoriesSection() {
+fun Preview_ActionCategoriesSection() {
     AppTheme {
-        ActionCategoriesSection(
-            items = SelectableActionCategories(
-                userActivityCategory = mapOf(
-                    ActionCategoryItem(id = 1L, name = "Exercise") to listOf(
-                        ActionItem(id = 1L, name = "Running"),
-                        ActionItem(id = 2L, name = "Cycling"),
-                        ActionItem(id = 3L, name = "Swimming")
+        Surface {
+            ActionCategoriesSection(
+                items = SelectableActionCategories(
+                    userActivityCategory = mapOf(
+                        ActionCategoryItem(id = 1L, name = "Exercise") to listOf(
+                            ActionItem(id = 1L, name = "Running"),
+                            ActionItem(id = 2L, name = "Cycling"),
+                            ActionItem(id = 3L, name = "Swimming")
+                        ),
+                        ActionCategoryItem(id = 2L, name = "Work") to listOf(
+                            ActionItem(id = 4L, name = "Meeting"),
+                            ActionItem(id = 5L, name = "Coding")
+                        )
                     ),
-                    ActionCategoryItem(id = 2L, name = "Work") to listOf(
-                        ActionItem(id = 4L, name = "Meeting"),
-                        ActionItem(id = 5L, name = "Coding")
-                    )
+                    selectedUserActivityIds = listOf(1L, 4L)
                 ),
-                selectedUserActivityIds = listOf(1L, 4L)
-            ),
-            onNavigateToActionCategories = {},
-            onActionChange = {}
-        )
+                onNavigateToActionCategories = {},
+                onActionChange = {}
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_NoteSection() {
+fun Preview_NoteSection() {
     AppTheme {
-        NoteSection(
-            note = "This is a sample note about my mood today.",
-            onNoteChange = {},
-            bringIntoViewRequester = remember { BringIntoViewRequester() },
-            focusManager = object : FocusManager {
-                override fun clearFocus(force: Boolean) {}
-                override fun moveFocus(focusDirection: FocusDirection): Boolean = false
-            }
-        )
+        Surface {
+            NoteSection(
+                note = "This is a sample note about my mood today.",
+                onNoteChange = {},
+                bringIntoViewRequester = remember { BringIntoViewRequester() },
+                focusManager = object : FocusManager {
+                    override fun clearFocus(force: Boolean) {}
+                    override fun moveFocus(focusDirection: FocusDirection): Boolean = false
+                }
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_DateTimeSection() {
+fun Preview_DateTimeSection() {
     AppTheme {
-        DateTimeSection(
-            date = LocalDate.of(2025, 1, 1),
-            time = LocalTime.of(12, 30),
-            onDateChange = {},
-            onTimeChange = {}
-        )
+        Surface {
+            DateTimeSection(
+                date = LocalDate.of(2025, 1, 1),
+                time = LocalTime.of(12, 30),
+                onDateChange = {},
+                onTimeChange = {}
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_PhotosSection_Empty() {
+fun Preview_PhotosSection_Empty() {
     AppTheme {
-        PhotosSection(
-            photos = emptyList(),
-            onPhotoChange = {}
-        )
+        Surface {
+            PhotosSection(
+                photos = emptyList(),
+                onPhotoChange = {}
+            )
+        }
     }
 }
 
 @PreviewLightDark
 @Composable
-private fun Preview_PhotosSection_NotEmpty() {
+fun Preview_PhotosSection_NotEmpty() {
     AppTheme {
-        PhotosSection(
-            photos = listOf(
-                "content://media/external/images/media/1".toUri(),
-                "content://media/external/images/media/2".toUri()
-            ),
-            onPhotoChange = {}
-        )
+        Surface {
+            PhotosSection(
+                photos = listOf(
+                    "content://media/external/images/media/1".toUri(),
+                    "content://media/external/images/media/2".toUri()
+                ),
+                onPhotoChange = {}
+            )
+        }
     }
 }
 

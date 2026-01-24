@@ -3,6 +3,7 @@ package com.alexzh.designsystem.component.settings
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,9 +28,11 @@ fun SettingsSectionTitle(
 @Composable
 fun Preview_SettingsTitleItem() {
     AppTheme {
-        SettingsSectionTitle(
-            modifier = Modifier.fillMaxWidth(),
-            title = "General"
-        )
+        Surface {
+            SettingsSectionTitle(
+                modifier = Modifier.fillMaxWidth(),
+                title = "General"
+            )
+        }
     }
 }

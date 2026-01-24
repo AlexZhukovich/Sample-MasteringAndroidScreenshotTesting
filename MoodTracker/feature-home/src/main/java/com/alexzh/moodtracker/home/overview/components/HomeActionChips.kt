@@ -33,7 +33,7 @@ fun MoodActionChips(
 
 @PreviewLightDark
 @Composable
-private fun Preview_MoodActionChips_MultipleActions() {
+fun Preview_MoodActionChips_MultipleActions() {
     AppTheme {
         MoodActionChips(
             actions = listOf(

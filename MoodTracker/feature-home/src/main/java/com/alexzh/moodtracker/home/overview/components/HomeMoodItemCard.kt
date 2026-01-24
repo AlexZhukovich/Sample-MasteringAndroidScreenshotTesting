@@ -117,7 +117,7 @@ fun MoodItemCard(
 
 @PreviewLightDark
 @Composable
-fun MoodItemCardPreview_Action_Note_Photos() {
+fun Preview_MoodItemCard_Action_Note_Photos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -141,7 +141,7 @@ fun MoodItemCardPreview_Action_Note_Photos() {
 
 @PreviewLightDark
 @Composable
-fun MoodItemCardPreview_Action_Note_NoPhotos() {
+fun Preview_MoodItemCard_Action_Note_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -161,7 +161,7 @@ fun MoodItemCardPreview_Action_Note_NoPhotos() {
 
 @PreviewLightDark
 @Composable
-fun MoodItemCardPreview_MultipleActions_Notes_NoPhotos() {
+fun Preview_MoodItemCard_MultipleActions_Notes_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(
@@ -182,7 +182,7 @@ fun MoodItemCardPreview_MultipleActions_Notes_NoPhotos() {
 
 @PreviewLightDark
 @Composable
-fun MoodItemCardPreview_NoAction_Note_NoPhotos() {
+fun Preview_MoodItemCard_NoAction_Note_NoPhotos() {
     AppTheme {
         MoodItemCard(
             moodItem = MoodItem(

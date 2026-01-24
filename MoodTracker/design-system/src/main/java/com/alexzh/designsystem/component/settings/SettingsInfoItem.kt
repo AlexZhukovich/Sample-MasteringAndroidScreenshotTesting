@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -59,12 +60,14 @@ fun SettingsInfoItem(
 @Composable
 fun Preview_SettingsInfoItem_Enabled() {
     AppTheme {
-        SettingsInfoItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Info Item Title",
-            value = "Value",
-            description = "Info Item Description"
-        )
+        Surface {
+            SettingsInfoItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Info Item Title",
+                value = "Value",
+                description = "Info Item Description"
+            )
+        }
     }
 }
 
@@ -72,12 +75,14 @@ fun Preview_SettingsInfoItem_Enabled() {
 @Composable
 fun Preview_SettingsInfoItem_Disabled() {
     AppTheme {
-        SettingsInfoItem(
-            modifier = Modifier.fillMaxWidth(),
-            title = "Info Item Title",
-            value = "Value",
-            description = "Info Item Description",
-            enabled = false
-        )
+        Surface {
+            SettingsInfoItem(
+                modifier = Modifier.fillMaxWidth(),
+                title = "Info Item Title",
+                value = "Value",
+                description = "Info Item Description",
+                enabled = false
+            )
+        }
     }
 }
