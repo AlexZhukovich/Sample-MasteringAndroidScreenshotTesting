@@ -1,6 +1,6 @@
 # Screenshot Tests Using Android Testify
 
-The module uses [Android Testify](https://ndtp.github.io/android-testify/), a screenshot testing library that captures screenshots on a real device or emulator and compares them against baseline images.
+The module uses [Android Testify](https://ndtp.github.io/android-testify/), a screenshot testing library that captures screenshots on a device or emulator and compares them against baseline images.
 
 ## Module Dependencies
 

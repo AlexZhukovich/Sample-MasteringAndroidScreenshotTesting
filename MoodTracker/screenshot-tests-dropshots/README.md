@@ -1,6 +1,6 @@
 # Screenshot Tests Using Dropshots
 
-The module uses [Dropshots](https://github.com/dropbox/dropshots), a screenshot testing library that captures screenshots and compares them against baseline images on a real device or emulator.
+The module uses [Dropshots](https://github.com/dropbox/dropshots), a screenshot testing library that captures screenshots and compares them against baseline images on a device or emulator.
 
 > All test cases in this module were verified and executed on:
 > - **Emulator**: Pixel 4

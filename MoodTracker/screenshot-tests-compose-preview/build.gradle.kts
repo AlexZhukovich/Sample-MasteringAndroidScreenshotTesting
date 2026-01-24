@@ -11,10 +11,8 @@ android {
 
     defaultConfig {
         minSdk = 26
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -55,13 +53,10 @@ dependencies {
 
     screenshotTestImplementation(libs.androidx.ui.tooling)
     screenshotTestImplementation(libs.screenshot.validation.api)
-
-
     screenshotTestImplementation(libs.androidx.compose.material3.adaptive)
     screenshotTestImplementation(libs.androidx.compose.material3.adaptive.layout)
     screenshotTestImplementation(libs.androidx.compose.material3.adaptive.navigation)
     screenshotTestImplementation(libs.androidx.compose.material3.adaptive.navigation.suite)
-
     screenshotTestImplementation(platform(libs.androidx.compose.bom))
     screenshotTestImplementation(libs.androidx.core.ktx)
     screenshotTestImplementation(libs.androidx.ui)

@@ -12,7 +12,6 @@ android {
     defaultConfig {
         minSdk = 26
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false

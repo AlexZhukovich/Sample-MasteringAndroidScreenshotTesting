@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         minSdk = 26
-
         testApplicationId = "com.alexzh.moodtracker.screenshottests.shot.test"
         testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
     }
