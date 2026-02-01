@@ -18,7 +18,7 @@ val appModule = module {
     single<AppInfoProvider> {
         AppInfoProviderImpl(context = androidContext())
     }
-    
+
     viewModel {
         AppSettingsViewModel(settingsDataSource = get())
     }
