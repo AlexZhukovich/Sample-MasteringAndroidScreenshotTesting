@@ -51,6 +51,7 @@ dependencies {
     implementation(project(":feature-home"))
     implementation(project(":feature-settings"))
     implementation(project(":feature-statistics"))
+    implementation(project(":feature-widget"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
@@ -72,7 +73,8 @@ tasks.withType<Test> {
         ":feature-home:compileDebugKotlin",
         ":feature-settings:compileDebugKotlin",
         ":feature-statistics:compileDebugKotlin",
-        ":feature-action-management:compileDebugKotlin"
+        ":feature-action-management:compileDebugKotlin",
+        ":feature-widget:compileDebugKotlin"
     )
 
     // Required for Paparazzi to find resources

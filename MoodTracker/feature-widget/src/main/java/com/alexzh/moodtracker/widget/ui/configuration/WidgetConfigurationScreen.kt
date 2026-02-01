@@ -25,9 +25,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices.PHONE
+import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.component.bars.TopAppBarWithBackButton
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.component.settings.SettingsDropdownItem
@@ -132,7 +137,7 @@ fun WidgetConfigurationContent(
 
             val opacityValue = stringResource(
                 R.string.widgetConfigurationScreen_opacity_value_label,
-                (uiState.transparency * 100).toInt()
+                ((1f - uiState.transparency) * 100).toInt()
             )
             SettingsSliderItem(
                 title = stringResource(R.string.widgetConfigurationScreen_opacity_label),
@@ -185,5 +190,29 @@ fun WidgetPreview(
                 )
             }
         }
+    }
+}
+
+@Preview(device = PHONE, showBackground = true)
+@Preview(device = PHONE, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(device = PIXEL_TABLET, showBackground = true)
+@Preview(device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun Preview_WidgetConfigurationScreen() {
+    val uiState = WidgetConfigurationUiState(
+        transparency = 0.3f,
+        iconShape = IconShape.CIRCLE,
+        theme = WidgetTheme.LIGHT
+    )
+
+    AppTheme {
+        WidgetConfigurationContent(
+            uiState = uiState,
+            onTransparencyChanged = { },
+            onIconShapeChanged = { },
+            onThemeChanged = { },
+            onCancel = { },
+            onApply = { }
+        )
     }
 }
