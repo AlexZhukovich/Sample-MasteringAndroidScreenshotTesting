@@ -98,7 +98,7 @@ fun WidgetConfigurationContent(
             Box(
                 modifier = Modifier.fillMaxWidth()
                     .background(MaterialTheme.colorScheme.secondary)
-                    .padding(32.dp)
+                    .padding(16.dp)
             ) {
                 WidgetPreview(
                     modifier = Modifier.fillMaxWidth()
