@@ -25,7 +25,8 @@ class PaparazziParameterizedPreviewTest(
                     "com.alexzh.moodtracker.actionmanagement",
                     "com.alexzh.moodtracker.home",
                     "com.alexzh.moodtracker.settings",
-                    "com.alexzh.moodtracker.statistics"
+                    "com.alexzh.moodtracker.statistics",
+                    "com.alexzh.moodtracker.widget"
                 )
                 .includeAnnotationInfoForAllOf(PaparazziConfig::class.java)
                 .getPreviews()
