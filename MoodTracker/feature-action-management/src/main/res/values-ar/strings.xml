@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="actionCategoriesScreen_title">إدارة الإجراءات</string>
+    <string name="actionCategoriesScreen_addCategoryButton_label">إضافة فئة</string>
+    <string name="actionCategoriesScreen_emptyState_label">لم تقم بإضافة أي فئات بعد.</string>
+    <string name="actionCategoriesScreen_editCategory_contentDescription">تعديل</string>
+    <string name="actionCategoriesScreen_deleteCategory_contentDescription">حذف</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_title">حذف الفئة</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_label">هل تريد حذف فئة \"%1$s\"؟ لا يمكن التراجع بعد هذا الإجراء.</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_title">إضافة فئة</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_categoryName_label">اسم الفئة</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_title">تعديل الفئة</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">اسم الفئة</string>
+    <string name="actionCategoriesScreen_placeholder_label">اختر فئة لعرض التفاصيل</string>
+
+    <string name="actionCategoryDetailsScreen_addActionButton_label">إضافة إجراء</string>
+    <string name="actionCategoryDetailsScreen_emptyState_label">لم تقم بإضافة أي إجراءات بعد.</string>
+    <string name="actionCategoryDetailsScreen_editAction_contentDescription">تعديل</string>
+    <string name="actionCategoryDetailsScreen_deleteAction_contentDescription">حذف</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_title">تعديل الإجراء</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_actionName_label">اسم الإجراء</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_title">إضافة إجراء</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_actionName_label">اسم الإجراء</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_title">حذف الإجراء</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_label">هل تريد حذف إجراء \"%1$s\"؟ لا يمكن التراجع بعد هذا الإجراء.</string>
+</resources>

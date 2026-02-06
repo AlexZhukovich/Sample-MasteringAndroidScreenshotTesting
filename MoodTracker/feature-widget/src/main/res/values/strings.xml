@@ -10,5 +10,5 @@
     <string name="widgetConfigurationScreen_theme_light_label">Light</string>
     <string name="widgetConfigurationScreen_theme_dark_label">Dark</string>
     <string name="widgetConfigurationScreen_opacity_label">Opacity</string>
-    <string name="widgetConfigurationScreen_opacity_value_label">%d%%</string>
+    <string name="widgetConfigurationScreen_opacity_value_label" translatable="false">%d%%</string>
 </resources>

@@ -11,7 +11,7 @@
     <string name="actionCategoriesScreen_addCategoryDialog_categoryName_label">Category name</string>
     <string name="actionCategoriesScreen_editCategoryDialog_title">Edit category</string>
     <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">Category name</string>
-    <string name="actionCategoriesScreen_placeholder_label">Select a category to view details</string>
+    <string name="actionCategoriesScreen_placeholder_label">Select a category to view details.</string>
 
     <string name="actionCategoryDetailsScreen_addActionButton_label">Add action</string>
     <string name="actionCategoryDetailsScreen_emptyState_label">You haven\'t added any actions.</string>

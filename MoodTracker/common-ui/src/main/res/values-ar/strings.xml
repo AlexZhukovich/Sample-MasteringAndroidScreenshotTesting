@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="navigation_home_label">الرئيسية</string>
+    <string name="navigation_statistics_label">الإحصائيات</string>
+    <string name="navigation_settings_label">الإعدادات</string>
+
+    <!-- Icon Shape -->
+    <string name="common_iconShape_label">شكل الأيقونة</string>
+    <string name="common_iconShape_circle_label">دائري</string>
+    <string name="common_iconShape_roundedSquare_label">مربع مستدير الحواف</string>
+
+    <!-- Mood -->
+    <string name="mood_angry">غاضب</string>
+    <string name="mood_sad">حزين</string>
+    <string name="mood_ok">عادي</string>
+    <string name="mood_good">جيد</string>
+    <string name="mood_happy">سعيد</string>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_ok_label">موافق</string>
+    <string name="dialog_cancel_label">إلغاء</string>
+    <string name="dialog_delete_label">حذف</string>
+    <string name="dialog_save_label">حفظ</string>
+
+    <string name="applyButton_contentDescription">تطبيق</string>
+    <string name="topAppBar_backButton_contentDescription">رجوع</string>
+    <string name="closeButton_contentDescription">إغلاق</string>
+
+    <string name="dateRangeSelector_lastDays_label">آخر %d أيام</string>
+    <string name="dateRangeSelector_previousPeriod_contentDescription">الانتقال للفترة السابقة</string>
+    <string name="dateRangeSelector_nextPeriodEnabled_contentDescription">الانتقال للفترة التالية</string>
+    <string name="dateRangeSelector_nextPeriodDisabled_contentDescription">الفترة التالية غير متاحة</string>
+    <string name="dateRangeSelector_openDatePicker_contentDescription">اختيار التاريخ</string>
+    <string name="dateRangeSelector_todayButton_label">اليوم</string>
+    <string name="dateRangeSelector_selectedDate_contentDescription">اختر التاريخ %1$s</string>
+    <string name="dateRangeSelector_futureDateNotSelectable_contentDescription">تاريخ مستقبلي %1$s، غير متاح للاختيار</string>
+
+    <string name="emptyState_title">لا توجد بيانات متاحة</string>
+
+    <string name="photoThumbnailGrid_addPhoto_label">إضافة صورة</string>
+    <string name="photoThumbnailGrid_removePhoto_label">حذف صورة</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Widget -->
+    <string name="widget_title">كيف حالك؟</string>
+    <string name="widget_description">سجل حالتك المزاجية الآن.</string>
+
+    <!-- Widget Configuration -->
+    <string name="widgetConfigurationScreen_title">إعدادات الأداة</string>
+    <string name="widgetConfigurationScreen_theme_label">المظهر</string>
+    <string name="widgetConfigurationScreen_theme_light_label">فاتح</string>
+    <string name="widgetConfigurationScreen_theme_dark_label">داكن</string>
+    <string name="widgetConfigurationScreen_opacity_label">درجة الشفافية</string>
+</resources>
