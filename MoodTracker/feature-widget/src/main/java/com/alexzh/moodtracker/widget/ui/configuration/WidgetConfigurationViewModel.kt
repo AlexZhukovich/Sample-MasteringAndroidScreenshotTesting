@@ -2,7 +2,7 @@ package com.alexzh.moodtracker.widget.ui.configuration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
 import com.alexzh.moodtracker.widget.model.WidgetSettings
 import com.alexzh.moodtracker.widget.model.WidgetTheme
 import com.alexzh.moodtracker.widget.data.WidgetSettingsDataSource
@@ -27,7 +27,7 @@ class WidgetConfigurationViewModel(
             val settings = widgetDataSource.getWidgetSettings(glanceId)
             _uiState.value = WidgetConfigurationUiState(
                 transparency = settings.transparency,
-                iconShape = settings.iconShape,
+                iconShape = LocalizedIconShape.fromIconShape(settings.iconShape),
                 theme = settings.theme
             )
         }
@@ -47,7 +47,7 @@ class WidgetConfigurationViewModel(
         _uiState.update { it.copy(transparency = transparency) }
     }
 
-    private fun updateIconShape(iconShape: IconShape) {
+    private fun updateIconShape(iconShape: LocalizedIconShape) {
         _uiState.update { it.copy(iconShape = iconShape) }
     }
 
@@ -57,9 +57,10 @@ class WidgetConfigurationViewModel(
 
     private fun applyConfiguration() {
         val state = _uiState.value
+        val iconShape = state.iconShape.toIconShape()
         val settings = WidgetSettings(
             transparency = state.transparency,
-            iconShape = state.iconShape,
+            iconShape = iconShape,
             theme = state.theme
         )
 

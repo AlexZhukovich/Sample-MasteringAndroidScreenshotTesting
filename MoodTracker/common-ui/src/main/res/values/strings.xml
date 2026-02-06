@@ -5,6 +5,11 @@
     <string name="navigation_statistics_label">Statistics</string>
     <string name="navigation_settings_label">Settings</string>
 
+    <!-- Icon Shape -->
+    <string name="common_iconShape_label">Icon shape</string>
+    <string name="common_iconShape_circle_label">Circle</string>
+    <string name="common_iconShape_roundedSquare_label">Rounded Square</string>
+
     <!-- Mood -->
     <string name="mood_angry">Angry</string>
     <string name="mood_sad">Sad</string>

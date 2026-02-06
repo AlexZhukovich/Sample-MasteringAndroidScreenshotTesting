@@ -1,10 +1,10 @@
 package com.alexzh.moodtracker.widget.ui.configuration
 
-import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
 import com.alexzh.moodtracker.widget.model.WidgetTheme
 
 data class WidgetConfigurationUiState(
     val transparency: Float = 0f,
-    val iconShape: IconShape = IconShape.CIRCLE,
+    val iconShape: LocalizedIconShape = LocalizedIconShape.CIRCLE,
     val theme: WidgetTheme = WidgetTheme.LIGHT
 )

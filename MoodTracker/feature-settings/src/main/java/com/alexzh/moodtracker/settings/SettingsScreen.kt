@@ -23,7 +23,8 @@ import com.alexzh.designsystem.component.settings.SettingsSectionTitle
 import com.alexzh.designsystem.component.settings.SettingsSwitchItem
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
-import com.alexzh.moodtracker.settings.model.LocalizedIconShape
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
+import com.alexzh.moodtracker.common.ui.R as CommonUiR
 
 @Composable
 fun SettingsScreen(
@@ -92,7 +93,7 @@ fun SettingsScreenContent(
                     enabled = !uiState.isLoading
                 )
                 SettingsDropdownItem(
-                    title = stringResource(R.string.settingsScreen_iconShape_title),
+                    title = stringResource(CommonUiR.string.common_iconShape_label),
                     description = stringResource(R.string.settingsScreen_iconShape_description),
                     options = LocalizedIconShape.entries,
                     selectedOption = uiState.iconShape,

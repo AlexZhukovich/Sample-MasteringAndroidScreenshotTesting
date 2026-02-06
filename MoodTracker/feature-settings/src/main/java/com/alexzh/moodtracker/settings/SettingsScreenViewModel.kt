@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.core.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.core.domain.provider.AppInfoProvider
-import com.alexzh.moodtracker.settings.model.LocalizedIconShape
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine

@@ -39,11 +39,12 @@ import com.alexzh.designsystem.component.settings.SettingsDropdownItem
 import com.alexzh.designsystem.icon.CheckIcon
 import com.alexzh.designsystem.icon.CloseIcon
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.widget.model.WidgetTheme
 import com.alexzh.moodtracker.widget.R
+import com.alexzh.moodtracker.common.ui.R as CommonUiR
 import com.alexzh.designsystem.core.theme.darkScheme
 import com.alexzh.designsystem.core.theme.lightScheme
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
 
 @Composable
 fun WidgetConfigurationScreen(
@@ -66,7 +67,7 @@ fun WidgetConfigurationScreen(
 fun WidgetConfigurationContent(
     uiState: WidgetConfigurationUiState,
     onTransparencyChanged: (Float) -> Unit,
-    onIconShapeChanged: (IconShape) -> Unit,
+    onIconShapeChanged: (LocalizedIconShape) -> Unit,
     onThemeChanged: (WidgetTheme) -> Unit,
     onCancel: () -> Unit,
     onApply: () -> Unit
@@ -123,15 +124,10 @@ fun WidgetConfigurationContent(
             )
 
             SettingsDropdownItem(
-                title = stringResource(R.string.widgetConfigurationScreen_iconShape_label),
-                options = IconShape.entries,
+                title = stringResource(CommonUiR.string.common_iconShape_label),
+                options = LocalizedIconShape.entries,
                 selectedOption = uiState.iconShape,
-                optionLabel = { iconShape ->
-                    when (iconShape) {
-                        IconShape.CIRCLE -> stringResource(R.string.widgetConfigurationScreen_iconShape_circle_label)
-                        IconShape.ROUNDED_SQUARE -> stringResource(R.string.widgetConfigurationScreen_iconShape_roundedSquare_label)
-                    }
-                },
+                optionLabel = { stringResource(it.label) },
                 onOptionSelected = onIconShapeChanged
             )
 
@@ -154,7 +150,7 @@ fun WidgetConfigurationContent(
 fun WidgetPreview(
     modifier: Modifier = Modifier,
     transparency: Float = 0f,
-    iconShape: IconShape = IconShape.CIRCLE,
+    iconShape: LocalizedIconShape = LocalizedIconShape.CIRCLE,
     theme: WidgetTheme = WidgetTheme.LIGHT
 ) {
     val backgroundAlpha = 1f - transparency
@@ -184,7 +180,7 @@ fun WidgetPreview(
         ) {
             LocalizedMood.entries.forEach { mood ->
                 Image(
-                    painter = painterResource(id = mood.getIcon(iconShape)),
+                    painter = painterResource(id = mood.getIcon(iconShape.toIconShape())),
                     contentDescription = stringResource(id = mood.label),
                     modifier = Modifier.size(48.dp).padding(4.dp)
                 )
@@ -201,7 +197,7 @@ fun WidgetPreview(
 fun Preview_WidgetConfigurationScreen() {
     val uiState = WidgetConfigurationUiState(
         transparency = 0.3f,
-        iconShape = IconShape.CIRCLE,
+        iconShape = LocalizedIconShape.CIRCLE,
         theme = WidgetTheme.LIGHT
     )
 
