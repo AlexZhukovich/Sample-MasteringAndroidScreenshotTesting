@@ -3,8 +3,8 @@ package com.alexzh.moodtracker.widget.ui.configuration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
+import com.alexzh.moodtracker.widget.model.LocalizedWidgetTheme
 import com.alexzh.moodtracker.widget.model.WidgetSettings
-import com.alexzh.moodtracker.widget.model.WidgetTheme
 import com.alexzh.moodtracker.widget.data.WidgetSettingsDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +28,7 @@ class WidgetConfigurationViewModel(
             _uiState.value = WidgetConfigurationUiState(
                 transparency = settings.transparency,
                 iconShape = LocalizedIconShape.fromIconShape(settings.iconShape),
-                theme = settings.theme
+                theme = LocalizedWidgetTheme.fromWidgetTheme(settings.theme)
             )
         }
     }
@@ -51,7 +51,7 @@ class WidgetConfigurationViewModel(
         _uiState.update { it.copy(iconShape = iconShape) }
     }
 
-    private fun updateTheme(theme: WidgetTheme) {
+    private fun updateTheme(theme: LocalizedWidgetTheme) {
         _uiState.update { it.copy(theme = theme) }
     }
 
@@ -61,7 +61,7 @@ class WidgetConfigurationViewModel(
         val settings = WidgetSettings(
             transparency = state.transparency,
             iconShape = iconShape,
-            theme = state.theme
+            theme = state.theme.toWidgetTheme()
         )
 
         runBlocking {

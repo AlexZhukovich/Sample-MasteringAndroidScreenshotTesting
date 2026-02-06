@@ -39,7 +39,7 @@ import com.alexzh.designsystem.component.settings.SettingsDropdownItem
 import com.alexzh.designsystem.icon.CheckIcon
 import com.alexzh.designsystem.icon.CloseIcon
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.widget.model.WidgetTheme
+import com.alexzh.moodtracker.widget.model.LocalizedWidgetTheme
 import com.alexzh.moodtracker.widget.R
 import com.alexzh.moodtracker.common.ui.R as CommonUiR
 import com.alexzh.designsystem.core.theme.darkScheme
@@ -68,7 +68,7 @@ fun WidgetConfigurationContent(
     uiState: WidgetConfigurationUiState,
     onTransparencyChanged: (Float) -> Unit,
     onIconShapeChanged: (LocalizedIconShape) -> Unit,
-    onThemeChanged: (WidgetTheme) -> Unit,
+    onThemeChanged: (LocalizedWidgetTheme) -> Unit,
     onCancel: () -> Unit,
     onApply: () -> Unit
 ) {
@@ -112,14 +112,9 @@ fun WidgetConfigurationContent(
 
             SettingsDropdownItem(
                 title = stringResource(R.string.widgetConfigurationScreen_theme_label),
-                options = WidgetTheme.entries,
+                options = LocalizedWidgetTheme.entries,
                 selectedOption = uiState.theme,
-                optionLabel = { theme ->
-                    when (theme) {
-                        WidgetTheme.LIGHT -> stringResource(R.string.widgetConfigurationScreen_theme_light_label)
-                        WidgetTheme.DARK -> stringResource(R.string.widgetConfigurationScreen_theme_dark_label)
-                    }
-                },
+                optionLabel = { stringResource(it.label) },
                 onOptionSelected = onThemeChanged
             )
 
@@ -151,10 +146,10 @@ fun WidgetPreview(
     modifier: Modifier = Modifier,
     transparency: Float = 0f,
     iconShape: LocalizedIconShape = LocalizedIconShape.CIRCLE,
-    theme: WidgetTheme = WidgetTheme.LIGHT
+    theme: LocalizedWidgetTheme = LocalizedWidgetTheme.LIGHT
 ) {
     val backgroundAlpha = 1f - transparency
-    val colorScheme = if (theme == WidgetTheme.LIGHT) lightScheme else darkScheme
+    val colorScheme = if (theme == LocalizedWidgetTheme.LIGHT) lightScheme else darkScheme
 
     Column(
         modifier = modifier
@@ -198,7 +193,7 @@ fun Preview_WidgetConfigurationScreen() {
     val uiState = WidgetConfigurationUiState(
         transparency = 0.3f,
         iconShape = LocalizedIconShape.CIRCLE,
-        theme = WidgetTheme.LIGHT
+        theme = LocalizedWidgetTheme.LIGHT
     )
 
     AppTheme {
