@@ -377,10 +377,10 @@ fun Preview_EditMoodScreenContent(
 private val sampleCategories = mapOf(
     ActionCategoryItem(id = 1L, name = "Physical Activity") to listOf(
         ActionItem(id = 1L, name = "Running"),
-        ActionItem(id = 2L, name = "Cycling"),
-        ActionItem(id = 3L, name = "Swimming")
+        ActionItem(id = 2L, name = "Walking"),
+        ActionItem(id = 3L, name = "Exercising")
     ),
-    ActionCategoryItem(id = 2L, name = "Work") to listOf(
+    ActionCategoryItem(id = 2L, name = "Productivity") to listOf(
         ActionItem(id = 4L, name = "Meeting"),
         ActionItem(id = 5L, name = "Commuting")
     )

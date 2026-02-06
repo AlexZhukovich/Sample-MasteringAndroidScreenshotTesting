@@ -2,7 +2,7 @@
 <resources>
     <!-- Widget -->
     <string name="widget_title">How do you feel?</string>
-    <string name="widget_description">Quickly rate your mood.</string>
+    <string name="widget_description">Quickly add your mood.</string>
 
     <!-- Widget Configuration -->
     <string name="widgetConfigurationScreen_title">Widget Settings</string>

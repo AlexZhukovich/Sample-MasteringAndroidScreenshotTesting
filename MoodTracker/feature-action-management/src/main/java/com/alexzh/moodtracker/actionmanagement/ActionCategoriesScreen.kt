@@ -461,8 +461,8 @@ private val sampleCategories = listOf(
     ActionCategoryItem(id = 1L, name = "Hobbies"),
     ActionCategoryItem(id = 2L, name = "Physical Activity"),
     ActionCategoryItem(id = 3L, name = "Relaxation"),
-    ActionCategoryItem(id = 4L, name = "Social"),
-    ActionCategoryItem(id = 5L, name = "Work")
+    ActionCategoryItem(id = 4L, name = "Social Activity"),
+    ActionCategoryItem(id = 5L, name = "Productivity")
 )
 
 private val sampleActions = listOf(

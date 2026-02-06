@@ -8,7 +8,7 @@
     <!-- Icon Shape -->
     <string name="common_iconShape_label">Icon shape</string>
     <string name="common_iconShape_circle_label">Circle</string>
-    <string name="common_iconShape_roundedSquare_label">Rounded Square</string>
+    <string name="common_iconShape_roundedSquare_label">Rounded square</string>
 
     <!-- Mood -->
     <string name="mood_angry">Angry</string>
