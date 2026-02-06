@@ -5,7 +5,9 @@
     <string name="dialog_delete_label">Delete</string>
     <string name="dialog_save_label">Save</string>
 
+    <string name="applyButton_contentDescription">Apply</string>
     <string name="topAppBar_backButton_contentDescription">Back</string>
+    <string name="closeButton_contentDescription">Close</string>
 
     <string name="dateRangeSelector_lastDays_label">Last %d Days</string>
     <string name="dateRangeSelector_previousPeriod_contentDescription">Navigate to previous period</string>

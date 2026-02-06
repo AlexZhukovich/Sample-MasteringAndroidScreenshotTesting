@@ -42,6 +42,7 @@ import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import com.alexzh.moodtracker.widget.model.LocalizedWidgetTheme
 import com.alexzh.moodtracker.widget.R
 import com.alexzh.moodtracker.common.ui.R as CommonUiR
+import com.alexzh.designsystem.R as DesignSystemR
 import com.alexzh.designsystem.core.theme.darkScheme
 import com.alexzh.designsystem.core.theme.lightScheme
 import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
@@ -77,13 +78,13 @@ fun WidgetConfigurationContent(
             TopAppBarWithBackButton(
                 title = stringResource(R.string.widgetConfigurationScreen_title),
                 onBack = onCancel,
-                backButtonContentDescription = stringResource(R.string.widgetConfigurationScreen_close_contentDescription),
+                backButtonContentDescription = stringResource(DesignSystemR.string.closeButton_contentDescription),
                 backButtonIcon = CloseIcon,
                 actions = {
                     IconButton(
                         onClick = onApply,
                         icon = CheckIcon,
-                        contentDescription = stringResource(R.string.widgetConfigurationScreen_apply_contentDescription)
+                        contentDescription = stringResource(DesignSystemR.string.applyButton_contentDescription)
                     )
                 }
             )

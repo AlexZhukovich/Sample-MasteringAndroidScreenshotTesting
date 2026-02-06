@@ -11,6 +11,4 @@
     <string name="widgetConfigurationScreen_theme_dark_label">Dark</string>
     <string name="widgetConfigurationScreen_opacity_label">Opacity</string>
     <string name="widgetConfigurationScreen_opacity_value_label">%d%%</string>
-    <string name="widgetConfigurationScreen_close_contentDescription">Close</string>
-    <string name="widgetConfigurationScreen_apply_contentDescription">Apply</string>
 </resources>
