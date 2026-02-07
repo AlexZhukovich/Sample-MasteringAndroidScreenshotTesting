@@ -12,6 +12,7 @@ sealed class PhotoAction {
 }
 
 sealed class EditMoodScreenEvent {
+    data object OnLocaleChange : EditMoodScreenEvent()
     data class OnMoodChange(val mood: LocalizedMood) : EditMoodScreenEvent()
     data class OnNoteChange(val note: String) : EditMoodScreenEvent()
     data class OnActionChange(val actionItem: ActionItem) : EditMoodScreenEvent()

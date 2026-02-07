@@ -8,6 +8,7 @@ import org.koin.dsl.module
 val homeModule = module {
     viewModel {
         HomeScreenViewModel(
+            actionNameProvider = get(),
             moodRecordDataSource = get(),
             imagePathResolver = get(),
             settingsDataSource = get(),
@@ -16,6 +17,8 @@ val homeModule = module {
     }
     viewModel {
         EditMoodScreenViewModel(
+            actionCategoryNameProvider = get(),
+            actionNameProvider = get(),
             moodRecordDataSource = get(),
             imagePathResolver = get(),
             settingsDataSource = get(),

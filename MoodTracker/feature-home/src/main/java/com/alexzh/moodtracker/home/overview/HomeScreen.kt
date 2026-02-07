@@ -50,6 +50,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -76,8 +78,10 @@ import com.alexzh.designsystem.icon.AddIcon
 import com.alexzh.designsystem.icon.DeleteIcon
 import com.alexzh.designsystem.icon.EditIcon
 import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
+import com.alexzh.moodtracker.core.data.initialization.DefaultData
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.home.model.MoodItem
@@ -98,6 +102,11 @@ fun HomeScreen(
     onNavigateToStatistics: () -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
+    val locale = LocalConfiguration.current.locales[0]
+    LaunchedEffect(locale) {
+        viewModel.onEvent(HomeScreenEvent.OnLocaleChange)
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreenContent(
@@ -612,11 +621,14 @@ private fun MoodPreviewPhotos(
 @Preview(device = PIXEL_TABLET, showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun Preview_HomeScreen(
-    @PreviewParameter(HomeScreenUiStateProvider ::class) uiState: HomeScreenUiState
+    @PreviewParameter(HomeScreenUiStateProvider::class) uiState: HomeScreenUiState
 ) {
+    val resolvedState = uiState.withLocalizedActions(
+        actionNameProvider = LocalizedActionNameProvider(LocalContext.current)
+    )
     AppTheme {
         HomeScreenContent(
-            uiState = uiState,
+            uiState = resolvedState,
             onNavigateToEditMood = { },
             onNavigateToAddMood = { },
             onChangeSelectedDate = { },
@@ -627,6 +639,27 @@ fun Preview_HomeScreen(
             onNavigateToSettings = { },
         )
     }
+}
+
+private fun HomeScreenUiState.withLocalizedActions(
+    actionNameProvider: LocalizedActionNameProvider
+): HomeScreenUiState {
+    return copy(
+        moodItems = moodItems.map { moodItem ->
+            moodItem.copy(
+                actions = moodItem.actions.map { action ->
+                    action.copy(name = actionNameProvider.getLocalizedName(action.name))
+                }
+            )
+        },
+        selectedMoodItem = selectedMoodItem?.let { moodItem ->
+            moodItem.copy(
+                actions = moodItem.actions.map { action ->
+                    action.copy(name = actionNameProvider.getLocalizedName(action.name))
+                }
+            )
+        }
+    )
 }
 
 class HomeScreenUiStateProvider : PreviewParameterProvider<HomeScreenUiState> {
@@ -649,9 +682,9 @@ class HomeScreenUiStateProvider : PreviewParameterProvider<HomeScreenUiState> {
                         date = LocalDate.of(2025, 1, 5).atTime(19, 0),
                         note = "Had a great day at work!",
                         actions = listOf(
-                            ActionItem(1, "Running"),
-                            ActionItem(2, "Meditation"),
-                            ActionItem(3, "Reading")
+                            ActionItem(1, DefaultData.ACTION_RUNNING_LABEL),
+                            ActionItem(2, DefaultData.ACTION_MEDITATING_LABEL),
+                            ActionItem(3, DefaultData.ACTION_READING_LABEL)
                         )
                     ),
                     MoodItem(
@@ -667,8 +700,8 @@ class HomeScreenUiStateProvider : PreviewParameterProvider<HomeScreenUiState> {
                         date = LocalDate.of(2025, 1, 5).atTime(11, 30),
                         note = "",
                         actions = listOf(
-                            ActionItem(4, "Journaling"),
-                            ActionItem(5, "Music")
+                            ActionItem(4, DefaultData.ACTION_WRITING_LABEL),
+                            ActionItem(5, DefaultData.ACTION_LISTENING_TO_MUSIC_LABEL)
                         )
                     ),
                 ),

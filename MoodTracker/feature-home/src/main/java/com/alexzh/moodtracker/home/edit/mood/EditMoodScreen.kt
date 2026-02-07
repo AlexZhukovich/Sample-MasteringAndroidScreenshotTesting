@@ -29,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
@@ -47,8 +49,11 @@ import com.alexzh.designsystem.component.dialog.TimePickerDialog
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionCategoryNameProvider
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import com.alexzh.moodtracker.common.ui.model.UiEvent
+import com.alexzh.moodtracker.core.data.initialization.DefaultData
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.R
 import com.alexzh.moodtracker.home.edit.mood.components.ActionCategoriesSection
@@ -65,6 +70,11 @@ fun EditMoodScreen(
     onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
+    val locale = LocalConfiguration.current.locales[0]
+    LaunchedEffect(locale) {
+        viewModel.onEvent(EditMoodScreenEvent.OnLocaleChange)
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     EditMoodScreenContent(
@@ -358,9 +368,13 @@ private fun EditMoodScreenExpandedContent(
 fun Preview_EditMoodScreenContent(
     @PreviewParameter(EditMoodScreenUiStateProvider::class) uiState: EditMoodScreenUiState
 ) {
+    val resolvedState = uiState.withLocalizedActions(
+        categoryNameProvider = LocalizedActionCategoryNameProvider(LocalContext.current),
+        actionNameProvider = LocalizedActionNameProvider(LocalContext.current)
+    )
     AppTheme {
         EditMoodScreenContent(
-            uiState = uiState,
+            uiState = resolvedState,
             onMoodChange = { _ -> },
             onNoteChange = { _ -> },
             onActionChange = { _ -> },
@@ -374,15 +388,35 @@ fun Preview_EditMoodScreenContent(
     }
 }
 
+private fun EditMoodScreenUiState.withLocalizedActions(
+    categoryNameProvider: LocalizedActionCategoryNameProvider,
+    actionNameProvider: LocalizedActionNameProvider
+): EditMoodScreenUiState {
+    val localizedCategories = actionCategoryItems.userActivityCategory.map { (category, actions) ->
+        val localizedCategory = category.copy(
+            name = categoryNameProvider.getLocalizedName(category.name)
+        )
+        val localizedActions = actions.map { action ->
+            action.copy(name = actionNameProvider.getLocalizedName(action.name))
+        }
+        localizedCategory to localizedActions
+    }.toMap()
+    return copy(
+        actionCategoryItems = actionCategoryItems.copy(
+            userActivityCategory = localizedCategories
+        )
+    )
+}
+
 private val sampleCategories = mapOf(
-    ActionCategoryItem(id = 1L, name = "Physical Activity") to listOf(
-        ActionItem(id = 1L, name = "Running"),
-        ActionItem(id = 2L, name = "Walking"),
-        ActionItem(id = 3L, name = "Exercising")
+    ActionCategoryItem(id = 1L, name = DefaultData.CATEGORY_PHYSICAL_ACTIVITY_LABEL) to listOf(
+        ActionItem(id = 1L, name = DefaultData.ACTION_RUNNING_LABEL),
+        ActionItem(id = 2L, name = DefaultData.ACTION_WALKING_LABEL),
+        ActionItem(id = 3L, name = DefaultData.ACTION_EXERCISING_LABEL)
     ),
-    ActionCategoryItem(id = 2L, name = "Productivity") to listOf(
-        ActionItem(id = 4L, name = "Meeting"),
-        ActionItem(id = 5L, name = "Commuting")
+    ActionCategoryItem(id = 2L, name = DefaultData.CATEGORY_PRODUCTIVITY_LABEL) to listOf(
+        ActionItem(id = 4L, name = DefaultData.ACTION_MEETING_LABEL),
+        ActionItem(id = 5L, name = DefaultData.ACTION_COMMUTING_LABEL)
     )
 )
 

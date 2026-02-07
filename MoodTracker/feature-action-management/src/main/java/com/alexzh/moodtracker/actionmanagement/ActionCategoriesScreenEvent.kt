@@ -1,6 +1,8 @@
 package com.alexzh.moodtracker.actionmanagement
 
 sealed class ActionCategoriesScreenEvent {
+    data object OnLocaleChange : ActionCategoriesScreenEvent()
+    
     data class OnAddCategory(val name: String) : ActionCategoriesScreenEvent()
     data class OnEditCategory(val categoryId: Long, val name: String) : ActionCategoriesScreenEvent()
     data class OnDeleteCategory(val categoryId: Long) : ActionCategoriesScreenEvent()

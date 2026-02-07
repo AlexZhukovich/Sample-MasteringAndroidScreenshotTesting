@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.collection.intSetOf
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.alexzh.moodtracker.actionmanagement.actionManagementModule
+import com.alexzh.moodtracker.common.ui.di.actionLocalizationModule
 import com.alexzh.moodtracker.core.data.initialization.DataInitializer
 import com.alexzh.moodtracker.core.di.dataModule
 import com.alexzh.moodtracker.di.appModule
@@ -33,6 +34,7 @@ class MoodTrackerApplication : Application() {
             modules(
                 appModule,
                 dataModule,
+                actionLocalizationModule,
                 homeModule,
                 statisticsModule,
                 actionManagementModule,
