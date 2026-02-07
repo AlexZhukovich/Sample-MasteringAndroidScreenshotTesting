@@ -16,8 +16,11 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
@@ -33,7 +36,9 @@ import com.alexzh.designsystem.component.navigation.AppNavigationSuiteScaffold
 import com.alexzh.designsystem.component.section.CardSection
 import com.alexzh.designsystem.component.selector.PeriodSelector
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
+import com.alexzh.moodtracker.core.data.initialization.DefaultData
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.statistics.components.StatisticsEmptyStateAnimatedIcon
 import com.alexzh.moodtracker.statistics.components.chart.ActionImpactData
@@ -48,6 +53,11 @@ fun StatisticsScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
+    val locale = LocalConfiguration.current.locales[0]
+    LaunchedEffect(locale) {
+        viewModel.onEvent(StatisticsScreenEvent.OnLocaleChange)
+    }
+
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     StatisticsScreenContent(
         uiState = uiState.value,
@@ -238,15 +248,33 @@ private fun ActionToHappinessSection(
 fun Preview_StatisticsScreenContent(
     @PreviewParameter(StatisticsScreenUiStateProvider::class) uiState: StatisticsScreenUiState
 ) {
+    val resolvedState = uiState.withLocalizedActions(
+        actionNameProvider = LocalizedActionNameProvider(LocalContext.current)
+    )
     AppTheme {
         StatisticsScreenContent(
-            uiState = uiState,
+            uiState = resolvedState,
             onNavigateToHome = { },
             onPreviousMonth = { },
             onNextMonth = { },
             onNavigateToSettings = { }
         )
     }
+}
+
+private fun StatisticsScreenUiState.withLocalizedActions(
+    actionNameProvider: LocalizedActionNameProvider
+): StatisticsScreenUiState {
+    return copy(
+        actionImpactChartData = ActionImpactChartData(
+            positiveImpact = actionImpactChartData.positiveImpact.map {
+                it.copy(label = actionNameProvider.getLocalizedName(it.label))
+            },
+            negativeImpact = actionImpactChartData.negativeImpact.map {
+                it.copy(label = actionNameProvider.getLocalizedName(it.label))
+            }
+        )
+    )
 }
 
 private val sampleAverageDailyMoodData = listOf(
@@ -284,18 +312,18 @@ private val sampleAverageDailyMoodData = listOf(
 )
 
 private val samplePositiveImpactData = listOf(
-    ChartDataItem(label = "Meeting", value = 4.75f),
-    ChartDataItem(label = "Listening to music", value = 4.0f),
-    ChartDataItem(label = "Drawing", value = 3.8f),
-    ChartDataItem(label = "Watching movies", value = 3.6f)
+    ChartDataItem(label = DefaultData.ACTION_MEETING_LABEL, value = 4.75f),
+    ChartDataItem(label = DefaultData.ACTION_LISTENING_TO_MUSIC_LABEL, value = 4.0f),
+    ChartDataItem(label = DefaultData.ACTION_DRAWING_LABEL, value = 3.8f),
+    ChartDataItem(label = DefaultData.ACTION_WATCHING_MOVIES_LABEL, value = 3.6f)
 )
 
 private val sampleNegativeImpactData = listOf(
-    ChartDataItem(label = "Family time", value = 3.2f),
-    ChartDataItem(label = "Reading", value = 2.75f),
-    ChartDataItem(label = "Party time", value = 2.75f),
-    ChartDataItem(label = "Gym Workout", value = 2.5f),
-    ChartDataItem(label = "Walking", value = 2.3f)
+    ChartDataItem(label = DefaultData.ACTION_FAMILY_TIME_LABEL, value = 3.2f),
+    ChartDataItem(label = DefaultData.ACTION_READING_LABEL, value = 2.75f),
+    ChartDataItem(label = DefaultData.ACTION_PARTY_TIME_LABEL, value = 2.75f),
+    ChartDataItem(label = DefaultData.ACTION_EXERCISING_LABEL, value = 2.5f),
+    ChartDataItem(label = DefaultData.ACTION_WALKING_LABEL, value = 2.3f)
 )
 
 class StatisticsScreenUiStateProvider : PreviewParameterProvider<StatisticsScreenUiState> {

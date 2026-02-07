@@ -6,6 +6,7 @@ import org.koin.dsl.module
 val statisticsModule = module {
     viewModel {
         StatisticsScreenViewModel(
+            actionNameProvider = get(),
             moodRepository = get(),
             dateProvider = get(),
             settingsDataSource = get()
