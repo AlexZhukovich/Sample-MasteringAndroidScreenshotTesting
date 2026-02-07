@@ -24,7 +24,7 @@ val KeyboardArrowRightIcon: ImageVector
             return keyboardArrowRightIcon!!
         }
         keyboardArrowRightIcon = Builder(name = "KeyboardArrowRight", defaultWidth = 24.0.dp,
-                defaultHeight = 24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f).apply {
+                defaultHeight = 24.0.dp, viewportWidth = 960.0f, viewportHeight = 960.0f, autoMirror = true).apply {
             path(fill = SolidColor(Color(0xFFe3e3e3)), stroke = null, strokeLineWidth = 0.0f,
                     strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
                     pathFillType = NonZero) {
