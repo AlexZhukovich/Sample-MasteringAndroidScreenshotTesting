@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import java.text.NumberFormat
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class StatisticsScreenViewModel(
@@ -63,7 +65,7 @@ class StatisticsScreenViewModel(
                     val moodForDate = moodDataMap[currentDate]
                     chartData.add(
                         ChartDataItem(
-                            label = currentDate.dayOfMonth.toString(),
+                            label = NumberFormat.getInstance(Locale.getDefault()).format(currentDate.dayOfMonth),
                             value = moodForDate?.happiness ?: 0f
                         )
                     )
@@ -170,7 +172,7 @@ class StatisticsScreenViewModel(
         val currentDate = dateProvider.getCurrentDate()
         val startOfMonth = currentDate.withDayOfMonth(1)
         val endOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth())
-        val formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER_PATTERN)
+        val formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER_PATTERN, Locale.getDefault())
         return SelectedDateRangeData(
             title = currentDate.format(formatter),
             startDate = startOfMonth,

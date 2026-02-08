@@ -30,12 +30,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.R
 import com.alexzh.designsystem.component.button.IconButton
@@ -45,8 +47,10 @@ import com.alexzh.designsystem.core.modifier.circleLayout
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.DateRangeIcon
 import kotlinx.coroutines.delay
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlin.math.abs
 
 @Composable
@@ -70,8 +74,8 @@ fun DateRangeSelector(
     futureDateContentDescription: @Composable (formattedDate: String) -> String = { formattedDate ->
         stringResource(R.string.dateRangeSelector_futureDateNotSelectable_contentDescription, formattedDate)
     },
-    dayNameFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEEE"),
-    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d"),
+    dayNameFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEEE", Locale.getDefault()),
+    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d", Locale.getDefault()),
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -198,6 +202,7 @@ private fun DateRangeSelectorContent(
     selectDateContentDescription: @Composable (formattedDate: String) -> String,
     futureDateContentDescription: @Composable (formattedDate: String) -> String
 ) {
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     var showDatePicker by remember { mutableStateOf(false) }
 
     Column(
@@ -226,13 +231,13 @@ private fun DateRangeSelectorContent(
 
         AnimatedContent(
             targetState = dateRange,
-            transitionSpec = { animationConfig.getTransitionSpec(navigationDirection) },
+            transitionSpec = { animationConfig.getTransitionSpec(navigationDirection, isRtl) },
             modifier = Modifier.fillMaxWidth()
         ) { currentDateRange ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .pointerInput(Unit) {
+                    .pointerInput(isRtl) {
                         var totalDragAmount = 0f
                         detectHorizontalDragGestures(
                             onHorizontalDrag = { _, dragAmount ->
@@ -240,12 +245,13 @@ private fun DateRangeSelectorContent(
                             },
                             onDragEnd = {
                                 if (abs(totalDragAmount) > 100f) {
-                                    if (totalDragAmount > 0) {
-                                        onPeriodChanged(PeriodChangeDirection.PREVIOUS)
-                                    } else {
+                                    val swipedToNext = if (isRtl) totalDragAmount > 0 else totalDragAmount < 0
+                                    if (swipedToNext) {
                                         if (canNavigateNext) {
                                             onPeriodChanged(PeriodChangeDirection.NEXT)
                                         }
+                                    } else {
+                                        onPeriodChanged(PeriodChangeDirection.PREVIOUS)
                                     }
                                 }
                                 totalDragAmount = 0f
@@ -300,7 +306,9 @@ private fun DateIndicator(
     val containerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
     val interactionSource = remember { MutableInteractionSource() }
     val dayName = remember(date) { date.format(dayNameFormatter) }
-    val dayNumber = remember(date) { date.dayOfMonth.toString() }
+    val dayNumber = remember(date) {
+        NumberFormat.getInstance(Locale.getDefault()).format(date.dayOfMonth)
+    }
 
     val formattedDate = remember(date) { date.format(dateFormatter) }
 

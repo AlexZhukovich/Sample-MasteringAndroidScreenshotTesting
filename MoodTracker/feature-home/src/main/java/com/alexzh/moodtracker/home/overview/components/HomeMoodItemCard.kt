@@ -81,7 +81,7 @@ fun MoodItemCard(
                         )
 
                         Text(
-                            text = moodItem.formattedDate,
+                            text = moodItem.formattedTime,
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

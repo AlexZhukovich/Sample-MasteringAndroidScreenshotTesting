@@ -92,6 +92,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -398,7 +400,8 @@ private fun MoodItemsContent(
                     title = stringResource(R.string.homeScreen_emptyState_title),
                     text = stringResource(
                         R.string.homeScreen_emptyState_label,
-                        uiState.selectedDate.format(DateTimeFormatter.ofPattern("MMM dd, yyyy"))
+                        uiState.selectedDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                            .withLocale(Locale.getDefault()))
                     )
                 )
             }
@@ -543,7 +546,7 @@ private fun MoodPreviewScreenContentCompact(
                                 style = MaterialTheme.typography.titleMedium
                             )
                             Text(
-                                text = moodItem.formattedDate,
+                                text = moodItem.formattedTime,
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

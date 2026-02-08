@@ -57,7 +57,7 @@ fun MoodPreviewHeader(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = moodItem.formattedDate,
+                    text = moodItem.formattedTime,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

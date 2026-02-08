@@ -13,13 +13,14 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.Locale
 
 @Composable
 fun rememberDateRangeSelectorState(
     daysCount: Int = 7,
     selectedDate: LocalDate = LocalDate.now(),
     currentDate: LocalDate = LocalDate.now(),
-    formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d")
+    formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d", Locale.getDefault())
 ): DateRangeSelectorState {
     val state = remember(daysCount) {
         DateRangeSelectorState(
