@@ -35,8 +35,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import com.alexzh.designsystem.core.locale.currentLocale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
@@ -71,8 +71,7 @@ fun ActionCategoriesScreen(
     viewModel: ActionCategoriesScreenViewModel,
     onNavigateUp: () -> Unit
 ) {
-    val locale = LocalConfiguration.current.locales[0]
-    LaunchedEffect(locale) {
+    LaunchedEffect(currentLocale) {
         viewModel.onEvent(ActionCategoriesScreenEvent.OnLocaleChange)
     }
 

@@ -29,8 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import com.alexzh.designsystem.core.locale.currentLocale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
@@ -70,8 +70,7 @@ fun EditMoodScreen(
     onNavigateToActionCategories: () -> Unit,
     onNavigateUp: () -> Unit
 ) {
-    val locale = LocalConfiguration.current.locales[0]
-    LaunchedEffect(locale) {
+    LaunchedEffect(currentLocale) {
         viewModel.onEvent(EditMoodScreenEvent.OnLocaleChange)
     }
 

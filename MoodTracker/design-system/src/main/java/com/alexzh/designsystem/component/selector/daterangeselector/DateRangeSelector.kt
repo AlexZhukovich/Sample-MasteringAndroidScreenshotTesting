@@ -1,5 +1,6 @@
 package com.alexzh.designsystem.component.selector.daterangeselector
 
+import android.text.format.DateFormat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,9 +48,11 @@ import com.alexzh.designsystem.core.modifier.circleLayout
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.DateRangeIcon
 import kotlinx.coroutines.delay
+import com.alexzh.designsystem.core.locale.currentLocale
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
 import java.util.Locale
 import kotlin.math.abs
 
@@ -74,8 +77,15 @@ fun DateRangeSelector(
     futureDateContentDescription: @Composable (formattedDate: String) -> String = { formattedDate ->
         stringResource(R.string.dateRangeSelector_futureDateNotSelectable_contentDescription, formattedDate)
     },
-    dayNameFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEEE", Locale.getDefault()),
-    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d", Locale.getDefault()),
+    locale: Locale = currentLocale,
+    dayNameFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+        DateFormat.getBestDateTimePattern(locale, "EEEEE"),
+        locale
+    ).withDecimalStyle(DecimalStyle.of(locale)),
+    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+        DateFormat.getBestDateTimePattern(locale, "MMMMd"),
+        locale
+    ).withDecimalStyle(DecimalStyle.of(locale)),
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -104,7 +114,8 @@ fun DateRangeSelector(
         dayNameFormatter = dayNameFormatter,
         dateFormatter = dateFormatter,
         selectDateContentDescription = selectDateContentDescription,
-        futureDateContentDescription = futureDateContentDescription
+        futureDateContentDescription = futureDateContentDescription,
+        locale = locale
     )
 
     LaunchedEffect(state.selectedDate) {
@@ -200,7 +211,8 @@ private fun DateRangeSelectorContent(
     dayNameFormatter: DateTimeFormatter,
     dateFormatter: DateTimeFormatter,
     selectDateContentDescription: @Composable (formattedDate: String) -> String,
-    futureDateContentDescription: @Composable (formattedDate: String) -> String
+    futureDateContentDescription: @Composable (formattedDate: String) -> String,
+    locale: Locale
 ) {
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     var showDatePicker by remember { mutableStateOf(false) }
@@ -269,7 +281,8 @@ private fun DateRangeSelectorContent(
                         dayNameFormatter = dayNameFormatter,
                         dateFormatter = dateFormatter,
                         selectDateContentDescription = selectDateContentDescription,
-                        futureDateContentDescription = futureDateContentDescription
+                        futureDateContentDescription = futureDateContentDescription,
+                        locale = locale
                     )
                 }
             }
@@ -301,16 +314,14 @@ private fun DateIndicator(
     dayNameFormatter: DateTimeFormatter,
     dateFormatter: DateTimeFormatter,
     selectDateContentDescription: @Composable (formattedDate: String) -> String,
-    futureDateContentDescription: @Composable (formattedDate: String) -> String
+    futureDateContentDescription: @Composable (formattedDate: String) -> String,
+    locale: Locale
 ) {
     val containerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
     val interactionSource = remember { MutableInteractionSource() }
-    val dayName = remember(date) { date.format(dayNameFormatter) }
-    val dayNumber = remember(date) {
-        NumberFormat.getInstance(Locale.getDefault()).format(date.dayOfMonth)
-    }
-
-    val formattedDate = remember(date) { date.format(dateFormatter) }
+    val dayName = remember(date, dayNameFormatter) { date.format(dayNameFormatter) }
+    val dayNumber = remember(date, locale) { NumberFormat.getInstance(locale).format(date.dayOfMonth) }
+    val formattedDate = remember(date, dateFormatter) { date.format(dateFormatter) }
 
     val selectDateDescription = selectDateContentDescription(formattedDate)
     val futureDateDescription = futureDateContentDescription(formattedDate)

@@ -3,6 +3,9 @@ package com.alexzh.moodtracker.statistics
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.statistics.components.chart.ChartDataItem
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
+import java.util.Locale
 
 data class StatisticsScreenUiState(
     val isLoading: Boolean = false,
@@ -13,10 +16,20 @@ data class StatisticsScreenUiState(
 )
 
 data class SelectedDateRangeData(
-    val title: String,
     val startDate: LocalDate,
     val endDate: LocalDate
-)
+) {
+    companion object {
+        private const val DATE_FORMATTER_SKELETON = "yyyyMMMM"
+    }
+
+    fun formattedDate(locale: Locale = Locale.getDefault()): String {
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, DATE_FORMATTER_SKELETON)
+        val formatter = DateTimeFormatter.ofPattern(pattern, locale)
+            .withDecimalStyle(DecimalStyle.of(locale))
+        return startDate.format(formatter)
+    }
+}
 
 data class AverageDailyMoodChartData(
     val data: List<ChartDataItem> = emptyList(),

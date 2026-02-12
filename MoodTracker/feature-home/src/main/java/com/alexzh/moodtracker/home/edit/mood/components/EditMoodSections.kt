@@ -49,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import com.alexzh.designsystem.core.locale.currentLocale
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.component.chip.Chip
 import com.alexzh.designsystem.component.media.PhotoThumbnailGrid
@@ -69,6 +70,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
 import java.time.format.FormatStyle
 import java.util.Locale
 
@@ -258,8 +260,13 @@ fun NoteSection(
 @Composable
 fun DateTimeSection(
     modifier: Modifier = Modifier,
-    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG).withLocale(Locale.getDefault()),
-    timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withLocale(Locale.getDefault()),
+    locale: Locale = currentLocale,
+    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
+        .withLocale(locale)
+        .withDecimalStyle(DecimalStyle.of(locale)),
+    timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+        .withLocale(locale)
+        .withDecimalStyle(DecimalStyle.of(locale)),
     dateLabel: String = stringResource(R.string.editMoodScreen_date_label),
     timeLabel: String = stringResource(R.string.editMoodScreen_time_label),
     dateIcon: ImageVector = DateRangeIcon,

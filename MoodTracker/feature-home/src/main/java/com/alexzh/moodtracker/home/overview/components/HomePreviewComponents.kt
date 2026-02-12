@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.component.button.IconButton
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.alexzh.designsystem.core.locale.currentLocale
 import com.alexzh.designsystem.icon.CloseIcon
 import com.alexzh.designsystem.icon.DeleteIcon
 import com.alexzh.designsystem.icon.EditIcon
@@ -57,7 +58,7 @@ fun MoodPreviewHeader(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = moodItem.formattedTime,
+                    text = moodItem.formattedTime(currentLocale),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

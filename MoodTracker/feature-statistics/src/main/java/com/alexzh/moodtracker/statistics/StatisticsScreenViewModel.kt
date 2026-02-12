@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import java.text.NumberFormat
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -28,20 +27,14 @@ class StatisticsScreenViewModel(
     private val dateProvider: DateProvider,
 ): ViewModel() {
 
-    companion object {
-        private const val DATE_FORMATTER_PATTERN = "MMMM yyyy"
-    }
-
     private val selectedMonth = MutableStateFlow(dateProvider.getCurrentDate())
-    
+
     private val selectedDateRangeFlow = selectedMonth
         .flatMapLatest { date ->
             flow {
                 val startOfMonth = date.withDayOfMonth(1)
                 val endOfMonth = date.withDayOfMonth(date.lengthOfMonth())
-                val formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER_PATTERN)
                 emit(SelectedDateRangeData(
-                    title = date.format(formatter),
                     startDate = startOfMonth,
                     endDate = endOfMonth
                 ))
@@ -172,9 +165,7 @@ class StatisticsScreenViewModel(
         val currentDate = dateProvider.getCurrentDate()
         val startOfMonth = currentDate.withDayOfMonth(1)
         val endOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth())
-        val formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER_PATTERN, Locale.getDefault())
         return SelectedDateRangeData(
-            title = currentDate.format(formatter),
             startDate = startOfMonth,
             endDate = endOfMonth
         )

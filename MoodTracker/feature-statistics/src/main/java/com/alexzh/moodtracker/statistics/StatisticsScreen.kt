@@ -19,8 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import com.alexzh.designsystem.core.locale.currentLocale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
@@ -53,8 +53,7 @@ fun StatisticsScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
-    val locale = LocalConfiguration.current.locales[0]
-    LaunchedEffect(locale) {
+    LaunchedEffect(currentLocale) {
         viewModel.onEvent(StatisticsScreenEvent.OnLocaleChange)
     }
 
@@ -94,7 +93,7 @@ fun StatisticsScreenContent(
                     title = stringResource(R.string.statisticsScreen_title),
                     actions = {
                         PeriodSelector(
-                            label = uiState.selectedDateRange.title,
+                            label = uiState.selectedDateRange.formattedDate(currentLocale),
                             onPrevious = onPreviousMonth,
                             onNext = onNextMonth,
                             previousContentDescription = stringResource(R.string.statisticsScreen_dateRangeSelector_previousMonth_contentDescription),
@@ -332,7 +331,6 @@ class StatisticsScreenUiStateProvider : PreviewParameterProvider<StatisticsScree
             StatisticsScreenUiState(
                 isLoading = false,
                 selectedDateRange = SelectedDateRangeData(
-                    title = "August 2025",
                     startDate = LocalDate.of(2025, 8, 1),
                     endDate = LocalDate.of(2025, 8, 31)
                 ),
@@ -343,7 +341,6 @@ class StatisticsScreenUiStateProvider : PreviewParameterProvider<StatisticsScree
             StatisticsScreenUiState(
                 isLoading = false,
                 selectedDateRange = SelectedDateRangeData(
-                    title = "August 2025",
                     startDate = LocalDate.of(2025, 8, 1),
                     endDate = LocalDate.of(2025, 8, 31)
                 ),
@@ -360,7 +357,6 @@ class StatisticsScreenUiStateProvider : PreviewParameterProvider<StatisticsScree
             StatisticsScreenUiState(
                 isLoading = false,
                 selectedDateRange = SelectedDateRangeData(
-                    title = "August 2025",
                     startDate = LocalDate.of(2025, 8, 1),
                     endDate = LocalDate.of(2025, 8, 31)
                 ),

@@ -50,8 +50,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import com.alexzh.designsystem.core.locale.currentLocale
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -91,9 +91,6 @@ import com.alexzh.moodtracker.home.overview.components.MoodPreviewHeader
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,8 +101,7 @@ fun HomeScreen(
     onNavigateToStatistics: () -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
-    val locale = LocalConfiguration.current.locales[0]
-    LaunchedEffect(locale) {
+    LaunchedEffect(currentLocale) {
         viewModel.onEvent(HomeScreenEvent.OnLocaleChange)
     }
 
@@ -400,8 +396,7 @@ private fun MoodItemsContent(
                     title = stringResource(R.string.homeScreen_emptyState_title),
                     text = stringResource(
                         R.string.homeScreen_emptyState_label,
-                        uiState.selectedDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
-                            .withLocale(Locale.getDefault()))
+                        uiState.formattedSelectedDate(currentLocale)
                     )
                 )
             }
@@ -546,7 +541,7 @@ private fun MoodPreviewScreenContentCompact(
                                 style = MaterialTheme.typography.titleMedium
                             )
                             Text(
-                                text = moodItem.formattedTime,
+                                text = moodItem.formattedTime(currentLocale),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )

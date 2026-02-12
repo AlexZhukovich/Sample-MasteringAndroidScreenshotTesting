@@ -1,5 +1,6 @@
 package com.alexzh.designsystem.component.selector.daterangeselector
 
+import android.text.format.DateFormat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -8,10 +9,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.alexzh.designsystem.core.locale.currentLocale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 
@@ -20,7 +23,11 @@ fun rememberDateRangeSelectorState(
     daysCount: Int = 7,
     selectedDate: LocalDate = LocalDate.now(),
     currentDate: LocalDate = LocalDate.now(),
-    formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM d", Locale.getDefault())
+    locale: Locale = currentLocale,
+    formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+        DateFormat.getBestDateTimePattern(locale, "MMMd"),
+        locale
+    ).withDecimalStyle(DecimalStyle.of(locale))
 ): DateRangeSelectorState {
     val state = remember(daysCount) {
         DateRangeSelectorState(
@@ -29,6 +36,10 @@ fun rememberDateRangeSelectorState(
             initialCurrentDate = currentDate,
             formatter = formatter
         )
+    }
+
+    LaunchedEffect(formatter) {
+        state.updateFormatter(formatter)
     }
 
     LaunchedEffect(currentDate) {
@@ -53,6 +64,7 @@ class DateRangeSelectorState(
     private var _currentDate by mutableStateOf(initialCurrentDate)
     private var _selectedDate by mutableStateOf(initialSelectedDate)
     private var _navigationDirection by mutableStateOf(PeriodChangeDirection.NONE)
+    private var _formatter by mutableStateOf(formatter)
 
     val currentDate: LocalDate by derivedStateOf { _currentDate }
     val selectedDate: LocalDate
@@ -67,6 +79,10 @@ class DateRangeSelectorState(
     }
     val canNavigateNext: Boolean by derivedStateOf {
         _rangeStartDate.plusDays(daysCount.toLong()) <= currentDate
+    }
+
+    fun updateFormatter(newFormatter: DateTimeFormatter) {
+        _formatter = newFormatter
     }
 
     fun updateCurrentDate(newDate: LocalDate) {
@@ -96,8 +112,9 @@ class DateRangeSelectorState(
         val range = dateRange
         val startDate = range.first()
         val endDate = range.last()
-        val endDateFormatted = endDate.format(formatter)
-        val startDateFormatted = startDate.format(formatter)
+
+        val endDateFormatted = endDate.format(_formatter)
+        val startDateFormatted = startDate.format(_formatter)
         "$startDateFormatted - $endDateFormatted"
     }
 
