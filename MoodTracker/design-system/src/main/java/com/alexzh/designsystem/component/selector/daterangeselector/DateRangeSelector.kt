@@ -104,7 +104,7 @@ fun DateRangeSelector(
         showTodayButton = state.showTodayButton,
         canNavigateNext = state.canNavigateNext,
         navigationDirection = state.navigationDirection,
-        formattedDateRange = state.formattedDateRange,
+        formattedDateRange = stringResource(R.string.dateRangeSelector_dateRange_label, state.formattedStartDate, state.formattedEndDate),
         isCurrentPeriod = state.isCurrentPeriod,
         animationConfig = animationConfig,
         previousPeriodContentDescription = previousPeriodContentDescription,

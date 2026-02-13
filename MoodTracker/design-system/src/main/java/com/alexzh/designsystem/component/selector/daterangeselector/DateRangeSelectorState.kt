@@ -108,14 +108,12 @@ class DateRangeSelectorState(
         }
     }
 
-    val formattedDateRange: String by derivedStateOf {
-        val range = dateRange
-        val startDate = range.first()
-        val endDate = range.last()
+    val formattedStartDate: String by derivedStateOf {
+        dateRange.first().format(_formatter)
+    }
 
-        val endDateFormatted = endDate.format(_formatter)
-        val startDateFormatted = startDate.format(_formatter)
-        "$startDateFormatted - $endDateFormatted"
+    val formattedEndDate: String by derivedStateOf {
+        dateRange.last().format(_formatter)
     }
 
     val isCurrentPeriod: Boolean by derivedStateOf {
