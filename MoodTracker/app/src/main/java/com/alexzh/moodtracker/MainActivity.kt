@@ -1,7 +1,7 @@
 package com.alexzh.moodtracker
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import com.alexzh.designsystem.core.theme.AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private val appSettingsViewModel: AppSettingsViewModel by viewModel()
     
     override fun onCreate(savedInstanceState: Bundle?) {

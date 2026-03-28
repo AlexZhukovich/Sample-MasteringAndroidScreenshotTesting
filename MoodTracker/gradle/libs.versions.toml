@@ -17,6 +17,7 @@ aboutLibraries = "13.1.0"
 glance = "1.2.0-rc01"
 window = "1.5.1"
 coil = "3.3.0"
+appcompat = "1.7.1"
 androidTestify = "4.0.0"
 androidTestRules = "1.7.0"
 android-ui-testing-utils = "2.8.0"
@@ -62,6 +63,7 @@ androidx-compose-material3-adaptive-navigation = { module = "androidx.compose.ma
 androidx-compose-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite" }
 androidx-window = { module = "androidx.window:window", version.ref = "window" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-testify-compose = { group = "dev.testify", name = "testify-compose", version.ref = "androidTestify" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidTestRules" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidTestCore" }

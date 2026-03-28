@@ -5,6 +5,10 @@
     <string name="navigation_statistics_label">Статистика</string>
     <string name="navigation_settings_label">Настройки</string>
 
+    <!-- Language -->
+    <string name="common_language_label">Язык</string>
+    <string name="common_language_systemDefault_label">По умолчанию</string>
+
     <!-- Icon Shape -->
     <string name="common_iconShape_label">Форма иконок</string>
     <string name="common_iconShape_circle_label">Круг</string>

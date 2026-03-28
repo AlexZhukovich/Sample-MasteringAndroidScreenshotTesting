@@ -4,7 +4,8 @@
     <string name="settingsScreen_generalSection_title">Основные</string>
     <string name="settingsScreen_dynamicColors_title">Динамические цвета</string>
     <string name="settingsScreen_dynamicColors_description">Использовать цвета из обоев (если поддерживается).</string>
-    <string name="settingsScreen_iconShape_description">Выберите стиль для иконок настроения</string>
+    <string name="settingsScreen_iconShape_description">Выберите стиль для иконок настроения.</string>
+    <string name="settingsScreen_language_description">Выберите язык приложения.</string>
     <string name="settingsScreen_manageActions_title">Управление действиями</string>
     <string name="settingsScreen_aboutSection_title">О приложении</string>
     <string name="settingsScreen_thirdPartyLicenses_title">Сторонние лицензии</string>

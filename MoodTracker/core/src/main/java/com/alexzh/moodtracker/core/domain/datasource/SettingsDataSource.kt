@@ -10,4 +10,6 @@ interface SettingsDataSource {
     suspend fun setDynamicColorsEnabled(enabled: Boolean)
     fun getIconShape(default: IconShape = IconShape.CIRCLE): Flow<IconShape>
     suspend fun setIconShape(iconShape: IconShape)
+    suspend fun getSelectedLanguage(): String?
+    suspend fun setSelectedLanguage(tag: String?)
 }

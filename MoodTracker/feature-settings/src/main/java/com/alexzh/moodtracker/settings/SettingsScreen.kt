@@ -24,6 +24,7 @@ import com.alexzh.designsystem.component.settings.SettingsSwitchItem
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.common.ui.navigation.defaultBottomNavigationItems
 import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
+import com.alexzh.moodtracker.common.ui.model.LocalizedLanguage
 import com.alexzh.moodtracker.common.ui.R as CommonUiR
 
 @Composable
@@ -44,6 +45,9 @@ fun SettingsScreen(
         onIconShapeChange = { iconShape ->
             viewModel.onEvent(SettingsScreenEvent.OnIconShapeChanged(iconShape))
         },
+        onLanguageChange = { language ->
+            viewModel.onEvent(SettingsScreenEvent.OnLanguageChanged(language))
+        },
         onNavigateToManageActions = onNavigateToManageActions,
         onNavigateToThirdPartyLicenses = onNavigateToThirdPartyLicenses,
         onNavigateToHome = onNavigateToHome,
@@ -56,6 +60,7 @@ fun SettingsScreenContent(
     uiState: SettingsScreenUiState,
     onDynamicColorsChange: (Boolean) -> Unit,
     onIconShapeChange: (LocalizedIconShape) -> Unit,
+    onLanguageChange: (LocalizedLanguage) -> Unit,
     onNavigateToManageActions: () -> Unit,
     onNavigateToThirdPartyLicenses: () -> Unit,
     onNavigateToHome: () -> Unit,
@@ -100,6 +105,14 @@ fun SettingsScreenContent(
                     optionLabel = { stringResource(it.label) },
                     onOptionSelected = onIconShapeChange,
                 )
+                SettingsDropdownItem(
+                    title = stringResource(CommonUiR.string.common_language_label),
+                    description = stringResource(R.string.settingsScreen_language_description),
+                    options = LocalizedLanguage.entries,
+                    selectedOption = uiState.language,
+                    optionLabel = { stringResource(it.label) },
+                    onOptionSelected = onLanguageChange,
+                )
                 SettingsNavigationItem(
                     title = stringResource(R.string.settingsScreen_manageActions_title),
                     onClick = onNavigateToManageActions
@@ -130,6 +143,7 @@ fun Preview_SettingsScreenContent() {
         isLoading = false,
         isDynamicColorsEnabled = false,
         iconShape = LocalizedIconShape.ROUNDED_SQUARE,
+        language = LocalizedLanguage.SYSTEM_DEFAULT,
         appVersion = "1.0.0"
     )
 
@@ -138,6 +152,7 @@ fun Preview_SettingsScreenContent() {
             uiState = uiState,
             onDynamicColorsChange = { },
             onIconShapeChange = { },
+            onLanguageChange = { },
             onNavigateToManageActions = { },
             onNavigateToThirdPartyLicenses = { },
             onNavigateToHome = { },

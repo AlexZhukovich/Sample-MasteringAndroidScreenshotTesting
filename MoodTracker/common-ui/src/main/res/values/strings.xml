@@ -5,6 +5,13 @@
     <string name="navigation_statistics_label">Statistics</string>
     <string name="navigation_settings_label">Settings</string>
 
+    <!-- Language -->
+    <string name="common_language_label">Language</string>
+    <string name="common_language_systemDefault_label">System default</string>
+    <string name="common_language_english_label" translatable="false">English</string>
+    <string name="common_language_russian_label" translatable="false">Русский</string>
+    <string name="common_language_arabic_label" translatable="false">العربية</string>
+
     <!-- Icon Shape -->
     <string name="common_iconShape_label">Icon shape</string>
     <string name="common_iconShape_circle_label">Circle</string>

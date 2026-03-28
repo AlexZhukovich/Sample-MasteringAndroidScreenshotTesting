@@ -9,5 +9,16 @@ import java.util.Locale
 val currentLocale: Locale
     @Composable
     @ReadOnlyComposable
-    get() = ConfigurationCompat.getLocales(LocalConfiguration.current)[0]
-        ?: Locale.getDefault()
+    get() = (ConfigurationCompat.getLocales(LocalConfiguration.current)[0]
+        ?: Locale.getDefault()).withNativeDigits()
+
+/**
+ * Ensures that Arabic locales explicitly use the proper number system.
+ */
+fun Locale.withNativeDigits(): Locale {
+    return if (language == "ar" && getUnicodeLocaleType("nu") == null) {
+        Locale.Builder().setLocale(this).setUnicodeLocaleKeyword("nu", "arab").build()
+    } else {
+        this
+    }
+}
