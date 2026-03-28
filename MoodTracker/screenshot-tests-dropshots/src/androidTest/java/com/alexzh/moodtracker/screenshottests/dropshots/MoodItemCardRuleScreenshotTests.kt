@@ -1,7 +1,9 @@
 package com.alexzh.moodtracker.screenshottests.dropshots
 
-import androidx.activity.ComponentActivity
-import androidx.test.ext.junit.rules.ActivityScenarioRule
+import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.common.ui.model.ActionItem
@@ -9,7 +11,6 @@ import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.model.MoodItem
 import com.alexzh.moodtracker.home.overview.components.MoodItemCard
-import com.alexzh.moodtracker.screenshottests.dropshots.utils.setContent
 import com.dropbox.dropshots.Dropshots
 import org.junit.Rule
 import org.junit.Test
@@ -17,20 +18,20 @@ import org.junit.runner.RunWith
 import java.time.LocalDateTime
 
 @RunWith(AndroidJUnit4::class)
-class MoodItemCardScreenshotTests {
-    companion object {
+class MoodItemCardRuleScreenshotTests {
+    companion object Companion {
         const val FILE_PATH = "feature-home"
     }
 
-    @get:Rule
+    @get:Rule(order = 1)
     val dropshots = Dropshots()
 
-    @get:Rule
-    val activityScenarioRule = ActivityScenarioRule(ComponentActivity::class.java)
+    @get:Rule(order = 2)
+    val composeTestRule = createComposeRule()
 
     @Test
     fun moodItemCard_SingleAction_HasShortNote_CircleIcon() {
-        val composeView = activityScenarioRule.setContent {
+        composeTestRule.setContent {
             AppTheme {
                 MoodItemCard(
                     moodItem = MoodItem(
@@ -49,7 +50,7 @@ class MoodItemCardScreenshotTests {
         }
 
         dropshots.assertSnapshot(
-            view = composeView,
+            bitmap = composeTestRule.onRoot().captureToImage().asAndroidBitmap(),
             name = "moodItemCard_SingleAction_HasShortNote_CircleIcon",
             filePath = FILE_PATH
         )
@@ -57,7 +58,7 @@ class MoodItemCardScreenshotTests {
 
     @Test
     fun moodItemCard_MultipleActions_WithoutNote_CircleIcon() {
-        val composeView = activityScenarioRule.setContent {
+        composeTestRule.setContent {
             AppTheme {
                 MoodItemCard(
                     moodItem = MoodItem(
@@ -77,7 +78,7 @@ class MoodItemCardScreenshotTests {
         }
 
         dropshots.assertSnapshot(
-            view = composeView,
+            bitmap = composeTestRule.onRoot().captureToImage().asAndroidBitmap(),
             name = "moodItemCard_MultipleActions_WithoutNote_CircleIcon",
             filePath = FILE_PATH
         )
@@ -85,7 +86,7 @@ class MoodItemCardScreenshotTests {
 
     @Test
     fun moodItemCard_WithoutActions_HasShortNote_CircleIcon() {
-        val composeView = activityScenarioRule.setContent {
+        composeTestRule.setContent {
             AppTheme {
                 MoodItemCard(
                     moodItem = MoodItem(
@@ -102,7 +103,7 @@ class MoodItemCardScreenshotTests {
         }
 
         dropshots.assertSnapshot(
-            view = composeView,
+            bitmap = composeTestRule.onRoot().captureToImage().asAndroidBitmap(),
             name = "moodItemCard_WithoutActions_HasShortNote_CircleIcon",
             filePath = FILE_PATH
         )
