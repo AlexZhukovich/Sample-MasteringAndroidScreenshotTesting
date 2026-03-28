@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
+        <meta-data
+            android:name="testify-reporter"
+            android:value="true" />
         <!--suppress AndroidDomInspection -->
         <activity
             android:name="dev.testify.ComposableTestActivity"
