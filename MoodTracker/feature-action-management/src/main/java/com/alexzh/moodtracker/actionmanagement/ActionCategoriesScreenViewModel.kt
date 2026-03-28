@@ -9,6 +9,7 @@ import com.alexzh.moodtracker.actionmanagement.ActionCategoriesScreenEvent.OnDel
 import com.alexzh.moodtracker.actionmanagement.ActionCategoriesScreenEvent.OnDeleteCategory
 import com.alexzh.moodtracker.actionmanagement.ActionCategoriesScreenEvent.OnEditAction
 import com.alexzh.moodtracker.actionmanagement.ActionCategoriesScreenEvent.OnEditCategory
+import com.alexzh.moodtracker.actionmanagement.ActionCategoriesScreenEvent.OnLocaleChange
 import com.alexzh.moodtracker.actionmanagement.ActionCategoriesScreenEvent.OnSelectCategory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import com.alexzh.moodtracker.core.domain.datasource.ActionCategoryDataSource
@@ -17,40 +18,55 @@ import com.alexzh.moodtracker.core.domain.model.Action
 import com.alexzh.moodtracker.core.domain.model.ActionCategory
 import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionCategoryNameProvider
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ActionCategoriesScreenViewModel(
+    private val actionCategoryNameProvider: LocalizedActionCategoryNameProvider,
+    private val actionNameProvider: LocalizedActionNameProvider,
     private val actionCategoryDataSource: ActionCategoryDataSource,
     private val actionDataSource: ActionDataSource
 ) : ViewModel() {
     
     private val selectedCategoryId = MutableStateFlow<Long?>(null)
-    
-    val uiState = combine(
-        actionCategoryDataSource.getActionCategories(),
-        selectedCategoryId.flatMapLatest { categoryId ->
-            if (categoryId != null) {
-                actionCategoryDataSource.getActionCategoryDetailsById(categoryId)
-            } else {
-                flowOf(null)
-            }
+
+    private val categoriesFlow = actionCategoryDataSource.getActionCategories()
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    private val categoryDetailsFlow = selectedCategoryId.flatMapLatest { categoryId ->
+        if (categoryId != null) {
+            actionCategoryDataSource.getActionCategoryDetailsById(categoryId)
+        } else {
+            flowOf(null)
         }
-    ) { categories, categoryDetails ->
-        ActionCategoriesScreenUiState(
+    }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+
+    private val _uiState = MutableStateFlow(
+        ActionCategoriesScreenUiState(isLoadingCategories = true)
+    )
+
+    val uiState = combine(
+        categoriesFlow,
+        categoryDetailsFlow,
+        _uiState
+    ) { categories, categoryDetails, currentUiState ->
+        currentUiState.copy(
             categories = categories.map { mapToActionCategoryItem(it) },
             isLoadingCategories = false,
             selectedCategoryDetails = categoryDetails?.let {
                 CategoryDetailsUiState(
                     category = ActionCategoryItem(
                         id = it.id,
-                        name = it.name
+                        name = actionCategoryNameProvider.getLocalizedName(it.name)
                     ),
                     actions = it.actions.map { action -> mapToActionItem(action) },
                     isLoadingActions = false
@@ -65,6 +81,7 @@ class ActionCategoriesScreenViewModel(
 
     fun onEvent(event: ActionCategoriesScreenEvent) {
         when (event) {
+            is OnLocaleChange -> reloadActions()
             is OnAddCategory -> addCategory(categoryName = event.name)
             is OnEditCategory -> editCategory(categoryId = event.categoryId, categoryName = event.name)
             is OnDeleteCategory -> deleteCategory(categoryId = event.categoryId)
@@ -73,6 +90,24 @@ class ActionCategoriesScreenViewModel(
             is OnAddAction -> addActionToSelectedCategory(actionName = event.actionName)
             is OnEditAction -> editAction(actionId = event.actionId, actionName = event.actionName)
             is OnDeleteAction -> deleteAction(actionId = event.actionId)
+        }
+    }
+
+    private fun reloadActions() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                categories = categoriesFlow.value.map { mapToActionCategoryItem(it) },
+                selectedCategoryDetails = categoryDetailsFlow.value?.let {
+                    CategoryDetailsUiState(
+                        category = ActionCategoryItem(
+                            id = it.id,
+                            name = actionCategoryNameProvider.getLocalizedName(it.name)
+                        ),
+                        actions = it.actions.map { action -> mapToActionItem(action) },
+                        isLoadingActions = false
+                    )
+                }
+            )
         }
     }
 
@@ -157,14 +192,14 @@ class ActionCategoriesScreenViewModel(
     private fun mapToActionCategoryItem(actionCategory: ActionCategory): ActionCategoryItem {
         return ActionCategoryItem(
             id = actionCategory.id,
-            name = actionCategory.name
+            name = actionCategoryNameProvider.getLocalizedName(actionCategory.name)
         )
     }
 
     private fun mapToActionItem(action: Action): ActionItem {
         return ActionItem(
             id = action.id,
-            name = action.title
+            name = actionNameProvider.getLocalizedName(action.title)
         )
     }
 }

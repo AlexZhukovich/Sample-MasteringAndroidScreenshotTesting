@@ -4,6 +4,12 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
+import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionCategoryNameProvider
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
+import com.alexzh.moodtracker.common.ui.model.UiEvent
 import com.alexzh.moodtracker.core.data.database.mood.MoodRecordEntity
 import com.alexzh.moodtracker.core.domain.datasource.ActionCategoryDataSource
 import com.alexzh.moodtracker.core.domain.datasource.MoodRecordDataSource
@@ -11,16 +17,11 @@ import com.alexzh.moodtracker.core.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.core.domain.model.ActionCategoryDetails
 import com.alexzh.moodtracker.core.domain.provider.DateProvider
 import com.alexzh.moodtracker.core.domain.resolver.ImagePathResolver
-import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
-import com.alexzh.moodtracker.common.ui.model.ActionItem
-import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.common.ui.model.UiEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -29,6 +30,8 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class EditMoodScreenViewModel(
+    private val actionCategoryNameProvider: LocalizedActionCategoryNameProvider,
+    private val actionNameProvider: LocalizedActionNameProvider,
     private val moodRecordDataSource: MoodRecordDataSource,
     private val imagePathResolver: ImagePathResolver,
     settingsDataSource: SettingsDataSource,
@@ -42,9 +45,8 @@ class EditMoodScreenViewModel(
     val moodId: Long = savedStateHandle.get<Long>("moodId") ?: 0L
     private val preselectedMood: LocalizedMood? = savedStateHandle.get<LocalizedMood>("preselectedMood")
 
-    private val actionCategoriesFlow = actionCategoryDataSource.getActionCategoryDetails()
-        .map { categoryDetails -> mapActionCategoriesToUi(categoryDetails) }
-        .stateIn(viewModelScope, SharingStarted.Lazily, mapOf())
+    private val categoryDetailsFlow = actionCategoryDataSource.getActionCategoryDetails()
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
     
     private val _uiState = MutableStateFlow(
         EditMoodScreenUiState(
@@ -58,13 +60,13 @@ class EditMoodScreenViewModel(
     )
     
     val uiState: StateFlow<EditMoodScreenUiState> = combine(
-        actionCategoriesFlow,
+        categoryDetailsFlow,
         settingsDataSource.getIconShape(),
         _uiState
-    ) { actionCategories, iconShape, currentUiState ->
+    ) { categoryDetails, iconShape, currentUiState ->
         currentUiState.copy(
             actionCategoryItems = currentUiState.actionCategoryItems.copy(
-                userActivityCategory = actionCategories
+                userActivityCategory = mapActionCategoriesToUi(categoryDetails)
             ),
             iconShape = iconShape
         )
@@ -112,6 +114,7 @@ class EditMoodScreenViewModel(
 
     fun onEvent(event: EditMoodScreenEvent) {
         when (event) {
+            is EditMoodScreenEvent.OnLocaleChange -> reloadActions()
             is EditMoodScreenEvent.OnMoodChange -> updateMood(event.mood)
             is EditMoodScreenEvent.OnNoteChange -> updateNote(event.note)
             is EditMoodScreenEvent.OnActionChange -> updateAction(event.actionItem)
@@ -119,6 +122,16 @@ class EditMoodScreenViewModel(
             is EditMoodScreenEvent.OnTimeChange -> updateTime(event.time)
             is EditMoodScreenEvent.OnPhotoChange -> updatePhoto(event.action)
             is EditMoodScreenEvent.OnSave -> saveMood()
+        }
+    }
+
+    private fun reloadActions() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                actionCategoryItems = currentState.actionCategoryItems.copy(
+                    userActivityCategory = mapActionCategoriesToUi(categoryDetailsFlow.value)
+                )
+            )
         }
     }
 
@@ -235,12 +248,12 @@ class EditMoodScreenViewModel(
             .associate { categoryDetail ->
                 val categoryItem = ActionCategoryItem(
                     id = categoryDetail.id,
-                    name = categoryDetail.name
+                    name = actionCategoryNameProvider.getLocalizedName(categoryDetail.name)
                 )
                 val actionItems = categoryDetail.actions.map { action ->
                     ActionItem(
                         id = action.id,
-                        name = action.title
+                        name = actionNameProvider.getLocalizedName(action.title)
                     )
                 }
                 categoryItem to actionItems

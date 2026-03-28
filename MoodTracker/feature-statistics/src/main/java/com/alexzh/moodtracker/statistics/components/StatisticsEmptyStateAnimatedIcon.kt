@@ -22,7 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.statistics.components.chart.ChartColors
@@ -36,6 +38,7 @@ fun StatisticsEmptyStateAnimatedIcon(
     gridLineColor: Color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f),
     isDark: Boolean = isSystemInDarkTheme()
 ) {
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val animationProgress = remember { Animatable(0f) }
 
     LaunchedEffect(Unit) {
@@ -96,13 +99,16 @@ fun StatisticsEmptyStateAnimatedIcon(
             )
         }
 
-        val dataPoints = listOf(
-            Offset(chartOffset.x + chartSize.width * 0.1f, chartOffset.y + chartSize.height * 0.75f),
-            Offset(chartOffset.x + chartSize.width * 0.3f, chartOffset.y + chartSize.height * 0.60f),
-            Offset(chartOffset.x + chartSize.width * 0.5f, chartOffset.y + chartSize.height * 0.50f),
-            Offset(chartOffset.x + chartSize.width * 0.7f, chartOffset.y + chartSize.height * 0.35f),
-            Offset(chartOffset.x + chartSize.width * 0.9f, chartOffset.y + chartSize.height * 0.25f)
-        )
+        val xFractions = if (isRtl) {
+            listOf(0.9f, 0.7f, 0.5f, 0.3f, 0.1f)
+        } else {
+            listOf(0.1f, 0.3f, 0.5f, 0.7f, 0.9f)
+        }
+        val yFractions = listOf(0.75f, 0.60f, 0.50f, 0.35f, 0.25f)
+
+        val dataPoints = xFractions.zip(yFractions) { xFrac, yFrac ->
+            Offset(chartOffset.x + chartSize.width * xFrac, chartOffset.y + chartSize.height * yFrac)
+        }
 
         val colors = listOf(
             ChartColors.LOW_VALUES.getColor(isDark),

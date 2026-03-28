@@ -123,8 +123,12 @@ private class PreviewSnapshotVerifier(
     }
 }
 
-private class PreviewHtmlReportWriter: SnapshotHandler {
-    private val snapshotHandler = HtmlReportWriter()
+private class PreviewHtmlReportWriter(
+    maxPercentDifference: Double
+): SnapshotHandler {
+    private val snapshotHandler = HtmlReportWriter(
+        maxPercentDifference = maxPercentDifference
+    )
     override fun newFrameHandler(
         snapshot: Snapshot,
         frameCount: Int,
@@ -155,6 +159,7 @@ object PaparazziPreviewRule {
 
     fun createFor(
         preview: ComposablePreview<AndroidPreviewInfo>,
+        maxPercentDifference: Double = 0.0
     ): Paparazzi {
         val previewInfo = preview.previewInfo
         val previewApiLevel = when(previewInfo.apiLevel == UNDEFINED_API_LEVEL) {
@@ -174,7 +179,7 @@ object PaparazziPreviewRule {
             },
             snapshotHandler = when(System.getProperty("paparazzi.test.verify")?.toBoolean() == true) {
                 true -> PreviewSnapshotVerifier(tolerance)
-                false -> PreviewHtmlReportWriter()
+                false -> PreviewHtmlReportWriter(maxPercentDifference)
             },
             maxPercentDifference = tolerance
         )

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settingsScreen_title">الإعدادات</string>
+    <string name="settingsScreen_generalSection_title">عام</string>
+    <string name="settingsScreen_dynamicColors_title">ألوان ديناميكية</string>
+    <string name="settingsScreen_dynamicColors_description">استخدام ألوان من صورة خلفية هاتفك (لو متاحة).</string>
+    <string name="settingsScreen_iconShape_description">اختر شكل أيقونات الحالة المزاجية.</string>
+    <string name="settingsScreen_language_description">اختر لغة التطبيق.</string>
+    <string name="settingsScreen_manageActions_title">إدارة الإجراءات</string>
+    <string name="settingsScreen_aboutSection_title">حول التطبيق</string>
+    <string name="settingsScreen_thirdPartyLicenses_title">تراخيص الجهات الخارجية</string>
+    <string name="settingsScreen_version_title">الإصدار</string>
+</resources>

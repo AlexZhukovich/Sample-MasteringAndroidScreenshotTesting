@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="actionCategoriesScreen_title">Manage Actions</string>
-    <string name="actionCategoriesScreen_addCategoryButton_label">Add Category</string>
+    <string name="actionCategoriesScreen_addCategoryButton_label">Add category</string>
     <string name="actionCategoriesScreen_emptyState_label">You haven\'t added any categories.</string>
     <string name="actionCategoriesScreen_editCategory_contentDescription">Edit</string>
     <string name="actionCategoriesScreen_deleteCategory_contentDescription">Delete</string>
-    <string name="actionCategoriesScreen_deleteCategoryDialog_title">Delete Category</string>
-    <string name="actionCategoriesScreen_deleteCategoryDialog_label">Are you sure you want to delete the \"%1$s\" category? This action cannot be undone.</string>
-    <string name="actionCategoriesScreen_addCategoryDialog_title">Add Category</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_title">Delete category</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_label">Delete \"%1$s\" category? This action cannot be undone.</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_title">Add category</string>
     <string name="actionCategoriesScreen_addCategoryDialog_categoryName_label">Category name</string>
-    <string name="actionCategoriesScreen_addCategoryDialog_selectColor_label">Select a color</string>
-    <string name="actionCategoriesScreen_editCategoryDialog_title">Edit Category</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_title">Edit category</string>
     <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">Category name</string>
-    <string name="actionCategoriesScreen_placeholder_label">Select a category to view details</string>
+    <string name="actionCategoriesScreen_placeholder_label">Select a category to view details.</string>
 
-    <string name="actionCategoryDetailsScreen_addActionButton_label">Add Action</string>
-    <string name="actionCategoryDetailsScreen_emptyState_label">You haven\'t added any activities.</string>
+    <string name="actionCategoryDetailsScreen_addActionButton_label">Add action</string>
+    <string name="actionCategoryDetailsScreen_emptyState_label">You haven\'t added any actions.</string>
     <string name="actionCategoryDetailsScreen_editAction_contentDescription">Edit</string>
     <string name="actionCategoryDetailsScreen_deleteAction_contentDescription">Delete</string>
-    <string name="actionCategoryDetailsScreen_editActionDialog_title">Edit Action</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_title">Edit action</string>
     <string name="actionCategoryDetailsScreen_editActionDialog_actionName_label">Action name</string>
-    <string name="actionCategoryDetailsScreen_addActionDialog_title">Add Action</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_title">Add action</string>
     <string name="actionCategoryDetailsScreen_addActionDialog_actionName_label">Action name</string>
-    <string name="actionCategoryDetailsScreen_deleteActionDialog_title">Delete Action</string>
-    <string name="actionCategoryDetailsScreen_deleteActionDialog_label">Are you sure you want to delete \"%1$s\"? This action cannot be undone.</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_title">Delete action</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_label">Delete \"%1$s\" action? This action cannot be undone.</string>
 </resources>

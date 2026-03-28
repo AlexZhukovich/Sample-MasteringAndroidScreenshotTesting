@@ -27,6 +27,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirectiveWithTwoPanesOnMediumWidth
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +35,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.alexzh.designsystem.core.locale.currentLocale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices.PHONE
 import androidx.compose.ui.tooling.preview.Devices.PIXEL_TABLET
@@ -57,6 +60,9 @@ import com.alexzh.moodtracker.actionmanagement.components.EditActionDialog
 import com.alexzh.moodtracker.actionmanagement.components.EditCategoryDialog
 import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionCategoryNameProvider
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
+import com.alexzh.moodtracker.core.data.initialization.DefaultData
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
@@ -65,6 +71,10 @@ fun ActionCategoriesScreen(
     viewModel: ActionCategoriesScreenViewModel,
     onNavigateUp: () -> Unit
 ) {
+    LaunchedEffect(currentLocale) {
+        viewModel.onEvent(ActionCategoriesScreenEvent.OnLocaleChange)
+    }
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     ActionCategoriesScreenContent(
@@ -441,9 +451,13 @@ private fun ActionList(
 fun Preview_ActionCategoriesAdaptiveScreenContentTablet(
     @PreviewParameter(ActionCategoriesScreenUiStateProvider::class) uiState: ActionCategoriesScreenUiState
 ) {
+    val resolvedState = uiState.withLocalizedNames(
+        categoryNameProvider = LocalizedActionCategoryNameProvider(LocalContext.current),
+        actionNameProvider = LocalizedActionNameProvider(LocalContext.current)
+    )
     AppTheme {
         ActionCategoriesScreenContent(
-            uiState = uiState,
+            uiState = resolvedState,
             onAddCategory = { _ -> },
             onEditCategory = { _, _ -> },
             onDeleteCategory = { _ -> },
@@ -457,20 +471,39 @@ fun Preview_ActionCategoriesAdaptiveScreenContentTablet(
     }
 }
 
+private fun ActionCategoriesScreenUiState.withLocalizedNames(
+    categoryNameProvider: LocalizedActionCategoryNameProvider,
+    actionNameProvider: LocalizedActionNameProvider
+): ActionCategoriesScreenUiState {
+    return copy(
+        categories = categories.map { it.copy(name = categoryNameProvider.getLocalizedName(it.name)) },
+        selectedCategoryDetails = selectedCategoryDetails?.let { details ->
+            details.copy(
+                category = details.category.copy(
+                    name = categoryNameProvider.getLocalizedName(details.category.name)
+                ),
+                actions = details.actions.map { action ->
+                    action.copy(name = actionNameProvider.getLocalizedName(action.name))
+                }
+            )
+        }
+    )
+}
+
 private val sampleCategories = listOf(
-    ActionCategoryItem(id = 1L, name = "Hobbies"),
-    ActionCategoryItem(id = 2L, name = "Physical Activity"),
-    ActionCategoryItem(id = 3L, name = "Relaxation"),
-    ActionCategoryItem(id = 4L, name = "Social"),
-    ActionCategoryItem(id = 5L, name = "Work")
+    ActionCategoryItem(id = 1L, name = DefaultData.CATEGORY_HOBBIES_LABEL),
+    ActionCategoryItem(id = 2L, name = DefaultData.CATEGORY_PHYSICAL_ACTIVITY_LABEL),
+    ActionCategoryItem(id = 3L, name = DefaultData.CATEGORY_RELAXATION_LABEL),
+    ActionCategoryItem(id = 4L, name = DefaultData.CATEGORY_SOCIAL_ACTIVITY_LABEL),
+    ActionCategoryItem(id = 5L, name = DefaultData.CATEGORY_PRODUCTIVITY_LABEL)
 )
 
 private val sampleActions = listOf(
-    ActionItem(id = 1L, name = "Drawing"),
-    ActionItem(id = 2L, name = "Writing"),
-    ActionItem(id = 3L, name = "Cooking"),
-    ActionItem(id = 4L, name = "Reading"),
-    ActionItem(id = 5L, name = "Gaming")
+    ActionItem(id = 1L, name = DefaultData.ACTION_DRAWING_LABEL),
+    ActionItem(id = 2L, name = DefaultData.ACTION_WRITING_LABEL),
+    ActionItem(id = 3L, name = DefaultData.ACTION_COOKING_LABEL),
+    ActionItem(id = 4L, name = DefaultData.ACTION_READING_LABEL),
+    ActionItem(id = 5L, name = DefaultData.ACTION_GAMING_LABEL)
 )
 
 class ActionCategoriesScreenUiStateProvider : PreviewParameterProvider<ActionCategoriesScreenUiState> {

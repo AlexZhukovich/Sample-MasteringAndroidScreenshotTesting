@@ -2,9 +2,9 @@ package com.alexzh.moodtracker.widget.ui.configuration
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexzh.moodtracker.core.domain.model.IconShape
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
+import com.alexzh.moodtracker.widget.model.LocalizedWidgetTheme
 import com.alexzh.moodtracker.widget.model.WidgetSettings
-import com.alexzh.moodtracker.widget.model.WidgetTheme
 import com.alexzh.moodtracker.widget.data.WidgetSettingsDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -27,8 +27,8 @@ class WidgetConfigurationViewModel(
             val settings = widgetDataSource.getWidgetSettings(glanceId)
             _uiState.value = WidgetConfigurationUiState(
                 transparency = settings.transparency,
-                iconShape = settings.iconShape,
-                theme = settings.theme
+                iconShape = LocalizedIconShape.fromIconShape(settings.iconShape),
+                theme = LocalizedWidgetTheme.fromWidgetTheme(settings.theme)
             )
         }
     }
@@ -47,20 +47,21 @@ class WidgetConfigurationViewModel(
         _uiState.update { it.copy(transparency = transparency) }
     }
 
-    private fun updateIconShape(iconShape: IconShape) {
+    private fun updateIconShape(iconShape: LocalizedIconShape) {
         _uiState.update { it.copy(iconShape = iconShape) }
     }
 
-    private fun updateTheme(theme: WidgetTheme) {
+    private fun updateTheme(theme: LocalizedWidgetTheme) {
         _uiState.update { it.copy(theme = theme) }
     }
 
     private fun applyConfiguration() {
         val state = _uiState.value
+        val iconShape = state.iconShape.toIconShape()
         val settings = WidgetSettings(
             transparency = state.transparency,
-            iconShape = state.iconShape,
-            theme = state.theme
+            iconShape = iconShape,
+            theme = state.theme.toWidgetTheme()
         )
 
         runBlocking {

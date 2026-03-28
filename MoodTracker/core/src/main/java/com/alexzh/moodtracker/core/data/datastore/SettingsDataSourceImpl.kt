@@ -25,6 +25,7 @@ class SettingsDataSourceImpl(
         val DEFAULT_DATA_ADDED = booleanPreferencesKey("default_data_added")
         val DYNAMIC_COLORS_ENABLED = booleanPreferencesKey("dynamic_colors_enabled")
         val ICON_SHAPE = stringPreferencesKey("icon_shape")
+        val SELECTED_LANGUAGE = stringPreferencesKey("selected_language")
     }
     
     override suspend fun isDefaultDataAdded(): Boolean {
@@ -62,6 +63,19 @@ class SettingsDataSourceImpl(
     override suspend fun setIconShape(iconShape: IconShape) {
         dataStore.edit { preferences ->
             preferences[Keys.ICON_SHAPE] = iconShape.name
+        }
+    }
+
+    override suspend fun getSelectedLanguage(): String? {
+        return dataStore.data
+            .map { preferences -> preferences[Keys.SELECTED_LANGUAGE] }
+            .first()
+    }
+
+    override suspend fun setSelectedLanguage(tag: String?) {
+        dataStore.edit { preferences ->
+            if (tag != null) preferences[Keys.SELECTED_LANGUAGE] = tag
+            else preferences.remove(Keys.SELECTED_LANGUAGE)
         }
     }
 }

@@ -10,24 +10,25 @@ data class DateRangeSelectorAnimationConfig(
     val durationMs: Int = 300,
     val delayMs: Long = 350L
 ) {
-    fun getTransitionSpec(direction: PeriodChangeDirection): ContentTransform {
+    fun getTransitionSpec(direction: PeriodChangeDirection, isRtl: Boolean = false): ContentTransform {
+        val rtlMultiplier = if (isRtl) -1 else 1
         return when (direction) {
             PeriodChangeDirection.NEXT -> {
                 slideInHorizontally(
                     animationSpec = tween(durationMs),
-                    initialOffsetX = { fullWidth -> fullWidth }
+                    initialOffsetX = { fullWidth -> fullWidth * rtlMultiplier }
                 ) togetherWith slideOutHorizontally(
                     animationSpec = tween(durationMs),
-                    targetOffsetX = { fullWidth -> -fullWidth }
+                    targetOffsetX = { fullWidth -> -fullWidth * rtlMultiplier }
                 )
             }
             PeriodChangeDirection.PREVIOUS -> {
                 slideInHorizontally(
                     animationSpec = tween(durationMs),
-                    initialOffsetX = { fullWidth -> -fullWidth }
+                    initialOffsetX = { fullWidth -> -fullWidth * rtlMultiplier }
                 ) togetherWith slideOutHorizontally(
                     animationSpec = tween(durationMs),
-                    targetOffsetX = { fullWidth -> fullWidth }
+                    targetOffsetX = { fullWidth -> fullWidth * rtlMultiplier }
                 )
             }
             PeriodChangeDirection.NONE -> {

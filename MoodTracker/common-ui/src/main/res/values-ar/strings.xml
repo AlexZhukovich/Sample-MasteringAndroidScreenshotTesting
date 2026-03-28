@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="navigation_home_label">الرئيسية</string>
+    <string name="navigation_statistics_label">الإحصائيات</string>
+    <string name="navigation_settings_label">الإعدادات</string>
+
+    <!-- Language -->
+    <string name="common_language_label">اللغة</string>
+    <string name="common_language_systemDefault_label">افتراضي النظام</string>
+
+    <!-- Icon Shape -->
+    <string name="common_iconShape_label">شكل الأيقونة</string>
+    <string name="common_iconShape_circle_label">دائري</string>
+    <string name="common_iconShape_roundedSquare_label">مربع مستدير الحواف</string>
+
+    <!-- Mood -->
+    <string name="mood_angry">غاضب</string>
+    <string name="mood_sad">حزين</string>
+    <string name="mood_ok">عادي</string>
+    <string name="mood_good">جيد</string>
+    <string name="mood_happy">سعيد</string>
+
+    <!-- Action Categories -->
+    <string name="actionCategory_physicalActivity_label">النشاط البدني</string>
+    <string name="actionCategory_socialActivity_label">النشاط الاجتماعي</string>
+    <string name="actionCategory_productivity_label">الإنتاجية</string>
+    <string name="actionCategory_relaxation_label">الاسترخاء</string>
+    <string name="actionCategory_hobbies_label">الهوايات</string>
+    <string name="actionCategory_routine_label">الروتين</string>
+
+    <!-- Actions -->
+    <string name="action_running_label">الجري</string>
+    <string name="action_walking_label">المشي</string>
+    <string name="action_exercising_label">التمرّن</string>
+    <string name="action_familyTime_label">وقت مع العائلة</string>
+    <string name="action_friendsTime_label">وقت مع الأصدقاء</string>
+    <string name="action_partyTime_label">وقت الحفلات</string>
+    <string name="action_eatingOut_label">الأكل خارج المنزل</string>
+    <string name="action_socialMedia_label">التواصل الاجتماعي</string>
+    <string name="action_learning_label">التعلم</string>
+    <string name="action_working_label">العمل</string>
+    <string name="action_meeting_label">اجتماع</string>
+    <string name="action_personalProject_label">مشروع شخصي</string>
+    <string name="action_meditating_label">التأمل</string>
+    <string name="action_listeningToMusic_label">الاستماع للموسيقى</string>
+    <string name="action_watchingMovies_label">مشاهدة أفلام</string>
+    <string name="action_rest_label">راحة</string>
+    <string name="action_drawing_label">الرسم</string>
+    <string name="action_writing_label">الكتابة</string>
+    <string name="action_cooking_label">الطبخ</string>
+    <string name="action_reading_label">القراءة</string>
+    <string name="action_gaming_label">الألعاب</string>
+    <string name="action_morningRoutine_label">روتين صباحي</string>
+    <string name="action_eveningRoutine_label">روتين مسائي</string>
+    <string name="action_planning_label">التخطيط</string>
+    <string name="action_commuting_label">التنقل</string>
+    <string name="action_sleep_label">النوم</string>
+</resources>

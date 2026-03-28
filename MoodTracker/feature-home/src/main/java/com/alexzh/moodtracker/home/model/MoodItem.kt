@@ -5,6 +5,9 @@ import com.alexzh.moodtracker.common.ui.model.ActionItem
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
+import java.time.format.FormatStyle
+import java.util.Locale
 
 data class MoodItem(
     val id: Long,
@@ -14,6 +17,10 @@ data class MoodItem(
     val actions: List<ActionItem>,
     val photos: List<Uri> = emptyList()
 ) {
-    val formattedDate: String
-        get() = date.format(DateTimeFormatter.ofPattern("HH:mm"))
+    fun formattedTime(locale: Locale = Locale.getDefault()): String =
+        date.format(
+            DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+                .withLocale(locale)
+                .withDecimalStyle(DecimalStyle.of(locale))
+        )
 }

@@ -2,6 +2,7 @@ package com.alexzh.moodtracker.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import com.alexzh.moodtracker.core.domain.datasource.MoodRecordDataSource
 import com.alexzh.moodtracker.core.domain.datasource.SettingsDataSource
 import com.alexzh.moodtracker.core.domain.provider.DateProvider
@@ -14,29 +15,26 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
-import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.flow.update
+import java.text.NumberFormat
+import java.util.Locale
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class StatisticsScreenViewModel(
+    private val actionNameProvider: LocalizedActionNameProvider,
     private val moodRepository: MoodRecordDataSource,
     settingsDataSource: SettingsDataSource,
     private val dateProvider: DateProvider,
 ): ViewModel() {
 
-    companion object {
-        private const val DATE_FORMATTER_PATTERN = "MMMM yyyy"
-    }
-
     private val selectedMonth = MutableStateFlow(dateProvider.getCurrentDate())
-    
+
     private val selectedDateRangeFlow = selectedMonth
         .flatMapLatest { date ->
             flow {
                 val startOfMonth = date.withDayOfMonth(1)
                 val endOfMonth = date.withDayOfMonth(date.lengthOfMonth())
-                val formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER_PATTERN)
                 emit(SelectedDateRangeData(
-                    title = date.format(formatter),
                     startDate = startOfMonth,
                     endDate = endOfMonth
                 ))
@@ -51,16 +49,16 @@ class StatisticsScreenViewModel(
                     startDate = dateRange.startDate,
                     endDate = dateRange.endDate
                 )
-                
+
                 val moodDataMap = moodData.associateBy { it.date }
                 val chartData = mutableListOf<ChartDataItem>()
                 var currentDate = dateRange.startDate
-                
+
                 while (!currentDate.isAfter(dateRange.endDate)) {
                     val moodForDate = moodDataMap[currentDate]
                     chartData.add(
                         ChartDataItem(
-                            label = currentDate.dayOfMonth.toString(),
+                            label = NumberFormat.getInstance(Locale.getDefault()).format(currentDate.dayOfMonth),
                             value = moodForDate?.happiness ?: 0f
                         )
                     )
@@ -104,18 +102,26 @@ class StatisticsScreenViewModel(
             }
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, ActionImpactChartData())
-    
+
+    private val _uiState = MutableStateFlow(
+        StatisticsScreenUiState(
+            isLoading = true,
+            selectedDateRange = getInitialDateRange()
+        )
+    )
+
     val uiState: StateFlow<StatisticsScreenUiState> = combine(
         selectedDateRangeFlow,
         averageDailyMoodDataFlow,
         actionImpactDataFlow,
-        settingsDataSource.getIconShape()
-    ) { selectedDateRange, averageDailyMoodChart, actionImpactChartData, iconShape ->
+        settingsDataSource.getIconShape(),
+        _uiState
+    ) { selectedDateRange, averageDailyMoodChart, actionImpactChartData, iconShape, _ ->
         StatisticsScreenUiState(
             isLoading = false,
             selectedDateRange = selectedDateRange,
             averageDailyMoodChartData = averageDailyMoodChart,
-            actionImpactChartData = actionImpactChartData,
+            actionImpactChartData = localizeActionImpactData(actionImpactChartData),
             iconShape = iconShape
         )
     }.stateIn(
@@ -129,9 +135,25 @@ class StatisticsScreenViewModel(
 
     fun onEvent(event: StatisticsScreenEvent) {
         when (event) {
+            StatisticsScreenEvent.OnLocaleChange -> reloadActions()
             StatisticsScreenEvent.OnPreviousMonth -> updateSelectedMonth(-1)
             StatisticsScreenEvent.OnNextMonth -> updateSelectedMonth(1)
         }
+    }
+
+    private fun reloadActions() {
+        _uiState.update { it.copy() }
+    }
+
+    private fun localizeActionImpactData(data: ActionImpactChartData): ActionImpactChartData {
+        return ActionImpactChartData(
+            positiveImpact = data.positiveImpact.map {
+                it.copy(label = actionNameProvider.getLocalizedName(it.label))
+            },
+            negativeImpact = data.negativeImpact.map {
+                it.copy(label = actionNameProvider.getLocalizedName(it.label))
+            }
+        )
     }
 
     private fun updateSelectedMonth(monthDelta: Int) {
@@ -143,9 +165,7 @@ class StatisticsScreenViewModel(
         val currentDate = dateProvider.getCurrentDate()
         val startOfMonth = currentDate.withDayOfMonth(1)
         val endOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth())
-        val formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER_PATTERN)
         return SelectedDateRangeData(
-            title = currentDate.format(formatter),
             startDate = startOfMonth,
             endDate = endOfMonth
         )

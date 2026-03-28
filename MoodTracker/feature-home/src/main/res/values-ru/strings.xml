@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="homeScreen_addMoodButton_label">Добавить настроение</string>
+    <string name="homeScreen_emptyState_title">Информации о настроении нет</string>
+    <string name="homeScreen_emptyState_label">Записи не найдены для %1$s</string>
+    <string name="homeScreen_deleteDialogTitle_label">Подтвердите удаление</string>
+    <string name="homeScreen_deleteDialogText_label">После подтверждения запись будет удалена без возможности восстановления.</string>
+    <string name="homeScreenPreview_editMood_contentDescription">Изменить настроение</string>
+    <string name="homeScreenPreview_deleteMood_contentDescription">Удалить настроение</string>
+
+    <string name="editMoodScreen_addMood_label">Добавить настроение</string>
+    <string name="editMoodScreen_editMood_label">Изменить настроение</string>
+    <string name="editMoodScreen_manageActions_label">Управление действиями</string>
+    <string name="editMoodScreen_moodSection_label">Как вы себя чувствуете?</string>
+    <string name="editMoodScreen_actionCategoriesSection_label">Чем вы занимались?</string>
+    <string name="editMoodScreen_noteSection_label">Заметка</string>
+    <string name="editMoodScreen_noteSection_inputLabel">Добавить заметку</string>
+    <string name="editMoodScreen_photos_label">Фотографии (выберите до 3 фото)</string>
+    <string name="editMoodScreen_date_label">Дата</string>
+    <string name="editMoodScreen_time_label">Время</string>
+    <string name="editMoodScreen_saving_label">Сохранение</string>
+    <string name="editMoodScreen_saveButton_label">Сохранить</string>
+</resources>

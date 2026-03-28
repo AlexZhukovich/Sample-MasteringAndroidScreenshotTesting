@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statisticsScreen_title">الإحصائيات</string>
+    <string name="statisticsScreen_dateRangeSelector_nextMonth_contentDescription">الشهر التالي</string>
+    <string name="statisticsScreen_dateRangeSelector_previousMonth_contentDescription">الشهر السابق</string>
+    <string name="statisticsScreen_emptyState_title">لا توجد بيانات لهذا الشهر</string>
+    <string name="statisticsScreen_emptyState_label">انتقل لشهر آخر أو ابدأ في المتابعة لتعرف أنماطك.</string>
+    <string name="statisticsScreen_averageDailyMoodSection_label">متوسط الحالة المزاجية اليومي</string>
+    <string name="statisticsScreen_actionImpactOverviewSection_label">نظرة عامة على تأثير الأنشطة</string>
+    <string name="statisticsScreen_positiveImpactActionsSection_label">أنشطة ذات تأثير إيجابي</string>
+    <string name="statisticsScreen_negativeImpactActionsSection_label">أنشطة ذات تأثير سلبي</string>
+</resources>

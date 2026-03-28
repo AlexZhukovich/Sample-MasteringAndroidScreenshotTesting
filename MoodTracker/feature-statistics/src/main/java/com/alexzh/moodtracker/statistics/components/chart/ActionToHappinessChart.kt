@@ -13,12 +13,14 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
@@ -42,6 +44,7 @@ fun ActionToHappinessChart(
     val totalSpacingHeight = (itemCount - 1) * spacingBetweenItems
     val totalHeight = totalBarsHeight + totalSpacingHeight
     val textMeasurer = rememberTextMeasurer()
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
 
     Box(
         modifier = modifier
@@ -78,7 +81,7 @@ fun ActionToHappinessChart(
                 // Bar progress
                 drawRoundRect(
                     color = barColor,
-                    topLeft = Offset(x = 0f, y = topY),
+                    topLeft = Offset(x = if (isRtl) size.width - barWidth else 0f, y = topY),
                     size = Size(barWidth, barHeightPx),
                     cornerRadius = cornerRadiusResult
                 )
@@ -88,7 +91,10 @@ fun ActionToHappinessChart(
                 val y = topY + (barHeightPx - textHeight) / 2f
                 drawText(
                     textLayoutResult = textLayoutResult,
-                    topLeft = Offset(startPaddingPx, y)
+                    topLeft = Offset(
+                        x = if (isRtl) size.width - startPaddingPx - textLayoutResult.size.width else startPaddingPx,
+                        y = y
+                    )
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.alexzh.designsystem.component.selector.daterangeselector
 
+import android.text.format.DateFormat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,12 +31,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.alexzh.designsystem.R
 import com.alexzh.designsystem.component.button.IconButton
@@ -45,8 +48,12 @@ import com.alexzh.designsystem.core.modifier.circleLayout
 import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.designsystem.icon.DateRangeIcon
 import kotlinx.coroutines.delay
+import com.alexzh.designsystem.core.locale.currentLocale
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
+import java.util.Locale
 import kotlin.math.abs
 
 @Composable
@@ -70,8 +77,15 @@ fun DateRangeSelector(
     futureDateContentDescription: @Composable (formattedDate: String) -> String = { formattedDate ->
         stringResource(R.string.dateRangeSelector_futureDateNotSelectable_contentDescription, formattedDate)
     },
-    dayNameFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("EEEEE"),
-    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMMM d"),
+    locale: Locale = currentLocale,
+    dayNameFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+        DateFormat.getBestDateTimePattern(locale, "EEEEE"),
+        locale
+    ).withDecimalStyle(DecimalStyle.of(locale)),
+    dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+        DateFormat.getBestDateTimePattern(locale, "MMMMd"),
+        locale
+    ).withDecimalStyle(DecimalStyle.of(locale)),
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -90,7 +104,7 @@ fun DateRangeSelector(
         showTodayButton = state.showTodayButton,
         canNavigateNext = state.canNavigateNext,
         navigationDirection = state.navigationDirection,
-        formattedDateRange = state.formattedDateRange,
+        formattedDateRange = stringResource(R.string.dateRangeSelector_dateRange_label, state.formattedStartDate, state.formattedEndDate),
         isCurrentPeriod = state.isCurrentPeriod,
         animationConfig = animationConfig,
         previousPeriodContentDescription = previousPeriodContentDescription,
@@ -100,7 +114,8 @@ fun DateRangeSelector(
         dayNameFormatter = dayNameFormatter,
         dateFormatter = dateFormatter,
         selectDateContentDescription = selectDateContentDescription,
-        futureDateContentDescription = futureDateContentDescription
+        futureDateContentDescription = futureDateContentDescription,
+        locale = locale
     )
 
     LaunchedEffect(state.selectedDate) {
@@ -196,8 +211,10 @@ private fun DateRangeSelectorContent(
     dayNameFormatter: DateTimeFormatter,
     dateFormatter: DateTimeFormatter,
     selectDateContentDescription: @Composable (formattedDate: String) -> String,
-    futureDateContentDescription: @Composable (formattedDate: String) -> String
+    futureDateContentDescription: @Composable (formattedDate: String) -> String,
+    locale: Locale
 ) {
+    val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     var showDatePicker by remember { mutableStateOf(false) }
 
     Column(
@@ -226,13 +243,13 @@ private fun DateRangeSelectorContent(
 
         AnimatedContent(
             targetState = dateRange,
-            transitionSpec = { animationConfig.getTransitionSpec(navigationDirection) },
+            transitionSpec = { animationConfig.getTransitionSpec(navigationDirection, isRtl) },
             modifier = Modifier.fillMaxWidth()
         ) { currentDateRange ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .pointerInput(Unit) {
+                    .pointerInput(isRtl) {
                         var totalDragAmount = 0f
                         detectHorizontalDragGestures(
                             onHorizontalDrag = { _, dragAmount ->
@@ -240,12 +257,13 @@ private fun DateRangeSelectorContent(
                             },
                             onDragEnd = {
                                 if (abs(totalDragAmount) > 100f) {
-                                    if (totalDragAmount > 0) {
-                                        onPeriodChanged(PeriodChangeDirection.PREVIOUS)
-                                    } else {
+                                    val swipedToNext = if (isRtl) totalDragAmount > 0 else totalDragAmount < 0
+                                    if (swipedToNext) {
                                         if (canNavigateNext) {
                                             onPeriodChanged(PeriodChangeDirection.NEXT)
                                         }
+                                    } else {
+                                        onPeriodChanged(PeriodChangeDirection.PREVIOUS)
                                     }
                                 }
                                 totalDragAmount = 0f
@@ -263,7 +281,8 @@ private fun DateRangeSelectorContent(
                         dayNameFormatter = dayNameFormatter,
                         dateFormatter = dateFormatter,
                         selectDateContentDescription = selectDateContentDescription,
-                        futureDateContentDescription = futureDateContentDescription
+                        futureDateContentDescription = futureDateContentDescription,
+                        locale = locale
                     )
                 }
             }
@@ -295,14 +314,14 @@ private fun DateIndicator(
     dayNameFormatter: DateTimeFormatter,
     dateFormatter: DateTimeFormatter,
     selectDateContentDescription: @Composable (formattedDate: String) -> String,
-    futureDateContentDescription: @Composable (formattedDate: String) -> String
+    futureDateContentDescription: @Composable (formattedDate: String) -> String,
+    locale: Locale
 ) {
     val containerColor = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent
     val interactionSource = remember { MutableInteractionSource() }
-    val dayName = remember(date) { date.format(dayNameFormatter) }
-    val dayNumber = remember(date) { date.dayOfMonth.toString() }
-
-    val formattedDate = remember(date) { date.format(dateFormatter) }
+    val dayName = remember(date, dayNameFormatter) { date.format(dayNameFormatter) }
+    val dayNumber = remember(date, locale) { NumberFormat.getInstance(locale).format(date.dayOfMonth) }
+    val formattedDate = remember(date, dateFormatter) { date.format(dateFormatter) }
 
     val selectDateDescription = selectDateContentDescription(formattedDate)
     val futureDateDescription = futureDateContentDescription(formattedDate)

@@ -39,11 +39,13 @@ import com.alexzh.designsystem.component.settings.SettingsDropdownItem
 import com.alexzh.designsystem.icon.CheckIcon
 import com.alexzh.designsystem.icon.CloseIcon
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.core.domain.model.IconShape
-import com.alexzh.moodtracker.widget.model.WidgetTheme
+import com.alexzh.moodtracker.widget.model.LocalizedWidgetTheme
 import com.alexzh.moodtracker.widget.R
+import com.alexzh.moodtracker.common.ui.R as CommonUiR
+import com.alexzh.designsystem.R as DesignSystemR
 import com.alexzh.designsystem.core.theme.darkScheme
 import com.alexzh.designsystem.core.theme.lightScheme
+import com.alexzh.moodtracker.common.ui.model.LocalizedIconShape
 
 @Composable
 fun WidgetConfigurationScreen(
@@ -66,8 +68,8 @@ fun WidgetConfigurationScreen(
 fun WidgetConfigurationContent(
     uiState: WidgetConfigurationUiState,
     onTransparencyChanged: (Float) -> Unit,
-    onIconShapeChanged: (IconShape) -> Unit,
-    onThemeChanged: (WidgetTheme) -> Unit,
+    onIconShapeChanged: (LocalizedIconShape) -> Unit,
+    onThemeChanged: (LocalizedWidgetTheme) -> Unit,
     onCancel: () -> Unit,
     onApply: () -> Unit
 ) {
@@ -76,13 +78,13 @@ fun WidgetConfigurationContent(
             TopAppBarWithBackButton(
                 title = stringResource(R.string.widgetConfigurationScreen_title),
                 onBack = onCancel,
-                backButtonContentDescription = stringResource(R.string.widgetConfigurationScreen_close_contentDescription),
+                backButtonContentDescription = stringResource(DesignSystemR.string.closeButton_contentDescription),
                 backButtonIcon = CloseIcon,
                 actions = {
                     IconButton(
                         onClick = onApply,
                         icon = CheckIcon,
-                        contentDescription = stringResource(R.string.widgetConfigurationScreen_apply_contentDescription)
+                        contentDescription = stringResource(DesignSystemR.string.applyButton_contentDescription)
                     )
                 }
             )
@@ -111,27 +113,17 @@ fun WidgetConfigurationContent(
 
             SettingsDropdownItem(
                 title = stringResource(R.string.widgetConfigurationScreen_theme_label),
-                options = WidgetTheme.entries,
+                options = LocalizedWidgetTheme.entries,
                 selectedOption = uiState.theme,
-                optionLabel = { theme ->
-                    when (theme) {
-                        WidgetTheme.LIGHT -> stringResource(R.string.widgetConfigurationScreen_theme_light_label)
-                        WidgetTheme.DARK -> stringResource(R.string.widgetConfigurationScreen_theme_dark_label)
-                    }
-                },
+                optionLabel = { stringResource(it.label) },
                 onOptionSelected = onThemeChanged
             )
 
             SettingsDropdownItem(
-                title = stringResource(R.string.widgetConfigurationScreen_iconShape_label),
-                options = IconShape.entries,
+                title = stringResource(CommonUiR.string.common_iconShape_label),
+                options = LocalizedIconShape.entries,
                 selectedOption = uiState.iconShape,
-                optionLabel = { iconShape ->
-                    when (iconShape) {
-                        IconShape.CIRCLE -> stringResource(R.string.widgetConfigurationScreen_iconShape_circle_label)
-                        IconShape.ROUNDED_SQUARE -> stringResource(R.string.widgetConfigurationScreen_iconShape_roundedSquare_label)
-                    }
-                },
+                optionLabel = { stringResource(it.label) },
                 onOptionSelected = onIconShapeChanged
             )
 
@@ -154,11 +146,11 @@ fun WidgetConfigurationContent(
 fun WidgetPreview(
     modifier: Modifier = Modifier,
     transparency: Float = 0f,
-    iconShape: IconShape = IconShape.CIRCLE,
-    theme: WidgetTheme = WidgetTheme.LIGHT
+    iconShape: LocalizedIconShape = LocalizedIconShape.CIRCLE,
+    theme: LocalizedWidgetTheme = LocalizedWidgetTheme.LIGHT
 ) {
     val backgroundAlpha = 1f - transparency
-    val colorScheme = if (theme == WidgetTheme.LIGHT) lightScheme else darkScheme
+    val colorScheme = if (theme == LocalizedWidgetTheme.LIGHT) lightScheme else darkScheme
 
     Column(
         modifier = modifier
@@ -184,7 +176,7 @@ fun WidgetPreview(
         ) {
             LocalizedMood.entries.forEach { mood ->
                 Image(
-                    painter = painterResource(id = mood.getIcon(iconShape)),
+                    painter = painterResource(id = mood.getIcon(iconShape.toIconShape())),
                     contentDescription = stringResource(id = mood.label),
                     modifier = Modifier.size(48.dp).padding(4.dp)
                 )
@@ -201,8 +193,8 @@ fun WidgetPreview(
 fun Preview_WidgetConfigurationScreen() {
     val uiState = WidgetConfigurationUiState(
         transparency = 0.3f,
-        iconShape = IconShape.CIRCLE,
-        theme = WidgetTheme.LIGHT
+        iconShape = LocalizedIconShape.CIRCLE,
+        theme = LocalizedWidgetTheme.LIGHT
     )
 
     AppTheme {

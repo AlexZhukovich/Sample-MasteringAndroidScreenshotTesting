@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -58,6 +59,7 @@ fun AverageDailyMoodChart(
     val textMeasurer = rememberTextMeasurer()
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
+    val isRtl = layoutDirection == LayoutDirection.Rtl
 
     val yAxisSteps = maxValue
     val iconPainters = (0..yAxisSteps).map { i ->
@@ -106,12 +108,17 @@ fun AverageDailyMoodChart(
             axisBitmaps.forEachIndexed { i, iconBitmap ->
                 val y = chartHeight - (i * stepHeight)
                 if (iconBitmap != null) {
+                    val iconX = if (isRtl) {
+                        10f.toInt()
+                    } else {
+                        (yAxisAreaWidthPx - iconSizePx - 10f).toInt()
+                    }
                     drawImage(
                         image = iconBitmap,
                         srcOffset = IntOffset.Zero,
                         srcSize = IntSize(iconBitmap.width, iconBitmap.height),
                         dstOffset = IntOffset(
-                            x = (yAxisAreaWidthPx - iconSizePx - 10f).toInt(),
+                            x = iconX,
                             y = (y - iconSizePx / 2).toInt()
                         ),
                         dstSize = IntSize(iconSizePx.toInt(), iconSizePx.toInt()),
@@ -122,7 +129,7 @@ fun AverageDailyMoodChart(
 
         // Bars & Labels
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .horizontalScroll(scrollState)
                 .width(totalChartWidthDp + yAxisSpacing)
                 .fillMaxHeight()
@@ -132,7 +139,11 @@ fun AverageDailyMoodChart(
 
                 data.forEachIndexed { index, item ->
                     val barHeight = (item.value / maxValue) * chartHeight
-                    val left = 0f + yAxisSpacingPx + index * (barWidthPx + barSpacingPx)
+                    val left = if (isRtl) {
+                        size.width - yAxisSpacingPx - barWidthPx - index * (barWidthPx + barSpacingPx)
+                    } else {
+                        yAxisSpacingPx + index * (barWidthPx + barSpacingPx)
+                    }
                     val top = chartHeight - barHeight
 
                     // Bar Background

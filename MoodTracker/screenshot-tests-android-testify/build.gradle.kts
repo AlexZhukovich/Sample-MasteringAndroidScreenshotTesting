@@ -37,7 +37,7 @@ android {
 testify {
     applicationPackageId = "com.alexzh.moodtracker.screenshottests.androidtestify.test"
     testPackageId = "com.alexzh.moodtracker.screenshottests.androidtestify.test"
-    isRecordMode = true
+    isRecordMode = false
 }
 
 dependencies {

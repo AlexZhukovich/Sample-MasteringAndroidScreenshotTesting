@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="statisticsScreen_title">Статистика</string>
+    <string name="statisticsScreen_dateRangeSelector_nextMonth_contentDescription">Следующий месяц</string>
+    <string name="statisticsScreen_dateRangeSelector_previousMonth_contentDescription">Предыдущий месяц</string>
+    <string name="statisticsScreen_emptyState_title">Нет данных за этот месяц</string>
+    <string name="statisticsScreen_emptyState_label">Переключитесь на другой месяц или добавьте данные, чтобы увидеть ваши паттерны</string>
+    <string name="statisticsScreen_averageDailyMoodSection_label">Среднее настроение за день</string>
+    <string name="statisticsScreen_actionImpactOverviewSection_label">Что влияет на настроение</string>
+    <string name="statisticsScreen_positiveImpactActionsSection_label">Позитивно влияет</string>
+    <string name="statisticsScreen_negativeImpactActionsSection_label">Негативно влияет</string>
+</resources>

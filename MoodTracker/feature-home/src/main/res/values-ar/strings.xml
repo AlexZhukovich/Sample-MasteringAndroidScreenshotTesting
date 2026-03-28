@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="homeScreen_addMoodButton_label">أضف حالة مزاجية</string>
+    <string name="homeScreen_emptyState_title">لا توجد مدخلات للحالة المزاجية</string>
+    <string name="homeScreen_emptyState_label">لا توجد مدخلات لتاريخ %1$s</string>
+    <string name="homeScreen_deleteDialogTitle_label">تأكيد الحذف</string>
+    <string name="homeScreen_deleteDialogText_label">بمجرد التأكيد، سيتم الحذف بشكل نهائي.</string>
+    <string name="homeScreenPreview_editMood_contentDescription">تعديل الحالة المزاجية</string>
+    <string name="homeScreenPreview_deleteMood_contentDescription">حذف الحالة المزاجية</string>
+
+    <string name="editMoodScreen_addMood_label">إضافة حالة مزاجية</string>
+    <string name="editMoodScreen_editMood_label">تعديل حالة مزاجية</string>
+    <string name="editMoodScreen_manageActions_label">إدارة الإجراءات</string>
+    <string name="editMoodScreen_moodSection_label">كيف حالك؟</string>
+    <string name="editMoodScreen_actionCategoriesSection_label">ماذا كنت تفعل؟</string>
+    <string name="editMoodScreen_noteSection_label">ملحوظة</string>
+    <string name="editMoodScreen_noteSection_inputLabel">إضافة ملحوظة</string>
+    <string name="editMoodScreen_photos_label">الصور (اختر حتى ٣ صور)</string>
+    <string name="editMoodScreen_date_label">التاريخ</string>
+    <string name="editMoodScreen_time_label">الوقت</string>
+    <string name="editMoodScreen_saving_label">جاري الحفظ</string>
+    <string name="editMoodScreen_saveButton_label">حفظ</string>
+</resources>
