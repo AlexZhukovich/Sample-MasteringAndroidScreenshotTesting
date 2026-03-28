@@ -32,7 +32,7 @@ Before running screenshot tests, ensure you:
 To capture and save golden screenshots, run:
 
 ```bash
-./gradlew :screenshot-tests-shot:executeScreenshotTests -Precord
+./gradlew :screenshot-tests-shot:debugExecuteScreenshotTests -Precord
 ```
 
 The screenshots will be saved to:
@@ -46,5 +46,5 @@ screenshot-tests-shot/src/screenshots/
 To run the screenshot tests and compare against golden images:
 
 ```bash
-./gradlew :screenshot-tests-shot:executeScreenshotTests
+./gradlew :screenshot-tests-shot:debugExecuteScreenshotTests
 ```
