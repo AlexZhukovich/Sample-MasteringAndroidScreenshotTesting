@@ -15,8 +15,8 @@
     <string name="common_iconShape_roundedSquare_label">Скругленный квадрат</string>
 
     <!-- Mood -->
-    <string name="mood_angry">Ужасно</string>
-    <string name="mood_sad">Плохо</string>
+    <string name="mood_angry">Злюсь</string>
+    <string name="mood_sad">Грустно</string>
     <string name="mood_ok">Так себе</string>
     <string name="mood_good">Хорошо</string>
     <string name="mood_happy">Отлично</string>
