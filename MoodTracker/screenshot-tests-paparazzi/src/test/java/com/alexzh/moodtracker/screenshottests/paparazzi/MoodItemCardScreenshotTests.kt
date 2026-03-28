@@ -8,7 +8,7 @@ import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.model.MoodItem
 import com.alexzh.moodtracker.home.overview.components.MoodItemCard
-import com.android.ide.common.rendering.api.SessionParams
+import com.android.ide.common.rendering.api.SessionParams.RenderingMode
 import org.junit.Rule
 import org.junit.Test
 import java.time.LocalDateTime
@@ -18,7 +18,7 @@ class MoodItemCardScreenshotTests {
     @get:Rule
     val paparazzi = Paparazzi(
         deviceConfig = DeviceConfig.PIXEL_4,
-        renderingMode = SessionParams.RenderingMode.SHRINK
+        renderingMode = RenderingMode.SHRINK
     )
 
     @Test

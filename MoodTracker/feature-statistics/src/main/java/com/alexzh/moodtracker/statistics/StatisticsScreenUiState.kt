@@ -1,5 +1,6 @@
 package com.alexzh.moodtracker.statistics
 
+import android.text.format.DateFormat
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.statistics.components.chart.ChartDataItem
 import java.time.LocalDate
@@ -24,7 +25,7 @@ data class SelectedDateRangeData(
     }
 
     fun formattedDate(locale: Locale = Locale.getDefault()): String {
-        val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, DATE_FORMATTER_SKELETON)
+        val pattern = DateFormat.getBestDateTimePattern(locale, DATE_FORMATTER_SKELETON)
         val formatter = DateTimeFormatter.ofPattern(pattern, locale)
             .withDecimalStyle(DecimalStyle.of(locale))
         return startDate.format(formatter)

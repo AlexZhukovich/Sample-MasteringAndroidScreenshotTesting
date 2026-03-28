@@ -49,11 +49,11 @@ class StatisticsScreenViewModel(
                     startDate = dateRange.startDate,
                     endDate = dateRange.endDate
                 )
-                
+
                 val moodDataMap = moodData.associateBy { it.date }
                 val chartData = mutableListOf<ChartDataItem>()
                 var currentDate = dateRange.startDate
-                
+
                 while (!currentDate.isAfter(dateRange.endDate)) {
                     val moodForDate = moodDataMap[currentDate]
                     chartData.add(

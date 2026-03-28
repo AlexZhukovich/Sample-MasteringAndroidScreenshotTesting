@@ -12,9 +12,9 @@ import dev.testify.annotation.ScreenshotInstrumentation
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
 import java.time.LocalDateTime
 
+@Suppress("MISSING_DEPENDENCY_SUPERCLASS_IN_TYPE_ARGUMENT")
 @RunWith(AndroidJUnit4::class)
 class MoodItemCardScreenshotTests {
 
