@@ -28,7 +28,7 @@ paparazzi = "2.0.0-alpha02"
 roborazzi = "1.56.0"
 robolectric = "4.16"
 shot = "6.1.0"
-composable-preview-scanner = "0.8.1"
+composable-preview-scanner = "0.8.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
