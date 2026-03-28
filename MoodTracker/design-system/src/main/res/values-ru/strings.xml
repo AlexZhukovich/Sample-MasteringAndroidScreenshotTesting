@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dialog_ok_label">Выбрать</string>
+    <string name="dialog_cancel_label">Отменить</string>
+    <string name="dialog_delete_label">Удалить</string>
+    <string name="dialog_save_label">Сохранить</string>
+
+    <string name="applyButton_contentDescription">Применить</string>
+    <string name="topAppBar_backButton_contentDescription">Назад</string>
+    <string name="closeButton_contentDescription">Закрыть</string>
+
+    <string name="dateRangeSelector_lastDays_label">Последние %d дней</string>
+    <string name="dateRangeSelector_previousPeriod_contentDescription">Перейти к предыдущему периоду</string>
+    <string name="dateRangeSelector_nextPeriodEnabled_contentDescription">Перейти к следующему периоду</string>
+    <string name="dateRangeSelector_nextPeriodDisabled_contentDescription">Следующий период недоступен</string>
+    <string name="dateRangeSelector_openDatePicker_contentDescription">Открыть выбор даты</string>
+    <string name="dateRangeSelector_todayButton_label">Сегодня</string>
+    <string name="dateRangeSelector_selectedDate_contentDescription">Выбрать дату %1$s</string>
+    <string name="dateRangeSelector_futureDateNotSelectable_contentDescription">Будущая дата %1$s не может быть выбрана</string>
+
+    <string name="emptyState_title">Ничего не найдено</string>
+
+    <string name="photoThumbnailGrid_addPhoto_label">Добавить фото</string>
+    <string name="photoThumbnailGrid_removePhoto_label">Удалить фото</string>
+</resources>

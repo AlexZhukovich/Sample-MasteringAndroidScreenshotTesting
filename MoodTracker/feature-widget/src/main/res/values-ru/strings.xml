@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Widget -->
+    <string name="widget_title">Как вы себя чувствуете?</string>
+    <string name="widget_description">Быстро добавьте свое настроение.</string>
+
+    <!-- Widget Configuration -->
+    <string name="widgetConfigurationScreen_title">Настройки виджета</string>
+    <string name="widgetConfigurationScreen_theme_label">Тема</string>
+    <string name="widgetConfigurationScreen_theme_light_label">Светлая</string>
+    <string name="widgetConfigurationScreen_theme_dark_label">Тёмная</string>
+    <string name="widgetConfigurationScreen_opacity_label">Прозрачность</string>
+</resources>

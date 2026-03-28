@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="actionCategoriesScreen_title">Управление действиями</string>
+    <string name="actionCategoriesScreen_addCategoryButton_label">Добавить категорию</string>
+    <string name="actionCategoriesScreen_emptyState_label">Вы ещё не добавили ни одной категории.</string>
+    <string name="actionCategoriesScreen_editCategory_contentDescription">Изменить</string>
+    <string name="actionCategoriesScreen_deleteCategory_contentDescription">Удалить</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_title">Удалить категорию</string>
+    <string name="actionCategoriesScreen_deleteCategoryDialog_label">Вы уверены, что хотите удалить категорию \"%1$s\"? Это действие нельзя отменить.</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_title">Добавить категорию</string>
+    <string name="actionCategoriesScreen_addCategoryDialog_categoryName_label">Название категории</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_title">Изменить категорию</string>
+    <string name="actionCategoriesScreen_editCategoryDialog_categoryName_label">Название категории</string>
+    <string name="actionCategoriesScreen_placeholder_label">Выберите категорию для просмотра деталей.</string>
+
+    <string name="actionCategoryDetailsScreen_addActionButton_label">Добавить действие</string>
+    <string name="actionCategoryDetailsScreen_emptyState_label">Вы не добавили ни одного действия.</string>
+    <string name="actionCategoryDetailsScreen_editAction_contentDescription">Изменить</string>
+    <string name="actionCategoryDetailsScreen_deleteAction_contentDescription">Удалить</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_title">Изменить действие</string>
+    <string name="actionCategoryDetailsScreen_editActionDialog_actionName_label">Название действия</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_title">Добавить действие</string>
+    <string name="actionCategoryDetailsScreen_addActionDialog_actionName_label">Название действия</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_title">Удалить действие</string>
+    <string name="actionCategoryDetailsScreen_deleteActionDialog_label">Вы уверены, что хотите удалить \"%1$s\"? Это действие нельзя отменить.</string>
+</resources>
