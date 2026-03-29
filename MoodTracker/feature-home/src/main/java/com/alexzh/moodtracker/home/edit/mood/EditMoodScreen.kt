@@ -92,7 +92,7 @@ fun EditMoodScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is EditMoodScreenUiEvent.SaveSuccess -> onSave()
+                is EditMoodScreenUiEvent.Save -> onSave()
             }
         }
     }

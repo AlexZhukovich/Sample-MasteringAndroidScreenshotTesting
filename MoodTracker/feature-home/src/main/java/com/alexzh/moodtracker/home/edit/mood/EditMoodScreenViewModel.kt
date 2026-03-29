@@ -232,7 +232,7 @@ class EditMoodScreenViewModel(
                     )
                 }
 
-                _events.send(EditMoodScreenUiEvent.SaveSuccess)
+                _events.send(EditMoodScreenUiEvent.Save)
             } finally {
                 _uiState.update { it.copy(isLoading = false) }
             }
