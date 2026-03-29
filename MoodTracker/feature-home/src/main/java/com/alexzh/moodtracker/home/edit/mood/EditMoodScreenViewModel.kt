@@ -9,7 +9,6 @@ import com.alexzh.moodtracker.common.ui.model.ActionItem
 import com.alexzh.moodtracker.common.ui.model.LocalizedActionCategoryNameProvider
 import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.common.ui.model.UiEvent
 import com.alexzh.moodtracker.core.data.database.mood.MoodRecordEntity
 import com.alexzh.moodtracker.core.domain.datasource.ActionCategoryDataSource
 import com.alexzh.moodtracker.core.domain.datasource.MoodRecordDataSource
@@ -39,7 +38,7 @@ class EditMoodScreenViewModel(
     dateProvider: DateProvider,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _events = Channel<UiEvent>(Channel.UNLIMITED)
+    private val _events = Channel<EditMoodScreenUiEvent>(Channel.UNLIMITED)
     val events = _events.receiveAsFlow()
 
     val moodId: Long = savedStateHandle.get<Long>("moodId") ?: 0L
@@ -233,7 +232,7 @@ class EditMoodScreenViewModel(
                     )
                 }
 
-                _events.send(UiEvent.NavigateBack)
+                _events.send(EditMoodScreenUiEvent.SaveSuccess)
             } finally {
                 _uiState.update { it.copy(isLoading = false) }
             }

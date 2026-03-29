@@ -35,7 +35,8 @@ fun MoodTrackerNavigation(
         )
         editMoodScreen(
             onNavigateToActionCategories = { navController.navigate(ActionCategoriesScreenDestination) },
-            onNavigateUp = { navController.navigateUp() }
+            onNavigateUp = { navController.navigateUp() },
+            onSave = { navController.navigateToHome() }
         )
         statisticsScreen(
             onNavigateToHome = { navController.navigateToHome() },

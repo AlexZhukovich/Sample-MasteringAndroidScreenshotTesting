@@ -52,7 +52,6 @@ import com.alexzh.moodtracker.common.ui.model.ActionItem
 import com.alexzh.moodtracker.common.ui.model.LocalizedActionCategoryNameProvider
 import com.alexzh.moodtracker.common.ui.model.LocalizedActionNameProvider
 import com.alexzh.moodtracker.common.ui.model.LocalizedMood
-import com.alexzh.moodtracker.common.ui.model.UiEvent
 import com.alexzh.moodtracker.core.data.initialization.DefaultData
 import com.alexzh.moodtracker.core.domain.model.IconShape
 import com.alexzh.moodtracker.home.R
@@ -68,7 +67,8 @@ import java.time.LocalTime
 fun EditMoodScreen(
     viewModel: EditMoodScreenViewModel,
     onNavigateToActionCategories: () -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onSave: () -> Unit
 ) {
     LaunchedEffect(currentLocale) {
         viewModel.onEvent(EditMoodScreenEvent.OnLocaleChange)
@@ -92,7 +92,7 @@ fun EditMoodScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                UiEvent.NavigateBack -> onNavigateUp()
+                is EditMoodScreenUiEvent.SaveSuccess -> onSave()
             }
         }
     }

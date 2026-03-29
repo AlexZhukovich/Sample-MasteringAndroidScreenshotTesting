@@ -3,9 +3,9 @@ package com.alexzh.moodtracker.home.edit.mood
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
-import com.alexzh.moodtracker.common.ui.model.LocalizedMood
 
 @Serializable
 data class EditMoodScreenDestination(
@@ -15,7 +15,8 @@ data class EditMoodScreenDestination(
 
 fun NavGraphBuilder.editMoodScreen(
     onNavigateToActionCategories: () -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateUp: () -> Unit,
+    onSave: () -> Unit
 ) {
     composable<EditMoodScreenDestination>(
         deepLinks = listOf(
@@ -27,7 +28,8 @@ fun NavGraphBuilder.editMoodScreen(
         EditMoodScreen(
             viewModel = koinViewModel<EditMoodScreenViewModel>(),
             onNavigateToActionCategories= onNavigateToActionCategories,
-            onNavigateUp = onNavigateUp
+            onNavigateUp = onNavigateUp,
+            onSave = onSave
         )
     }
 }
