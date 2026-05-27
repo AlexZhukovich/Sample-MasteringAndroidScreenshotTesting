@@ -29,6 +29,7 @@ roborazzi = "1.59.0"
 robolectric = "4.16.1"
 shot = "6.1.0"
 composable-preview-scanner = "0.8.2"
+coroutines = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,6 +64,7 @@ androidx-compose-material3-adaptive-navigation = { module = "androidx.compose.ma
 androidx-compose-material3-adaptive-navigation-suite = { module = "androidx.compose.material3:material3-adaptive-navigation-suite" }
 androidx-window = { module = "androidx.window:window", version.ref = "window" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-test = { group = "io.coil-kt.coil3", name = "coil-test", version.ref = "coil" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-testify-compose = { group = "dev.testify", name = "testify-compose", version.ref = "androidTestify" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidTestRules" }
@@ -75,6 +77,7 @@ roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-ju
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }
 composable-preview-scanner-android = { module = "io.github.sergio-sastre.ComposablePreviewScanner:android", version.ref = "composable-preview-scanner" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
