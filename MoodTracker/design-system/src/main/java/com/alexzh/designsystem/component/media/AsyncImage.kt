@@ -39,7 +39,7 @@ fun AsyncImage(
     } else {
         Image(
             modifier = modifier.fillMaxSize()
-                .background(Color.Gray),
+                .background(Color.Green),
             imageVector = placeholder,
             contentDescription = null,
             colorFilter = ColorFilter.tint(Color.White)

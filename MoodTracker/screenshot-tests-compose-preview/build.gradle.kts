@@ -63,4 +63,6 @@ dependencies {
     screenshotTestImplementation(libs.androidx.ui.graphics)
     screenshotTestImplementation(libs.androidx.ui.tooling.preview)
     screenshotTestImplementation(libs.androidx.material3)
+    screenshotTestImplementation(libs.coil.compose)
+    screenshotTestImplementation(libs.coil.test)
 }
