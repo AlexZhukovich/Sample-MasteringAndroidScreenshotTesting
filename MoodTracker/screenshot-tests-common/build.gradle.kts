@@ -2,17 +2,15 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.paparazzi)
 }
 
 android {
-    namespace = "com.alexzh.moodtracker.screenshottests.paparazzi"
+    namespace = "com.alexzh.moodtracker.screenshottests.common"
     compileSdk = 36
 
     defaultConfig {
         minSdk = 26
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -23,11 +21,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -35,23 +33,18 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":common-ui"))
-    implementation(project(":design-system"))
-    implementation(project(":feature-action-management"))
-    implementation(project(":feature-home"))
-    implementation(project(":feature-settings"))
-    implementation(project(":feature-statistics"))
-
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
-    testImplementation(project(":screenshot-tests-common"))
-    testImplementation(libs.junit)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.test)
+    implementation(libs.junit)
+    implementation(libs.androidx.window)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.test.core)
 
     debugImplementation(libs.androidx.ui.tooling)
 }
