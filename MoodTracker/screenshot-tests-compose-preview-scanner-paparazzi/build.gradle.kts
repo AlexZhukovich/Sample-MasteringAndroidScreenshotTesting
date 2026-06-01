@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.alexzh.moodtracker.screenshottests.composepreviewscanner"
+    namespace = "com.alexzh.moodtracker.screenshottests.composepreviewscanner.paparazzi"
     compileSdk = 36
 
     defaultConfig {

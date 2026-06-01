@@ -19,13 +19,13 @@ The following feature modules are included for testing:
 To generate golden screenshots from composable function annotated with `@Preview` that will be used as the baseline for comparisons:
 
 ```bash
-./gradlew :screenshot-tests-compose-preview-scanner:recordPaparazziDebug
+./gradlew :screenshot-tests-compose-preview-scanner-paparazzi:recordPaparazziDebug
 ```
 
 The screenshots will be saved to:
 
 ```
-screenshot-tests-compose-preview-scanner/src/test/snapshots/
+screenshot-tests-compose-preview-scanner-paparazzi/src/test/snapshots/
 ```
 
 ### Verify Screenshots Against Reference
@@ -33,5 +33,5 @@ screenshot-tests-compose-preview-scanner/src/test/snapshots/
 To run the screenshot tests and compare against golden images:
 
 ```bash
-./gradlew :screenshot-tests-compose-preview-scanner:verifyPaparazziDebug
+./gradlew :screenshot-tests-compose-preview-scanner-paparazzi:verifyPaparazziDebug
 ```

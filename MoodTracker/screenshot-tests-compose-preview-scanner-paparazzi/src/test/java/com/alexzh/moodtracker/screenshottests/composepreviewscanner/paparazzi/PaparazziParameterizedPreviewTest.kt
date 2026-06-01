@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.screenshottests.composepreviewscanner
+package com.alexzh.moodtracker.screenshottests.composepreviewscanner.paparazzi
 
 import app.cash.paparazzi.Paparazzi
 import org.junit.Rule
@@ -12,6 +12,9 @@ import sergio.sastre.composable.preview.scanner.android.device.types.DEFAULT
 import sergio.sastre.composable.preview.scanner.android.screenshotid.AndroidPreviewScreenshotIdBuilder
 import sergio.sastre.composable.preview.scanner.core.preview.ComposablePreview
 
+/**
+ * Based on the configuration from the [ComposablePreviewScanner](https://github.com/sergio-sastre/ComposablePreviewScanner) repository.
+ */
 @RunWith(Parameterized::class)
 class PaparazziParameterizedPreviewTest(
     val preview: ComposablePreview<AndroidPreviewInfo>
