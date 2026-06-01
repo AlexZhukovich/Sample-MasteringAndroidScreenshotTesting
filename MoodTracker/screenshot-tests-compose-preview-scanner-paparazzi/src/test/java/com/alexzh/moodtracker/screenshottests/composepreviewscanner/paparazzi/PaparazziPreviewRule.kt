@@ -1,4 +1,4 @@
-package com.alexzh.moodtracker.screenshottests.composepreviewscanner
+package com.alexzh.moodtracker.screenshottests.composepreviewscanner.paparazzi
 
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
@@ -33,6 +33,9 @@ import sergio.sastre.composable.preview.scanner.core.preview.ComposablePreview
 import sergio.sastre.composable.preview.scanner.core.preview.getAnnotation
 import kotlin.math.ceil
 
+/**
+ * Based on the configuration from the [ComposablePreviewScanner](https://github.com/sergio-sastre/ComposablePreviewScanner) repository.
+ */
 class Dimensions(
     val screenWidthInPx: Int,
     val screenHeightInPx: Int
