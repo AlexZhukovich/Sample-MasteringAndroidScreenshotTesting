@@ -216,7 +216,8 @@ fun NoteSection(
     note: String,
     onNoteChange: (String) -> Unit,
     bringIntoViewRequester: BringIntoViewRequester,
-    focusManager: FocusManager
+    focusManager: FocusManager,
+    placeholderAlpha: Float = 0.8f
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -251,7 +252,10 @@ fun NoteSection(
                 unfocusedContainerColor = MaterialTheme.colorScheme.surface
             ),
             placeholder = {
-                Text(stringResource(R.string.editMoodScreen_noteSection_inputLabel))
+                Text(
+                    text = stringResource(R.string.editMoodScreen_noteSection_inputLabel),
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = placeholderAlpha)
+                )
             }
         )
     }
