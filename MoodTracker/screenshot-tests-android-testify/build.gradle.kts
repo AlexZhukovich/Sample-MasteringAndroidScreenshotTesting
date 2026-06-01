@@ -56,11 +56,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    androidTestImplementation(project(":screenshot-tests-common"))
     androidTestImplementation(libs.android.testify.compose)
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.coil.test)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
