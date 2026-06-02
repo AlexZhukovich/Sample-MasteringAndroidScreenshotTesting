@@ -11,6 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import com.alexzh.designsystem.R
 import com.alexzh.designsystem.core.theme.AppTheme
+import com.github.takahirom.roborazzi.annotations.ManualClockOptions
+import com.github.takahirom.roborazzi.annotations.RoboComposePreviewOptions
 
 @Composable
 fun FormDialog(
@@ -44,6 +46,18 @@ fun FormDialog(
     )
 }
 
+/**
+ * The `@RoboComposePreviewOptions` annotation is used to configure how ComposablePreviewScanner
+ * captures `@Preview` functions with Roborazzi.
+ *
+ * Using `manualClockOptions` with `advanceTimeMillis = 0L` sets the virtual clock at the initial frame,
+ * preventing endless animations (such as a blinking cursor) from running indefinitely.
+ *
+ * See the "screenshot-tests-compose-preview-scanner-roborazzi" module.
+ */
+@RoboComposePreviewOptions(
+    manualClockOptions = [ManualClockOptions(advanceTimeMillis = 0L)]
+)
 @PreviewLightDark
 @Composable
 fun Preview_FormDialog() {

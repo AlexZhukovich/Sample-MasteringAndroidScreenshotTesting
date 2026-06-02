@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.compose.material3.adaptive.navigation)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.roborazzi.annotations)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
