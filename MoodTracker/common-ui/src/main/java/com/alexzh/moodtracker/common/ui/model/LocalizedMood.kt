@@ -1,15 +1,14 @@
 package com.alexzh.moodtracker.common.ui.model
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import com.alexzh.moodtracker.common.ui.R
 import com.alexzh.moodtracker.core.domain.model.IconShape
 
 enum class LocalizedMood(
     val happiness: Float,
-    @StringRes val label: Int,
-    @DrawableRes val circleIcon: Int,
-    @DrawableRes val roundedSquareIcon: Int
+    val label: Int,
+    val circleIcon: Int,
+    val roundedSquareIcon: Int
 ) {
     ANGRY(1.0f, R.string.mood_angry, R.drawable.ic_mood_angry_circle, R.drawable.ic_mood_angry_rounded_square),
     SAD(2.0f, R.string.mood_sad, R.drawable.ic_mood_sad_circle, R.drawable.ic_mood_sad_rounded_square),

@@ -1,10 +1,9 @@
 package com.alexzh.moodtracker.widget.model
 
-import androidx.annotation.StringRes
 import com.alexzh.moodtracker.widget.R
 
 enum class LocalizedWidgetTheme(
-    @StringRes val label: Int
+    val label: Int
 ) {
     LIGHT(R.string.widgetConfigurationScreen_theme_light_label),
     DARK(R.string.widgetConfigurationScreen_theme_dark_label);

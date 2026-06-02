@@ -1,11 +1,10 @@
 package com.alexzh.moodtracker.common.ui.model
 
-import androidx.annotation.StringRes
 import com.alexzh.moodtracker.common.ui.R
 
 enum class LocalizedLanguage(
     val tag: String,
-    @StringRes val label: Int
+    val label: Int
 ) {
     SYSTEM_DEFAULT("", R.string.common_language_systemDefault_label),
     ENGLISH("en", R.string.common_language_english_label),
