@@ -1,11 +1,10 @@
 package com.alexzh.moodtracker.common.ui.model
 
-import androidx.annotation.StringRes
 import com.alexzh.moodtracker.common.ui.R
 import com.alexzh.moodtracker.core.domain.model.IconShape
 
 enum class LocalizedIconShape(
-    @StringRes val label: Int
+    val label: Int
 ) {
     CIRCLE(R.string.common_iconShape_circle_label),
     ROUNDED_SQUARE(R.string.common_iconShape_roundedSquare_label);
