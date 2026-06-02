@@ -65,6 +65,7 @@ dependencies {
 
     testImplementation(project(":screenshot-tests-common"))
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
     testImplementation(libs.robolectric)
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)

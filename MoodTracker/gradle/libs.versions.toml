@@ -28,6 +28,7 @@ paparazzi = "2.0.0-alpha04"
 roborazzi = "1.63.0"
 robolectric = "4.16.1"
 shot = "6.1.0"
+mockk = "1.13.13"
 composable-preview-scanner = "0.8.2"
 coroutines = "1.9.0"
 
@@ -78,6 +79,7 @@ roborazzi-compose-preview-scanner-support = { group = "io.github.takahirom.robor
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 composable-preview-scanner-android = { module = "io.github.sergio-sastre.ComposablePreviewScanner:android", version.ref = "composable-preview-scanner" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 
