@@ -25,7 +25,7 @@ androidTestCore = "1.7.0"
 composePreviewScreenshotTesting = "0.0.1-alpha13"
 dropshots = "0.5.1"
 paparazzi = "2.0.0-alpha04"
-roborazzi = "1.59.0"
+roborazzi = "1.63.0"
 robolectric = "4.16.1"
 shot = "6.1.0"
 composable-preview-scanner = "0.8.2"
@@ -72,7 +72,9 @@ androidx-test-core = { group = "androidx.test", name = "core", version.ref = "an
 screenshot-validation-api = { group = "com.android.tools.screenshot", name = "screenshot-validation-api", version.ref = "composePreviewScreenshotTesting" }
 android-ui-testing-utils = { module = "com.github.sergio-sastre.AndroidUiTestingUtils:utils", version.ref = "android-ui-testing-utils" }
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
+roborazzi-annotations = { group = "io.github.takahirom.roborazzi" , name = "roborazzi-annotations", version.ref = "roborazzi" }
 roborazzi-compose = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-compose-preview-scanner-support = { group = "io.github.takahirom.roborazzi", name = "roborazzi-compose-preview-scanner-support", version.ref = "roborazzi" }
 roborazzi-rule = { group = "io.github.takahirom.roborazzi", name = "roborazzi-junit-rule", version.ref = "roborazzi" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }

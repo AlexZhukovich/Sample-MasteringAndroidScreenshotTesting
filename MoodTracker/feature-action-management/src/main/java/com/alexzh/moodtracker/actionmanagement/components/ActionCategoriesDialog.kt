@@ -16,6 +16,8 @@ import com.alexzh.designsystem.core.theme.AppTheme
 import com.alexzh.moodtracker.actionmanagement.R
 import com.alexzh.moodtracker.common.ui.model.ActionCategoryItem
 import com.alexzh.moodtracker.common.ui.model.ActionItem
+import com.github.takahirom.roborazzi.annotations.ManualClockOptions
+import com.github.takahirom.roborazzi.annotations.RoboComposePreviewOptions
 
 @Composable
 fun AddActionDialog(
@@ -111,6 +113,18 @@ fun EditCategoryDialog(
     }
 }
 
+/**
+ * The `@RoboComposePreviewOptions` annotation is used to configure how ComposablePreviewScanner
+ * captures `@Preview` functions with Roborazzi.
+ *
+ * Using `manualClockOptions` with `advanceTimeMillis = 0L` sets the virtual clock at the initial frame,
+ * preventing endless animations (such as a blinking cursor) from running indefinitely.
+ *
+ * See the "screenshot-tests-compose-preview-scanner-roborazzi" module.
+ */
+@RoboComposePreviewOptions(
+    manualClockOptions = [ManualClockOptions(advanceTimeMillis = 0L)]
+)
 @PreviewLightDark
 @Composable
 fun Preview_AddActionDialog() {
@@ -122,6 +136,18 @@ fun Preview_AddActionDialog() {
     }
 }
 
+/**
+ * The `@RoboComposePreviewOptions` annotation is used to configure how ComposablePreviewScanner
+ * captures `@Preview` functions with Roborazzi.
+ *
+ * Using `manualClockOptions` with `advanceTimeMillis = 0L` sets the virtual clock at the initial frame,
+ * preventing endless animations (such as a blinking cursor) from running indefinitely.
+ *
+ * See the "screenshot-tests-compose-preview-scanner-roborazzi" module.
+ */
+@RoboComposePreviewOptions(
+    manualClockOptions = [ManualClockOptions(advanceTimeMillis = 0L)]
+)
 @PreviewLightDark
 @Composable
 fun Preview_EditActionDialog() {
@@ -134,6 +160,18 @@ fun Preview_EditActionDialog() {
     }
 }
 
+/**
+ * The `@RoboComposePreviewOptions` annotation is used to configure how ComposablePreviewScanner
+ * captures `@Preview` functions with Roborazzi.
+ *
+ * Using `manualClockOptions` with `advanceTimeMillis = 0L` sets the virtual clock at the initial frame,
+ * preventing endless animations (such as a blinking cursor) from running indefinitely.
+ *
+ * See the "screenshot-tests-compose-preview-scanner-roborazzi" module.
+ */
+@RoboComposePreviewOptions(
+    manualClockOptions = [ManualClockOptions(advanceTimeMillis = 0L)]
+)
 @PreviewLightDark
 @Composable
 fun Preview_AddCategoryDialog() {
@@ -145,6 +183,18 @@ fun Preview_AddCategoryDialog() {
     }
 }
 
+/**
+ * The `@RoboComposePreviewOptions` annotation is used to configure how ComposablePreviewScanner
+ * captures `@Preview` functions with Roborazzi.
+ *
+ * Using `manualClockOptions` with `advanceTimeMillis = 0L` sets the virtual clock at the initial frame,
+ * preventing endless animations (such as a blinking cursor) from running indefinitely.
+ *
+ * See the "screenshot-tests-compose-preview-scanner-roborazzi" module.
+ */
+@RoboComposePreviewOptions(
+    manualClockOptions = [ManualClockOptions(advanceTimeMillis = 0L)]
+)
 @PreviewLightDark
 @Composable
 fun Preview_EditCategoryDialog() {
