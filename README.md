@@ -38,5 +38,5 @@ Each of the following modules implements the test cases (covering the design-sys
 - **screenshot-tests-paparazzi**: Paparazzi
 - **screenshot-tests-roborazzi**: Roborazzi
 - **screenshot-tests-shot**: Shot 
-- 
-- Each of these modules includes its own README.md with the prerequisites, the commands for running its screenshot tests, and the device used for instrumentation tests.
+  
+Each of these modules includes its own README.md with the prerequisites, the commands for running its screenshot tests, and the device used for instrumentation tests.
