@@ -1,7 +1,7 @@
 package com.alexzh.moodtracker.statistics.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -44,7 +44,7 @@ fun StatisticsEmptyStateAnimatedIcon(
     LaunchedEffect(Unit) {
         animationProgress.animateTo(
             targetValue = 1f,
-            animationSpec = tween(2000, easing = EaseInOutCubic)
+            animationSpec = tween(2000, easing = LinearEasing)
         )
     }
 
