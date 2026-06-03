@@ -1,6 +1,6 @@
 # Screenshot Tests Using Composable Preview Scanner and Paparazzi
 
-The module uses the [Composable Preview Scanner](https://github.com/sergio-sastre/ComposablePreviewScanner) to automatically detect composables functions annotated with `@Preview`and uses [Paparazzi](https://github.com/cashapp/paparazzi) to capture screenshots on the JVM.
+The module uses the [Composable Preview Scanner](https://github.com/sergio-sastre/ComposablePreviewScanner) to automatically detect composable functions annotated with `@Preview`and uses [Paparazzi](https://github.com/cashapp/paparazzi) to capture screenshots on the JVM.
 
 ## Module Dependencies
 

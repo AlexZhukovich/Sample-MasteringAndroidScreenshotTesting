@@ -2,6 +2,10 @@
 
 The module uses [Android Testify](https://ndtp.github.io/android-testify/), a screenshot testing library that captures screenshots on a device or emulator and compares them against baseline images.
 
+> All test cases in this module were verified and executed on:
+> - **Emulator**: Pixel 4
+> - **API Level**: 29
+
 ## Module Dependencies
 
 The following feature modules are included for testing:
