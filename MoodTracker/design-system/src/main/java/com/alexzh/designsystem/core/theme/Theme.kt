@@ -101,7 +101,15 @@ fun AppTheme(
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (darkTheme) dynamicDarkColorScheme(context).copy(
+                surface = surfaceDark,
+                background = backgroundDark,
+                surfaceContainer = surfaceContainerDark
+            ) else dynamicLightColorScheme(context).copy(
+                surface = surfaceLight,
+                background = backgroundLight,
+                surfaceContainer = surfaceContainerLight
+            )
         }
         darkTheme -> darkScheme
         else -> lightScheme
