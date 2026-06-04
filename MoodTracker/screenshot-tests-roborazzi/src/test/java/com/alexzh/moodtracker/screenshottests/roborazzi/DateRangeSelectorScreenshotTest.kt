@@ -1,6 +1,6 @@
 package com.alexzh.moodtracker.screenshottests.roborazzi
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.alexzh.designsystem.component.selector.daterangeselector.DateRangeSelector
 import com.alexzh.designsystem.component.selector.daterangeselector.rememberDateRangeSelectorState
