@@ -2,7 +2,7 @@ package com.alexzh.moodtracker.screenshottests.dropshots
 
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onRoot
 import com.alexzh.designsystem.component.selector.daterangeselector.DateRangeSelector
 import com.alexzh.designsystem.component.selector.daterangeselector.rememberDateRangeSelectorState
