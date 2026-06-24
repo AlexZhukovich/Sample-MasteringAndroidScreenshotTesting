@@ -3,20 +3,12 @@ name: Build MoodTracker app
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'MoodTracker/**'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'MoodTracker/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: ./MoodTracker
     
     steps:
     - name: Checkout code
@@ -37,7 +29,7 @@ jobs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('MoodTracker/**/*.gradle*', 'MoodTracker/**/gradle-wrapper.properties') }}
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
     
